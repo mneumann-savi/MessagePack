@@ -1,5 +1,5 @@
 :actor Main
   :new (env Env)
     Spec.Process.run(env, [
-      Spec.Run(MsgPack.Spec).new(env)
+      Spec.Run(MsgPack.Reader.Spec).new(env)
     ])
