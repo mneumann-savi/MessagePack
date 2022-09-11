@@ -1,0 +1,6 @@
+:class MsgPack.Spec
+  :is Spec
+  :const describes: "MsgPack"
+
+  :it "has a placeholder method for demonstrating testing"
+    assert: MsgPack.placeholder == True
