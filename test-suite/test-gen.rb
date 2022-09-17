@@ -1,6 +1,6 @@
 require 'yaml'
 
-TYPES = %w(nil bool number string binary bignum)
+TYPES = %w(nil bool number string binary bignum ext)
 $IT_COUNT = Hash.new(0)
 
 def convert_tests(tests, title, out=[])
@@ -46,6 +46,13 @@ def gen_test_fixture(ty, expected_value, input, title, out)
     out << %|    assert: rd.read_string! == #{s.inspect}|
   in ['binary', String => bin]
     out << %|    assert: rd.read_binary! == b"#{hexstr_to_bytes(bin)}"|
+  in ['ext', [Integer => kind, String => bin]]
+    out << %|    assert no_error: (|
+    out << %|        actual = rd.read_ext!|
+    out << %|        assert: actual.first == I8[#{kind}]|
+    out << %|        assert: actual.second == b"#{hexstr_to_bytes(bin)}"|
+    out << %|    )|
+    # out << %|    assert: rd.read_ext! == Pair(I8, Bytes).new(I8[#{kind}], b"#{hexstr_to_bytes(bin)}")|
   else
     raise
   end

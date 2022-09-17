@@ -841,3 +841,102 @@
     data = b"\xd9\x04\xf0\x9f\x8d\xba"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_string! == "🍺"
+
+  :it "reads ext (1)"
+    data = b"\xd4\x01\x10"
+    rd   = MessagePack.Reader.new(data)
+    assert no_error: (
+        actual = rd.read_ext!
+        assert: actual.first == I8[1]
+        assert: actual.second == b"\x10"
+    )
+
+  :it "reads ext (2)"
+    data = b"\xd5\x02\x20\x21"
+    rd   = MessagePack.Reader.new(data)
+    assert no_error: (
+        actual = rd.read_ext!
+        assert: actual.first == I8[2]
+        assert: actual.second == b"\x20\x21"
+    )
+
+  :it "reads ext (3)"
+    data = b"\xd6\x03\x30\x31\x32\x33"
+    rd   = MessagePack.Reader.new(data)
+    assert no_error: (
+        actual = rd.read_ext!
+        assert: actual.first == I8[3]
+        assert: actual.second == b"\x30\x31\x32\x33"
+    )
+
+  :it "reads ext (4)"
+    data = b"\xd7\x04\x40\x41\x42\x43\x44\x45\x46\x47"
+    rd   = MessagePack.Reader.new(data)
+    assert no_error: (
+        actual = rd.read_ext!
+        assert: actual.first == I8[4]
+        assert: actual.second == b"\x40\x41\x42\x43\x44\x45\x46\x47"
+    )
+
+  :it "reads ext (5)"
+    data = b"\xd8\x05\x50\x51\x52\x53\x54\x55\x56\x57\x58\x59\x5a\x5b\x5c\x5d\x5e\x5f"
+    rd   = MessagePack.Reader.new(data)
+    assert no_error: (
+        actual = rd.read_ext!
+        assert: actual.first == I8[5]
+        assert: actual.second == b"\x50\x51\x52\x53\x54\x55\x56\x57\x58\x59\x5a\x5b\x5c\x5d\x5e\x5f"
+    )
+
+  :it "reads ext (6)"
+    data = b"\xc7\x00\x06"
+    rd   = MessagePack.Reader.new(data)
+    assert no_error: (
+        actual = rd.read_ext!
+        assert: actual.first == I8[6]
+        assert: actual.second == b""
+    )
+
+  :it "reads ext (7)"
+    data = b"\xc8\x00\x00\x06"
+    rd   = MessagePack.Reader.new(data)
+    assert no_error: (
+        actual = rd.read_ext!
+        assert: actual.first == I8[6]
+        assert: actual.second == b""
+    )
+
+  :it "reads ext (8)"
+    data = b"\xc9\x00\x00\x00\x00\x06"
+    rd   = MessagePack.Reader.new(data)
+    assert no_error: (
+        actual = rd.read_ext!
+        assert: actual.first == I8[6]
+        assert: actual.second == b""
+    )
+
+  :it "reads ext (9)"
+    data = b"\xc7\x03\x07\x70\x71\x72"
+    rd   = MessagePack.Reader.new(data)
+    assert no_error: (
+        actual = rd.read_ext!
+        assert: actual.first == I8[7]
+        assert: actual.second == b"\x70\x71\x72"
+    )
+
+  :it "reads ext (10)"
+    data = b"\xc8\x00\x03\x07\x70\x71\x72"
+    rd   = MessagePack.Reader.new(data)
+    assert no_error: (
+        actual = rd.read_ext!
+        assert: actual.first == I8[7]
+        assert: actual.second == b"\x70\x71\x72"
+    )
+
+  :it "reads ext (11)"
+    data = b"\xc9\x00\x00\x00\x03\x07\x70\x71\x72"
+    rd   = MessagePack.Reader.new(data)
+    assert no_error: (
+        actual = rd.read_ext!
+        assert: actual.first == I8[7]
+        assert: actual.second == b"\x70\x71\x72"
+    )

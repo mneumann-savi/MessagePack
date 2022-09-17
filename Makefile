@@ -1,4 +1,4 @@
-test:
+test: gen-spec
 	savi run spec
 
 gen-spec:
