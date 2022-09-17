@@ -1,0 +1,4 @@
+- [ ] Generate tests like `read_uint!` for float `2.0`.
+- [ ] Generate tests like `read_int!` for positive integer `3`.
+- [ ] Generate negative tests, e.g. `read_int!` should fail for `2^64-1` (out of range)
+- [ ] Generate negative tests, e.g. `read_uint!` should fail for `2.1`
