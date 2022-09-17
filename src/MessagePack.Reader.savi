@@ -21,6 +21,36 @@
       error!
     )
 
+  :fun ref read_bool! Bool
+    error!
+
+  :fun ref read_uint! U64
+    error!
+
+  :fun ref read_int! I64
+    error!
+
+  :fun ref read_f64! F64
+    error!
+
+  :fun ref read_string! String
+    error!
+
+  :fun ref read_binary! Bytes
+    error!
+
+  :fun ref read_array_head! USize
+    error!
+
+  :fun ref read_map_head! USize
+    error!
+
+  :fun ref read_timestamp! Pair(U64)
+    error!
+
+  :fun ref read_ext! Pair(I8, Bytes)
+    error!
+
   :fun ref _advance(n USize = 1)
     @_offset = @_offset + n
 
