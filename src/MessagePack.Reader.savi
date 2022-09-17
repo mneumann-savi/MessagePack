@@ -5,6 +5,8 @@
   :new (@_bytes)
     @_offset = 0
 
+  :fun box is_eos: @_bytes.size >= @_offset
+
   :fun box peek_type!
     first_byte = @_bytes.byte_at!(@_offset)
     case (

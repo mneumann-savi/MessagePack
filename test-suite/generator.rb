@@ -1,7 +1,5 @@
 require 'yaml'
 
-# TODO: assert that reader is exhausted
-
 TYPES = %w(nil bool number string binary bignum ext array map timestamp)
 $IT_COUNT = Hash.new(0)
 
@@ -27,6 +25,7 @@ def gen_test_fixture(expected_value, input, title, out)
   out << %|    rd   = MessagePack.Reader.new(data)|
 
   gen_test_value(expected_value, out)
+  out << %|    assert: rd.is_eos|
 
   out << %||
 end
