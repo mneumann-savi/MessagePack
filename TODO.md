@@ -2,3 +2,5 @@
 - [ ] Generate tests like `read_int!` for positive integer `3`.
 - [ ] Generate negative tests, e.g. `read_int!` should fail for `2^64-1` (out of range)
 - [ ] Generate negative tests, e.g. `read_uint!` should fail for `2.1`
+- [ ] Implement `MessagePack.Reader` on `BinaryReadable`.
+- [ ] Return `StringSlice` or `ByteSlice` instead of `String` and `Bytes`?
