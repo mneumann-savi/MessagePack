@@ -162,7 +162,28 @@
     )
 
   :fun ref read_f64! F64
-    error!
+    case @_peek_byte! == (
+    // float 32 stores a floating point number in IEEE 754 single precision
+    // floating point number format:
+    // +--------+--------+--------+--------+--------+
+    // |  0xca  |XXXXXXXX|XXXXXXXX|XXXXXXXX|XXXXXXXX|
+    // +--------+--------+--------+--------+--------+
+    | 0xca |
+      num = F32.from_bits(@_bytes.read_native_u32!(@_pos + 1).be_to_native).f64!
+      @_advance!(5), num
+
+    // float 64 stores a floating point number in IEEE 754 double precision floating
+    // point number format:
+    // +--------+--------+--------+--------+--------+--------+--------+--------+--------+
+    // |  0xcb  |YYYYYYYY|YYYYYYYY|YYYYYYYY|YYYYYYYY|YYYYYYYY|YYYYYYYY|YYYYYYYY|YYYYYYYY|
+    // +--------+--------+--------+--------+--------+--------+--------+--------+--------+
+    | 0xca |
+      num = F64.from_bits(@_bytes.read_native_u64!(@_pos + 1).be_to_native)
+      @_advance!(9), num
+
+    |
+      try ( @read_int!.f64! | @read_uint!.f64! )
+    )
 
   :fun ref read_string! String
     error!
@@ -190,5 +211,4 @@
     )
 
   :fun box _peek_byte!: @_bytes.byte_at!(@_pos)
-
 
