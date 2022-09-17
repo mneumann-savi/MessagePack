@@ -1,5 +1,5 @@
-test: gen-spec
-	savi run spec
+test:
+	savi run spec 2>&1 | wc -l
 
 gen-spec:
 	cd test-suite && ruby generator.rb > ../spec/MessagePack.Reader.Spec.savi

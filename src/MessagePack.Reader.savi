@@ -7,27 +7,37 @@
 
   :fun box is_eos: @_bytes.size >= @_offset
 
+  :fun box _peek_byte!: @_bytes.byte_at!(@_offset)
+
   :fun box peek_type!
-    first_byte = @_bytes.byte_at!(@_offset)
+    first_byte = @_peek_byte!
     case (
-    | first_byte == 0b11000000 | MessagePack.Type.Nil
-    |                            error!
+    | first_byte == 0xc0 | MessagePack.Type.Nil
+    |                      error!
     )
 
   :fun ref read_nil! None
-    case @peek_type! == (
-    | MessagePack.Type.Nil |
-      @_advance
-      None
-    |
-      error!
+    first_byte = @_peek_byte!
+    case (
+    | first_byte == 0xc0 | @_advance, None
+    |                      error!
     )
 
   :fun ref read_bool! Bool
-    error!
+    first_byte = @_peek_byte!
+    case (
+    | first_byte == 0xc2 | @_advance, False
+    | first_byte == 0xc3 | @_advance, True
+    |                      error!
+    )
 
   :fun ref read_uint! U64
-    error!
+    first_byte = @_peek_byte!
+    case (
+    | first_byte <= U8[127]                  | @_advance, first_byte.u64
+    | _Bit.mask_set(first_byte, 0b1110_0000) | @_advance, first_byte.bit_and(0b0001_1111).u64
+    |                     		       error!
+    )
 
   :fun ref read_int! I64
     error!
@@ -55,4 +65,12 @@
 
   :fun ref _advance(n USize = 1)
     @_offset = @_offset + n
+
+:module _Bit
+  :fun mask_set(byte U8, mask U8) Bool
+    byte.bit_and(mask) == mask
+
+  :fun is_negative_fixint(b U8) Bool
+    mask = U8[0b1110_0000]
+    b.bit_and(mask) == mask
 
