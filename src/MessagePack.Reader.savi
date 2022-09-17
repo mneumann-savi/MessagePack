@@ -1,46 +1,165 @@
 :class MessagePack.Reader
   :let _bytes Bytes
-  :var _offset USize
+  :var _pos   USize
 
   :new (@_bytes)
-    @_offset = 0
+    @_pos = 0
 
-  :fun box is_eos: @_bytes.size >= @_offset
-
-  :fun box _peek_byte!: @_bytes.byte_at!(@_offset)
+  :fun box is_eos: @_bytes.size >= @_pos
 
   :fun box peek_type!
-    first_byte = @_peek_byte!
+    b = @_peek_byte!
     case (
-    | first_byte == 0xc0 | MessagePack.Type.Nil
-    |                      error!
+    | b == 0xc0 | MessagePack.Type.Nil
+    |             error!
     )
 
   :fun ref read_nil! None
-    first_byte = @_peek_byte!
+    b = @_peek_byte!
     case (
-    | first_byte == 0xc0 | @_advance, None
-    |                      error!
+    | b == 0xc0 | @_advance!, None
+    |             error!
     )
 
   :fun ref read_bool! Bool
-    first_byte = @_peek_byte!
+    b = @_peek_byte!
     case (
-    | first_byte == 0xc2 | @_advance, False
-    | first_byte == 0xc3 | @_advance, True
-    |                      error!
+    | b == 0xc2 | @_advance!, False
+    | b == 0xc3 | @_advance!, True
+    |             error!
     )
 
   :fun ref read_uint! U64
-    first_byte = @_peek_byte!
+    b = @_peek_byte!
     case (
-    | first_byte <= U8[127]                  | @_advance, first_byte.u64
-    | _Bit.mask_set(first_byte, 0b1110_0000) | @_advance, first_byte.bit_and(0b0001_1111).u64
-    |                     		       error!
+    // positive fixint stores 7-bit positive integer
+    // +--------+
+    // |0XXXXXXX|
+    // +--------+
+    | b <= U8[0b0111_1111] |
+      @_advance!, b.u64
+
+    // uint 8 stores a 8-bit unsigned integer
+    // +--------+--------+
+    // |  0xcc  |ZZZZZZZZ|
+    // +--------+--------+
+    | b == 0xcc |
+      num = @_bytes.read_byte!(@_pos + 1).u64
+      @_advance!(2), num
+
+    // uint 16 stores a 16-bit big-endian unsigned integer
+    // +--------+--------+--------+
+    // |  0xcd  |ZZZZZZZZ|ZZZZZZZZ|
+    // +--------+--------+--------+
+    | b == 0xcd |
+      num = @_bytes.read_native_u16!(@_pos + 1).be_to_native.u64
+      @_advance!(3), num
+
+    // uint 32 stores a 32-bit big-endian unsigned integer
+    // +--------+--------+--------+--------+--------+
+    // |  0xce  |ZZZZZZZZ|ZZZZZZZZ|ZZZZZZZZ|ZZZZZZZZ|
+    // +--------+--------+--------+--------+--------+
+    | b == 0xce |
+      num = @_bytes.read_native_u32!(@_pos + 1).be_to_native.u64
+      @_advance!(5), num
+
+    // uint 64 stores a 64-bit big-endian unsigned integer
+    // +--------+--------+--------+--------+--------+--------+--------+--------+--------+
+    // |  0xcf  |ZZZZZZZZ|ZZZZZZZZ|ZZZZZZZZ|ZZZZZZZZ|ZZZZZZZZ|ZZZZZZZZ|ZZZZZZZZ|ZZZZZZZZ|
+    // +--------+--------+--------+--------+--------+--------+--------+--------+--------+
+    | b == 0xcf |
+      num = @_bytes.read_native_u64!(@_pos + 1).be_to_native.u64
+      @_advance!(9), num
+
+    |
+      error!
     )
 
   :fun ref read_int! I64
-    error!
+    b = @_peek_byte!
+    case (
+    // positive fixint stores 7-bit positive integer
+    // +--------+
+    // |0XXXXXXX|
+    // +--------+
+    | b <= U8[0b0111_1111] |
+      @_advance!, b.i64
+
+    // negative fixint stores 5-bit negative integer
+    // +--------+
+    // |111YYYYY|
+    // +--------+
+    | b >= U8[0b1110_0000] |
+      @_advance!, b.i8.i64
+
+    // uint 8 stores a 8-bit unsigned integer
+    // +--------+--------+
+    // |  0xcc  |ZZZZZZZZ|
+    // +--------+--------+
+    | b == 0xcc |
+      num = @_bytes.read_byte!(@_pos + 1).i64
+      @_advance!(2), num
+
+    // uint 16 stores a 16-bit big-endian unsigned integer
+    // +--------+--------+--------+
+    // |  0xcd  |ZZZZZZZZ|ZZZZZZZZ|
+    // +--------+--------+--------+
+    | b == 0xcd |
+      num = @_bytes.read_native_u16!(@_pos + 1).be_to_native.i64
+      @_advance!(3), num
+
+    // uint 32 stores a 32-bit big-endian unsigned integer
+    // +--------+--------+--------+--------+--------+
+    // |  0xce  |ZZZZZZZZ|ZZZZZZZZ|ZZZZZZZZ|ZZZZZZZZ|
+    // +--------+--------+--------+--------+--------+
+    | b == 0xce |
+      num = @_bytes.read_native_u32!(@_pos + 1).be_to_native.i64
+      @_advance!(5), num
+
+    // uint 64 stores a 64-bit big-endian unsigned integer
+    // +--------+--------+--------+--------+--------+--------+--------+--------+--------+
+    // |  0xcf  |ZZZZZZZZ|ZZZZZZZZ|ZZZZZZZZ|ZZZZZZZZ|ZZZZZZZZ|ZZZZZZZZ|ZZZZZZZZ|ZZZZZZZZ|
+    // +--------+--------+--------+--------+--------+--------+--------+--------+--------+
+    | b == 0xcf |
+      num = @_bytes.read_native_u64!(@_pos + 1).be_to_native.i64!
+      @_advance!(9), num
+
+    // int 8 stores a 8-bit signed integer
+    // +--------+--------+
+    // |  0xd0  |ZZZZZZZZ|
+    // +--------+--------+
+    | b == 0xd0 |
+      num = @_bytes.read_byte!(@_pos + 1).i8.i64
+      @_advance!(2), num
+
+    // int 16 stores a 16-bit big-endian signed integer
+    // +--------+--------+--------+
+    // |  0xd1  |ZZZZZZZZ|ZZZZZZZZ|
+    // +--------+--------+--------+
+    | b == 0xd1 |
+      num = @_bytes.read_native_u16!(@_pos + 1).be_to_native.i16.i64
+      @_advance!(3), num
+
+    // int 32 stores a 32-bit big-endian signed integer
+    // +--------+--------+--------+--------+--------+
+    // |  0xd2  |ZZZZZZZZ|ZZZZZZZZ|ZZZZZZZZ|ZZZZZZZZ|
+    // +--------+--------+--------+--------+--------+
+    | b == 0xd2 |
+      num = @_bytes.read_native_u32!(@_pos + 1).be_to_native.i32.i64
+      @_advance!(5), num
+
+    // int 64 stores a 64-bit big-endian signed integer
+    // +--------+--------+--------+--------+--------+--------+--------+--------+--------+
+    // |  0xd3
+    // |ZZZZZZZZ|ZZZZZZZZ|ZZZZZZZZ|ZZZZZZZZ|ZZZZZZZZ|ZZZZZZZZ|ZZZZZZZZ|ZZZZZZZZ|
+    // +--------+--------+--------+--------+--------+--------+--------+--------+--------+
+    | b == 0xd3 |
+      num = @_bytes.read_native_u64!(@_pos + 1).be_to_native.i64
+      @_advance!(9), num
+
+    |
+      error!
+    )
 
   :fun ref read_f64! F64
     error!
@@ -63,14 +182,13 @@
   :fun ref read_ext! Pair(I8, Bytes)
     error!
 
-  :fun ref _advance(n USize = 1)
-    @_offset = @_offset + n
+  :fun ref _advance!(n USize = 1)
+    if (@_pos +! n <= @_bytes.size) (
+      @_pos = @_pos + n
+    |
+      error!
+    )
 
-:module _Bit
-  :fun mask_set(byte U8, mask U8) Bool
-    byte.bit_and(mask) == mask
+  :fun box _peek_byte!: @_bytes.byte_at!(@_pos)
 
-  :fun is_negative_fixint(b U8) Bool
-    mask = U8[0b1110_0000]
-    b.bit_and(mask) == mask
 
