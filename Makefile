@@ -2,7 +2,7 @@ test: gen-spec
 	savi run spec
 
 gen-spec:
-	cd test-suite && ruby test-gen.rb > ../spec/MessagePack.Reader.Spec.savi
+	cd test-suite && ruby generate.rb > ../spec/MessagePack.Reader.Spec.savi
 
 format:
 	savi format
