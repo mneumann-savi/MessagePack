@@ -30,6 +30,21 @@
     )
 
   :fun ref read_uint! U64
+    try (@_read_unsigned! |
+      try (@_read_signed!.u64! | @_read_float!.u64!)
+    )
+
+  :fun ref read_int! I64
+    try (@_read_signed! |
+      try (@_read_unsigned!.i64! | @_read_float!.i64!)
+    )
+
+  :fun ref read_f64! F64
+    try (@_read_float! |
+      try (@_read_unsigned!.f64! | @_read_signed!.f64!)
+    )
+
+  :fun ref _read_unsigned! U64
     b = @_peek_byte!
     case (
     // positive fixint stores 7-bit positive integer
@@ -71,58 +86,18 @@
       num = @_bytes.read_native_u64!(@_pos + 1).be_to_native.u64
       @_advance!(9), num
 
-    |
-      error!
+    | error!
     )
 
-  :fun ref read_int! I64
+  :fun ref _read_signed! I64
     b = @_peek_byte!
     case (
-    // positive fixint stores 7-bit positive integer
-    // +--------+
-    // |0XXXXXXX|
-    // +--------+
-    | b <= U8[0b0111_1111] |
-      @_advance!, b.i64
-
     // negative fixint stores 5-bit negative integer
     // +--------+
     // |111YYYYY|
     // +--------+
     | b >= U8[0b1110_0000] |
       @_advance!, b.i8.i64
-
-    // uint 8 stores a 8-bit unsigned integer
-    // +--------+--------+
-    // |  0xcc  |ZZZZZZZZ|
-    // +--------+--------+
-    | b == 0xcc |
-      num = @_bytes.read_byte!(@_pos + 1).i64
-      @_advance!(2), num
-
-    // uint 16 stores a 16-bit big-endian unsigned integer
-    // +--------+--------+--------+
-    // |  0xcd  |ZZZZZZZZ|ZZZZZZZZ|
-    // +--------+--------+--------+
-    | b == 0xcd |
-      num = @_bytes.read_native_u16!(@_pos + 1).be_to_native.i64
-      @_advance!(3), num
-
-    // uint 32 stores a 32-bit big-endian unsigned integer
-    // +--------+--------+--------+--------+--------+
-    // |  0xce  |ZZZZZZZZ|ZZZZZZZZ|ZZZZZZZZ|ZZZZZZZZ|
-    // +--------+--------+--------+--------+--------+
-    | b == 0xce |
-      num = @_bytes.read_native_u32!(@_pos + 1).be_to_native.i64
-      @_advance!(5), num
-
-    // uint 64 stores a 64-bit big-endian unsigned integer
-    // +--------+--------+--------+--------+--------+--------+--------+--------+--------+
-    // |  0xcf  |ZZZZZZZZ|ZZZZZZZZ|ZZZZZZZZ|ZZZZZZZZ|ZZZZZZZZ|ZZZZZZZZ|ZZZZZZZZ|ZZZZZZZZ|
-    // +--------+--------+--------+--------+--------+--------+--------+--------+--------+
-    | b == 0xcf |
-      num = @_bytes.read_native_u64!(@_pos + 1).be_to_native.i64!
-      @_advance!(9), num
 
     // int 8 stores a 8-bit signed integer
     // +--------+--------+
@@ -157,11 +132,10 @@
       num = @_bytes.read_native_u64!(@_pos + 1).be_to_native.i64
       @_advance!(9), num
 
-    |
-      error!
+    | error!
     )
 
-  :fun ref read_f64! F64
+  :fun ref _read_float! F64
     case @_peek_byte! == (
     // float 32 stores a floating point number in IEEE 754 single precision
     // floating point number format:
@@ -181,8 +155,7 @@
       num = F64.from_bits(@_bytes.read_native_u64!(@_pos + 1).be_to_native)
       @_advance!(9), num
 
-    |
-      try ( @read_int!.f64! | @read_uint!.f64! )
+    | error!
     )
 
   :fun ref read_string! String
