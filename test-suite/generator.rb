@@ -53,16 +53,16 @@ def gen_test_value(expected_value, out)
     out << %|    assert: rd.read_binary! == b"#{hexstr_to_bytes(bin.hexstr)}"|
   in MessagePack::Ext => ext
     out << %|    assert no_error: (|
-    out << %|        actual = rd.read_ext!|
-    out << %|        assert: actual.first == I8[#{ext.kind}]|
-    out << %|        assert: actual.second == b"#{hexstr_to_bytes(ext.hexstr)}"|
+    out << %|      actual = rd.read_ext!|
+    out << %|      assert: actual.first == I8[#{ext.kind}]|
+    out << %|      assert: actual.second == b"#{hexstr_to_bytes(ext.hexstr)}"|
     out << %|    )|
     # out << %|    assert: rd.read_ext! == Pair(I8, Bytes).new(I8[#{kind}], b"#{hexstr_to_bytes(bin)}")|
   in MessagePack::Timestamp => ts
     out << %|    assert no_error: (|
-    out << %|        ts = rd.read_timestamp!|
-    out << %|        assert: ts.hi == U64[#{ts.hi}]|
-    out << %|        assert: ts.lo == U64[#{ts.lo}]|
+    out << %|      ts = rd.read_timestamp!|
+    out << %|      assert: ts.hi == U64[#{ts.hi}]|
+    out << %|      assert: ts.lo == U64[#{ts.lo}]|
     out << %|    )|
   in Array => ary
     out << %|    assert: rd.read_array_head! == USize[#{ary.size}]|
