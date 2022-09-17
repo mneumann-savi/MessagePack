@@ -1,2 +1,2 @@
-:class MsgPack
+:class MessagePack
   :fun non placeholder: True

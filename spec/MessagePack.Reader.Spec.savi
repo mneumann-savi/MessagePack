@@ -1,0 +1,7 @@
+:class MessagePack.Reader.Spec
+  :is Spec
+  :const describes: "MessagePack.Reader"
+
+  :it "reads nil"
+    reader = MessagePack.Reader.new(b"\xc0")
+    assert: reader.read_nil! <: None

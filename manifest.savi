@@ -1,8 +1,8 @@
-:manifest lib MsgPack
+:manifest lib MessagePack
   :sources "src/*.savi"
 
 :manifest bin "spec"
-  :copies MsgPack
+  :copies MessagePack
   :sources "spec/*.savi"
 
   :dependency Spec v0

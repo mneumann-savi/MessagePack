@@ -1,0 +1,2 @@
+:enum MessagePack.Type
+  :member Nil 0

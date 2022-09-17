@@ -1,4 +1,4 @@
-:class MsgPack.Reader
+:class MessagePack.Reader
   :let _bytes Bytes
   :var _offset USize
 
@@ -8,13 +8,13 @@
   :fun box peek_type!
     first_byte = @_bytes.byte_at!(@_offset)
     case (
-    | first_byte == 0b11000000 | MsgPack.Type.Nil
+    | first_byte == 0b11000000 | MessagePack.Type.Nil
     |                            error!
     )
 
   :fun ref read_nil! None
     case @peek_type! == (
-    | MsgPack.Type.Nil |
+    | MessagePack.Type.Nil |
       @_advance
       None
     |
