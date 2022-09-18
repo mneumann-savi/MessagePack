@@ -8,39 +8,31 @@
 
   :new (@type, @_value, @size = U8[0])
 
-  :new nil
-    @type = MessagePack.Token.Type.Nil, @_value = 0, @size = 0
+  :fun non nil: @new(MessagePack.Token.Type.Nil, 0)
 
-  :new bool(b Bool)
-    @type = MessagePack.Token.Type.Bool, @_value = if b (1 | 0), @size = 0
+  :fun non bool(b Bool): @new(MessagePack.Token.Type.Bool, if b (1 | 0))
 
-  :new uint(u U64)
-    @type = MessagePack.Token.Type.UInt, @_value = u, @size = 0
+  :fun non uint(u U64): @new(MessagePack.Token.Type.UInt, u)
 
-  :new int(i I64)
-    @type = MessagePack.Token.Type.Int, @_value = i.u64, @size = 0
+  :fun non int(i I64): @new(MessagePack.Token.Type.Int, i.u64)
 
-  :new float(f F64)
-    @type = MessagePack.Token.Type.Float, @_value = f.bits, @size = 0
+  :fun non float(f F64): @new(MessagePack.Token.Type.Float, f.bits)
 
-  :new string_ahead(len U32)
-    @type = MessagePack.Token.Type.StringAhead, @_value = len.u64, @size = 0
+  :fun non string_ahead(len U32): @new(MessagePack.Token.Type.StringAhead, len.u64)
 
-  :new binary_ahead(len U32)
-    @type = MessagePack.Token.Type.BinaryAhead, @_value = len.u64, @size = 0
+  :fun non binary_ahead(len U32): @new(MessagePack.Token.Type.BinaryAhead, len.u64)
 
-  :new array_ahead(len U32)
-    @type = MessagePack.Token.Type.ArrayAhead, @_value = len.u64, @size = 0
+  :fun non array_ahead(len U32): @new(MessagePack.Token.Type.ArrayAhead, len.u64)
 
-  :new map_ahead(len U32)
-    @type = MessagePack.Token.Type.MapAhead, @_value = len.u64, @size = 0
+  :fun non map_ahead(len U32): @new(MessagePack.Token.Type.MapAhead, len.u64)
 
-  :new ext_ahead(type I8, len U32)
-    @type = MessagePack.Token.Type.ExtAhead
-    @_value = type.u8.u64.bit_shl(32).bit_or(len.u64)
-    @size = 0
+  :fun non ext_ahead(type I8, len U32)
+    @new(
+      MessagePack.Token.Type.ExtAhead
+      type.u8.u64.bit_shl(32).bit_or(len.u64)
+    )
 
-  :fun sized(size U8): MessagePack.Token.new(@type, @_value, size)
+  :fun sized(size U8): @new(@type, @_value, size)
 
   :fun nil!
     case @type == (
