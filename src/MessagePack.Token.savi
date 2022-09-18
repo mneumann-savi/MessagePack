@@ -3,40 +3,37 @@
 :: Field `_value` is interpreted differently depending on `_type`.
 :struct val MessagePack.Token
   :let _type MessagePack.Token.Type
+  :let size U8
   :let _value U64
 
-  :new (@_type, @_value)
+  :new (@_type, @_value, @size = U8[0])
 
-  :new nil
-    @_type = MessagePack.Token.Type.Nil, @_value = 0
+  :new nil: @new(MessagePack.Token.Type.Nil, 0)
 
-  :new bool(b Bool)
-    @_type = MessagePack.Token.Type.Bool, @_value = if b (1 | 0)
+  :new bool(b Bool): @new(MessagePack.Token.Type.Bool, if b (1 | 0))
 
-  :new uint(u U64)
-    @_type = MessagePack.Token.Type.UInt, @_value = u
+  :new uint(u U64): @new(MessagePack.Token.Type.UInt, u)
 
-  :new int(i I64)
-    @_type = MessagePack.Token.Type.Int, @_value = i.u64
+  :new int(i I64): @new(MessagePack.Token.Type.Int, i.u64)
 
-  :new float(f F64)
-    @_type = MessagePack.Token.Type.Float, @_value = f.bits
+  :new float(f F64): @new(MessagePack.Token.Type.Float, f.bits)
 
-  :new string_ahead(len U32)
-    @_type = MessagePack.Token.Type.StringAhead, @_value = len.u64
+  :new string_ahead(len U32): @new(MessagePack.Token.Type.StringAhead, len.u64)
 
-  :new binary_ahead(len U32)
-    @_type = MessagePack.Token.Type.BinaryAhead, @_value = len.u64
+  :new binary_ahead(len U32): @new(MessagePack.Token.Type.BinaryAhead, len.u64)
 
-  :new array_ahead(len U32)
-    @_type = MessagePack.Token.Type.ArrayAhead, @_value = len.u64
+  :new array_ahead(len U32): @new(MessagePack.Token.Type.ArrayAhead, len.u64)
 
-  :new map_ahead(len U32)
-    @_type = MessagePack.Token.Type.MapAhead, @_value = len.u64
+  :new map_ahead(len U32): @new(MessagePack.Token.Type.MapAhead, len.u64)
 
   :new ext_ahead(type I8, len U32)
     @_type = MessagePack.Token.Type.ExtAhead
     @_value = type.u8.u64.bit_shl(32).bit_or(len.u64)
+    @size = 0
+    // XXX: This seems to be a code-generator bug:
+    //@new(MessagePack.Token.Type.ExtAhead, type.u8.u64.bit_shl(32).bit_or(len.u64))
+
+  :fun sized(size U8): @new(@_type, @_value, size)
 
   :fun nil!
     case @_type == (
