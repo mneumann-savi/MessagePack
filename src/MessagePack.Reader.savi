@@ -1,9 +1,16 @@
 :class MessagePack.Reader
   :let _bytes Bytes
   :var _pos   USize
+  :var _mark  USize
 
-  :new (@_bytes, @_pos = 0)
+  :new (@_bytes, @_pos = 0, @_mark = 0)
 
+  :fun ref mark_here
+    @_mark = @_pos
+
+  :fun ref rewind_to_mark
+    @_pos = @_mark
+    
   :fun ref _next!
     token = MessagePack.Token.Decoder.decode!(@_bytes, @_pos)
     @_advance!(token.size.u32), token

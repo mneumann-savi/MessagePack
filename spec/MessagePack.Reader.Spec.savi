@@ -77,637 +77,1101 @@
   :it "reads number positive (1)"
     data = b"\x00"
     rd   = MessagePack.Reader.new(data)
+    rd.mark_here
     assert: rd.read_uint! == U64[0]
+    rd.rewind_to_mark
+    assert: rd.read_int! == I64[0]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[0.0]
     assert: rd.is_exhausted
 
   :it "reads number positive (2)"
     data = b"\xcc\x00"
     rd   = MessagePack.Reader.new(data)
+    rd.mark_here
     assert: rd.read_uint! == U64[0]
+    rd.rewind_to_mark
+    assert: rd.read_int! == I64[0]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[0.0]
     assert: rd.is_exhausted
 
   :it "reads number positive (3)"
     data = b"\xcd\x00\x00"
     rd   = MessagePack.Reader.new(data)
+    rd.mark_here
     assert: rd.read_uint! == U64[0]
+    rd.rewind_to_mark
+    assert: rd.read_int! == I64[0]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[0.0]
     assert: rd.is_exhausted
 
   :it "reads number positive (4)"
     data = b"\xce\x00\x00\x00\x00"
     rd   = MessagePack.Reader.new(data)
+    rd.mark_here
     assert: rd.read_uint! == U64[0]
+    rd.rewind_to_mark
+    assert: rd.read_int! == I64[0]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[0.0]
     assert: rd.is_exhausted
 
   :it "reads number positive (5)"
     data = b"\xcf\x00\x00\x00\x00\x00\x00\x00\x00"
     rd   = MessagePack.Reader.new(data)
+    rd.mark_here
     assert: rd.read_uint! == U64[0]
+    rd.rewind_to_mark
+    assert: rd.read_int! == I64[0]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[0.0]
     assert: rd.is_exhausted
 
   :it "reads number positive (6)"
     data = b"\xd0\x00"
     rd   = MessagePack.Reader.new(data)
+    rd.mark_here
     assert: rd.read_uint! == U64[0]
+    rd.rewind_to_mark
+    assert: rd.read_int! == I64[0]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[0.0]
     assert: rd.is_exhausted
 
   :it "reads number positive (7)"
     data = b"\xd1\x00\x00"
     rd   = MessagePack.Reader.new(data)
+    rd.mark_here
     assert: rd.read_uint! == U64[0]
+    rd.rewind_to_mark
+    assert: rd.read_int! == I64[0]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[0.0]
     assert: rd.is_exhausted
 
   :it "reads number positive (8)"
     data = b"\xd2\x00\x00\x00\x00"
     rd   = MessagePack.Reader.new(data)
+    rd.mark_here
     assert: rd.read_uint! == U64[0]
+    rd.rewind_to_mark
+    assert: rd.read_int! == I64[0]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[0.0]
     assert: rd.is_exhausted
 
   :it "reads number positive (9)"
     data = b"\xd3\x00\x00\x00\x00\x00\x00\x00\x00"
     rd   = MessagePack.Reader.new(data)
+    rd.mark_here
     assert: rd.read_uint! == U64[0]
+    rd.rewind_to_mark
+    assert: rd.read_int! == I64[0]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[0.0]
     assert: rd.is_exhausted
 
   :it "reads number positive (10)"
     data = b"\xca\x00\x00\x00\x00"
     rd   = MessagePack.Reader.new(data)
+    rd.mark_here
     assert: rd.read_uint! == U64[0]
+    rd.rewind_to_mark
+    assert: rd.read_int! == I64[0]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[0.0]
     assert: rd.is_exhausted
 
   :it "reads number positive (11)"
     data = b"\xcb\x00\x00\x00\x00\x00\x00\x00\x00"
     rd   = MessagePack.Reader.new(data)
+    rd.mark_here
     assert: rd.read_uint! == U64[0]
+    rd.rewind_to_mark
+    assert: rd.read_int! == I64[0]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[0.0]
     assert: rd.is_exhausted
 
   :it "reads number positive (12)"
     data = b"\x01"
     rd   = MessagePack.Reader.new(data)
+    rd.mark_here
     assert: rd.read_uint! == U64[1]
+    rd.rewind_to_mark
+    assert: rd.read_int! == I64[1]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[1.0]
     assert: rd.is_exhausted
 
   :it "reads number positive (13)"
     data = b"\xcc\x01"
     rd   = MessagePack.Reader.new(data)
+    rd.mark_here
     assert: rd.read_uint! == U64[1]
+    rd.rewind_to_mark
+    assert: rd.read_int! == I64[1]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[1.0]
     assert: rd.is_exhausted
 
   :it "reads number positive (14)"
     data = b"\xcd\x00\x01"
     rd   = MessagePack.Reader.new(data)
+    rd.mark_here
     assert: rd.read_uint! == U64[1]
+    rd.rewind_to_mark
+    assert: rd.read_int! == I64[1]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[1.0]
     assert: rd.is_exhausted
 
   :it "reads number positive (15)"
     data = b"\xce\x00\x00\x00\x01"
     rd   = MessagePack.Reader.new(data)
+    rd.mark_here
     assert: rd.read_uint! == U64[1]
+    rd.rewind_to_mark
+    assert: rd.read_int! == I64[1]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[1.0]
     assert: rd.is_exhausted
 
   :it "reads number positive (16)"
     data = b"\xcf\x00\x00\x00\x00\x00\x00\x00\x01"
     rd   = MessagePack.Reader.new(data)
+    rd.mark_here
     assert: rd.read_uint! == U64[1]
+    rd.rewind_to_mark
+    assert: rd.read_int! == I64[1]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[1.0]
     assert: rd.is_exhausted
 
   :it "reads number positive (17)"
     data = b"\xd0\x01"
     rd   = MessagePack.Reader.new(data)
+    rd.mark_here
     assert: rd.read_uint! == U64[1]
+    rd.rewind_to_mark
+    assert: rd.read_int! == I64[1]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[1.0]
     assert: rd.is_exhausted
 
   :it "reads number positive (18)"
     data = b"\xd1\x00\x01"
     rd   = MessagePack.Reader.new(data)
+    rd.mark_here
     assert: rd.read_uint! == U64[1]
+    rd.rewind_to_mark
+    assert: rd.read_int! == I64[1]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[1.0]
     assert: rd.is_exhausted
 
   :it "reads number positive (19)"
     data = b"\xd2\x00\x00\x00\x01"
     rd   = MessagePack.Reader.new(data)
+    rd.mark_here
     assert: rd.read_uint! == U64[1]
+    rd.rewind_to_mark
+    assert: rd.read_int! == I64[1]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[1.0]
     assert: rd.is_exhausted
 
   :it "reads number positive (20)"
     data = b"\xd3\x00\x00\x00\x00\x00\x00\x00\x01"
     rd   = MessagePack.Reader.new(data)
+    rd.mark_here
     assert: rd.read_uint! == U64[1]
+    rd.rewind_to_mark
+    assert: rd.read_int! == I64[1]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[1.0]
     assert: rd.is_exhausted
 
   :it "reads number positive (21)"
     data = b"\xca\x3f\x80\x00\x00"
     rd   = MessagePack.Reader.new(data)
+    rd.mark_here
     assert: rd.read_uint! == U64[1]
+    rd.rewind_to_mark
+    assert: rd.read_int! == I64[1]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[1.0]
     assert: rd.is_exhausted
 
   :it "reads number positive (22)"
     data = b"\xcb\x3f\xf0\x00\x00\x00\x00\x00\x00"
     rd   = MessagePack.Reader.new(data)
+    rd.mark_here
     assert: rd.read_uint! == U64[1]
+    rd.rewind_to_mark
+    assert: rd.read_int! == I64[1]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[1.0]
     assert: rd.is_exhausted
 
   :it "reads number positive (23)"
     data = b"\x7f"
     rd   = MessagePack.Reader.new(data)
+    rd.mark_here
     assert: rd.read_uint! == U64[127]
+    rd.rewind_to_mark
+    assert: rd.read_int! == I64[127]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[127.0]
     assert: rd.is_exhausted
 
   :it "reads number positive (24)"
     data = b"\xcc\x7f"
     rd   = MessagePack.Reader.new(data)
+    rd.mark_here
     assert: rd.read_uint! == U64[127]
+    rd.rewind_to_mark
+    assert: rd.read_int! == I64[127]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[127.0]
     assert: rd.is_exhausted
 
   :it "reads number positive (25)"
     data = b"\xcd\x00\x7f"
     rd   = MessagePack.Reader.new(data)
+    rd.mark_here
     assert: rd.read_uint! == U64[127]
+    rd.rewind_to_mark
+    assert: rd.read_int! == I64[127]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[127.0]
     assert: rd.is_exhausted
 
   :it "reads number positive (26)"
     data = b"\xce\x00\x00\x00\x7f"
     rd   = MessagePack.Reader.new(data)
+    rd.mark_here
     assert: rd.read_uint! == U64[127]
+    rd.rewind_to_mark
+    assert: rd.read_int! == I64[127]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[127.0]
     assert: rd.is_exhausted
 
   :it "reads number positive (27)"
     data = b"\xcf\x00\x00\x00\x00\x00\x00\x00\x7f"
     rd   = MessagePack.Reader.new(data)
+    rd.mark_here
     assert: rd.read_uint! == U64[127]
+    rd.rewind_to_mark
+    assert: rd.read_int! == I64[127]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[127.0]
     assert: rd.is_exhausted
 
   :it "reads number positive (28)"
     data = b"\xd0\x7f"
     rd   = MessagePack.Reader.new(data)
+    rd.mark_here
     assert: rd.read_uint! == U64[127]
+    rd.rewind_to_mark
+    assert: rd.read_int! == I64[127]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[127.0]
     assert: rd.is_exhausted
 
   :it "reads number positive (29)"
     data = b"\xd1\x00\x7f"
     rd   = MessagePack.Reader.new(data)
+    rd.mark_here
     assert: rd.read_uint! == U64[127]
+    rd.rewind_to_mark
+    assert: rd.read_int! == I64[127]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[127.0]
     assert: rd.is_exhausted
 
   :it "reads number positive (30)"
     data = b"\xd2\x00\x00\x00\x7f"
     rd   = MessagePack.Reader.new(data)
+    rd.mark_here
     assert: rd.read_uint! == U64[127]
+    rd.rewind_to_mark
+    assert: rd.read_int! == I64[127]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[127.0]
     assert: rd.is_exhausted
 
   :it "reads number positive (31)"
     data = b"\xd3\x00\x00\x00\x00\x00\x00\x00\x7f"
     rd   = MessagePack.Reader.new(data)
+    rd.mark_here
     assert: rd.read_uint! == U64[127]
+    rd.rewind_to_mark
+    assert: rd.read_int! == I64[127]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[127.0]
     assert: rd.is_exhausted
 
   :it "reads number positive (32)"
     data = b"\xcc\x80"
     rd   = MessagePack.Reader.new(data)
+    rd.mark_here
     assert: rd.read_uint! == U64[128]
+    rd.rewind_to_mark
+    assert: rd.read_int! == I64[128]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[128.0]
     assert: rd.is_exhausted
 
   :it "reads number positive (33)"
     data = b"\xcd\x00\x80"
     rd   = MessagePack.Reader.new(data)
+    rd.mark_here
     assert: rd.read_uint! == U64[128]
+    rd.rewind_to_mark
+    assert: rd.read_int! == I64[128]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[128.0]
     assert: rd.is_exhausted
 
   :it "reads number positive (34)"
     data = b"\xce\x00\x00\x00\x80"
     rd   = MessagePack.Reader.new(data)
+    rd.mark_here
     assert: rd.read_uint! == U64[128]
+    rd.rewind_to_mark
+    assert: rd.read_int! == I64[128]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[128.0]
     assert: rd.is_exhausted
 
   :it "reads number positive (35)"
     data = b"\xcf\x00\x00\x00\x00\x00\x00\x00\x80"
     rd   = MessagePack.Reader.new(data)
+    rd.mark_here
     assert: rd.read_uint! == U64[128]
+    rd.rewind_to_mark
+    assert: rd.read_int! == I64[128]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[128.0]
     assert: rd.is_exhausted
 
   :it "reads number positive (36)"
     data = b"\xd1\x00\x80"
     rd   = MessagePack.Reader.new(data)
+    rd.mark_here
     assert: rd.read_uint! == U64[128]
+    rd.rewind_to_mark
+    assert: rd.read_int! == I64[128]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[128.0]
     assert: rd.is_exhausted
 
   :it "reads number positive (37)"
     data = b"\xd2\x00\x00\x00\x80"
     rd   = MessagePack.Reader.new(data)
+    rd.mark_here
     assert: rd.read_uint! == U64[128]
+    rd.rewind_to_mark
+    assert: rd.read_int! == I64[128]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[128.0]
     assert: rd.is_exhausted
 
   :it "reads number positive (38)"
     data = b"\xd3\x00\x00\x00\x00\x00\x00\x00\x80"
     rd   = MessagePack.Reader.new(data)
+    rd.mark_here
     assert: rd.read_uint! == U64[128]
+    rd.rewind_to_mark
+    assert: rd.read_int! == I64[128]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[128.0]
     assert: rd.is_exhausted
 
   :it "reads number positive (39)"
     data = b"\xcc\xff"
     rd   = MessagePack.Reader.new(data)
+    rd.mark_here
     assert: rd.read_uint! == U64[255]
+    rd.rewind_to_mark
+    assert: rd.read_int! == I64[255]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[255.0]
     assert: rd.is_exhausted
 
   :it "reads number positive (40)"
     data = b"\xcd\x00\xff"
     rd   = MessagePack.Reader.new(data)
+    rd.mark_here
     assert: rd.read_uint! == U64[255]
+    rd.rewind_to_mark
+    assert: rd.read_int! == I64[255]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[255.0]
     assert: rd.is_exhausted
 
   :it "reads number positive (41)"
     data = b"\xce\x00\x00\x00\xff"
     rd   = MessagePack.Reader.new(data)
+    rd.mark_here
     assert: rd.read_uint! == U64[255]
+    rd.rewind_to_mark
+    assert: rd.read_int! == I64[255]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[255.0]
     assert: rd.is_exhausted
 
   :it "reads number positive (42)"
     data = b"\xcf\x00\x00\x00\x00\x00\x00\x00\xff"
     rd   = MessagePack.Reader.new(data)
+    rd.mark_here
     assert: rd.read_uint! == U64[255]
+    rd.rewind_to_mark
+    assert: rd.read_int! == I64[255]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[255.0]
     assert: rd.is_exhausted
 
   :it "reads number positive (43)"
     data = b"\xd1\x00\xff"
     rd   = MessagePack.Reader.new(data)
+    rd.mark_here
     assert: rd.read_uint! == U64[255]
+    rd.rewind_to_mark
+    assert: rd.read_int! == I64[255]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[255.0]
     assert: rd.is_exhausted
 
   :it "reads number positive (44)"
     data = b"\xd2\x00\x00\x00\xff"
     rd   = MessagePack.Reader.new(data)
+    rd.mark_here
     assert: rd.read_uint! == U64[255]
+    rd.rewind_to_mark
+    assert: rd.read_int! == I64[255]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[255.0]
     assert: rd.is_exhausted
 
   :it "reads number positive (45)"
     data = b"\xd3\x00\x00\x00\x00\x00\x00\x00\xff"
     rd   = MessagePack.Reader.new(data)
+    rd.mark_here
     assert: rd.read_uint! == U64[255]
+    rd.rewind_to_mark
+    assert: rd.read_int! == I64[255]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[255.0]
     assert: rd.is_exhausted
 
   :it "reads number positive (46)"
     data = b"\xcd\x01\x00"
     rd   = MessagePack.Reader.new(data)
+    rd.mark_here
     assert: rd.read_uint! == U64[256]
+    rd.rewind_to_mark
+    assert: rd.read_int! == I64[256]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[256.0]
     assert: rd.is_exhausted
 
   :it "reads number positive (47)"
     data = b"\xce\x00\x00\x01\x00"
     rd   = MessagePack.Reader.new(data)
+    rd.mark_here
     assert: rd.read_uint! == U64[256]
+    rd.rewind_to_mark
+    assert: rd.read_int! == I64[256]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[256.0]
     assert: rd.is_exhausted
 
   :it "reads number positive (48)"
     data = b"\xcf\x00\x00\x00\x00\x00\x00\x01\x00"
     rd   = MessagePack.Reader.new(data)
+    rd.mark_here
     assert: rd.read_uint! == U64[256]
+    rd.rewind_to_mark
+    assert: rd.read_int! == I64[256]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[256.0]
     assert: rd.is_exhausted
 
   :it "reads number positive (49)"
     data = b"\xd1\x01\x00"
     rd   = MessagePack.Reader.new(data)
+    rd.mark_here
     assert: rd.read_uint! == U64[256]
+    rd.rewind_to_mark
+    assert: rd.read_int! == I64[256]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[256.0]
     assert: rd.is_exhausted
 
   :it "reads number positive (50)"
     data = b"\xd2\x00\x00\x01\x00"
     rd   = MessagePack.Reader.new(data)
+    rd.mark_here
     assert: rd.read_uint! == U64[256]
+    rd.rewind_to_mark
+    assert: rd.read_int! == I64[256]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[256.0]
     assert: rd.is_exhausted
 
   :it "reads number positive (51)"
     data = b"\xd3\x00\x00\x00\x00\x00\x00\x01\x00"
     rd   = MessagePack.Reader.new(data)
+    rd.mark_here
     assert: rd.read_uint! == U64[256]
+    rd.rewind_to_mark
+    assert: rd.read_int! == I64[256]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[256.0]
     assert: rd.is_exhausted
 
   :it "reads number positive (52)"
     data = b"\xcd\xff\xff"
     rd   = MessagePack.Reader.new(data)
+    rd.mark_here
     assert: rd.read_uint! == U64[65535]
+    rd.rewind_to_mark
+    assert: rd.read_int! == I64[65535]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[65535.0]
     assert: rd.is_exhausted
 
   :it "reads number positive (53)"
     data = b"\xce\x00\x00\xff\xff"
     rd   = MessagePack.Reader.new(data)
+    rd.mark_here
     assert: rd.read_uint! == U64[65535]
+    rd.rewind_to_mark
+    assert: rd.read_int! == I64[65535]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[65535.0]
     assert: rd.is_exhausted
 
   :it "reads number positive (54)"
     data = b"\xcf\x00\x00\x00\x00\x00\x00\xff\xff"
     rd   = MessagePack.Reader.new(data)
+    rd.mark_here
     assert: rd.read_uint! == U64[65535]
+    rd.rewind_to_mark
+    assert: rd.read_int! == I64[65535]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[65535.0]
     assert: rd.is_exhausted
 
   :it "reads number positive (55)"
     data = b"\xd2\x00\x00\xff\xff"
     rd   = MessagePack.Reader.new(data)
+    rd.mark_here
     assert: rd.read_uint! == U64[65535]
+    rd.rewind_to_mark
+    assert: rd.read_int! == I64[65535]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[65535.0]
     assert: rd.is_exhausted
 
   :it "reads number positive (56)"
     data = b"\xd3\x00\x00\x00\x00\x00\x00\xff\xff"
     rd   = MessagePack.Reader.new(data)
+    rd.mark_here
     assert: rd.read_uint! == U64[65535]
+    rd.rewind_to_mark
+    assert: rd.read_int! == I64[65535]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[65535.0]
     assert: rd.is_exhausted
 
   :it "reads number positive (57)"
     data = b"\xce\x00\x01\x00\x00"
     rd   = MessagePack.Reader.new(data)
+    rd.mark_here
     assert: rd.read_uint! == U64[65536]
+    rd.rewind_to_mark
+    assert: rd.read_int! == I64[65536]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[65536.0]
     assert: rd.is_exhausted
 
   :it "reads number positive (58)"
     data = b"\xcf\x00\x00\x00\x00\x00\x01\x00\x00"
     rd   = MessagePack.Reader.new(data)
+    rd.mark_here
     assert: rd.read_uint! == U64[65536]
+    rd.rewind_to_mark
+    assert: rd.read_int! == I64[65536]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[65536.0]
     assert: rd.is_exhausted
 
   :it "reads number positive (59)"
     data = b"\xd2\x00\x01\x00\x00"
     rd   = MessagePack.Reader.new(data)
+    rd.mark_here
     assert: rd.read_uint! == U64[65536]
+    rd.rewind_to_mark
+    assert: rd.read_int! == I64[65536]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[65536.0]
     assert: rd.is_exhausted
 
   :it "reads number positive (60)"
     data = b"\xd3\x00\x00\x00\x00\x00\x01\x00\x00"
     rd   = MessagePack.Reader.new(data)
+    rd.mark_here
     assert: rd.read_uint! == U64[65536]
+    rd.rewind_to_mark
+    assert: rd.read_int! == I64[65536]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[65536.0]
     assert: rd.is_exhausted
 
   :it "reads number positive (61)"
     data = b"\xce\x7f\xff\xff\xff"
     rd   = MessagePack.Reader.new(data)
+    rd.mark_here
     assert: rd.read_uint! == U64[2147483647]
+    rd.rewind_to_mark
+    assert: rd.read_int! == I64[2147483647]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[2147483647.0]
     assert: rd.is_exhausted
 
   :it "reads number positive (62)"
     data = b"\xcf\x00\x00\x00\x00\x7f\xff\xff\xff"
     rd   = MessagePack.Reader.new(data)
+    rd.mark_here
     assert: rd.read_uint! == U64[2147483647]
+    rd.rewind_to_mark
+    assert: rd.read_int! == I64[2147483647]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[2147483647.0]
     assert: rd.is_exhausted
 
   :it "reads number positive (63)"
     data = b"\xd2\x7f\xff\xff\xff"
     rd   = MessagePack.Reader.new(data)
+    rd.mark_here
     assert: rd.read_uint! == U64[2147483647]
+    rd.rewind_to_mark
+    assert: rd.read_int! == I64[2147483647]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[2147483647.0]
     assert: rd.is_exhausted
 
   :it "reads number positive (64)"
     data = b"\xd3\x00\x00\x00\x00\x7f\xff\xff\xff"
     rd   = MessagePack.Reader.new(data)
+    rd.mark_here
     assert: rd.read_uint! == U64[2147483647]
+    rd.rewind_to_mark
+    assert: rd.read_int! == I64[2147483647]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[2147483647.0]
     assert: rd.is_exhausted
 
   :it "reads number positive (65)"
     data = b"\xce\x80\x00\x00\x00"
     rd   = MessagePack.Reader.new(data)
+    rd.mark_here
     assert: rd.read_uint! == U64[2147483648]
+    rd.rewind_to_mark
+    assert: rd.read_int! == I64[2147483648]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[2147483648.0]
     assert: rd.is_exhausted
 
   :it "reads number positive (66)"
     data = b"\xcf\x00\x00\x00\x00\x80\x00\x00\x00"
     rd   = MessagePack.Reader.new(data)
+    rd.mark_here
     assert: rd.read_uint! == U64[2147483648]
+    rd.rewind_to_mark
+    assert: rd.read_int! == I64[2147483648]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[2147483648.0]
     assert: rd.is_exhausted
 
   :it "reads number positive (67)"
     data = b"\xd3\x00\x00\x00\x00\x80\x00\x00\x00"
     rd   = MessagePack.Reader.new(data)
+    rd.mark_here
     assert: rd.read_uint! == U64[2147483648]
+    rd.rewind_to_mark
+    assert: rd.read_int! == I64[2147483648]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[2147483648.0]
     assert: rd.is_exhausted
 
   :it "reads number positive (68)"
     data = b"\xca\x4f\x00\x00\x00"
     rd   = MessagePack.Reader.new(data)
+    rd.mark_here
     assert: rd.read_uint! == U64[2147483648]
+    rd.rewind_to_mark
+    assert: rd.read_int! == I64[2147483648]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[2147483648.0]
     assert: rd.is_exhausted
 
   :it "reads number positive (69)"
     data = b"\xcb\x41\xe0\x00\x00\x00\x00\x00\x00"
     rd   = MessagePack.Reader.new(data)
+    rd.mark_here
     assert: rd.read_uint! == U64[2147483648]
+    rd.rewind_to_mark
+    assert: rd.read_int! == I64[2147483648]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[2147483648.0]
     assert: rd.is_exhausted
 
   :it "reads number positive (70)"
     data = b"\xce\xff\xff\xff\xff"
     rd   = MessagePack.Reader.new(data)
+    rd.mark_here
     assert: rd.read_uint! == U64[4294967295]
+    rd.rewind_to_mark
+    assert: rd.read_int! == I64[4294967295]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[4294967295.0]
     assert: rd.is_exhausted
 
   :it "reads number positive (71)"
     data = b"\xcf\x00\x00\x00\x00\xff\xff\xff\xff"
     rd   = MessagePack.Reader.new(data)
+    rd.mark_here
     assert: rd.read_uint! == U64[4294967295]
+    rd.rewind_to_mark
+    assert: rd.read_int! == I64[4294967295]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[4294967295.0]
     assert: rd.is_exhausted
 
   :it "reads number positive (72)"
     data = b"\xd3\x00\x00\x00\x00\xff\xff\xff\xff"
     rd   = MessagePack.Reader.new(data)
+    rd.mark_here
     assert: rd.read_uint! == U64[4294967295]
+    rd.rewind_to_mark
+    assert: rd.read_int! == I64[4294967295]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[4294967295.0]
     assert: rd.is_exhausted
 
   :it "reads number positive (73)"
     data = b"\xcb\x41\xef\xff\xff\xff\xe0\x00\x00"
     rd   = MessagePack.Reader.new(data)
+    rd.mark_here
     assert: rd.read_uint! == U64[4294967295]
+    rd.rewind_to_mark
+    assert: rd.read_int! == I64[4294967295]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[4294967295.0]
     assert: rd.is_exhausted
 
   :it "reads number negative (1)"
     data = b"\xff"
     rd   = MessagePack.Reader.new(data)
+    rd.mark_here
     assert: rd.read_int! == I64[-1]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[-1.0]
     assert: rd.is_exhausted
 
   :it "reads number negative (2)"
     data = b"\xd0\xff"
     rd   = MessagePack.Reader.new(data)
+    rd.mark_here
     assert: rd.read_int! == I64[-1]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[-1.0]
     assert: rd.is_exhausted
 
   :it "reads number negative (3)"
     data = b"\xd1\xff\xff"
     rd   = MessagePack.Reader.new(data)
+    rd.mark_here
     assert: rd.read_int! == I64[-1]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[-1.0]
     assert: rd.is_exhausted
 
   :it "reads number negative (4)"
     data = b"\xd2\xff\xff\xff\xff"
     rd   = MessagePack.Reader.new(data)
+    rd.mark_here
     assert: rd.read_int! == I64[-1]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[-1.0]
     assert: rd.is_exhausted
 
   :it "reads number negative (5)"
     data = b"\xd3\xff\xff\xff\xff\xff\xff\xff\xff"
     rd   = MessagePack.Reader.new(data)
+    rd.mark_here
     assert: rd.read_int! == I64[-1]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[-1.0]
     assert: rd.is_exhausted
 
   :it "reads number negative (6)"
     data = b"\xca\xbf\x80\x00\x00"
     rd   = MessagePack.Reader.new(data)
+    rd.mark_here
     assert: rd.read_int! == I64[-1]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[-1.0]
     assert: rd.is_exhausted
 
   :it "reads number negative (7)"
     data = b"\xcb\xbf\xf0\x00\x00\x00\x00\x00\x00"
     rd   = MessagePack.Reader.new(data)
+    rd.mark_here
     assert: rd.read_int! == I64[-1]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[-1.0]
     assert: rd.is_exhausted
 
   :it "reads number negative (8)"
     data = b"\xe0"
     rd   = MessagePack.Reader.new(data)
+    rd.mark_here
     assert: rd.read_int! == I64[-32]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[-32.0]
     assert: rd.is_exhausted
 
   :it "reads number negative (9)"
     data = b"\xd0\xe0"
     rd   = MessagePack.Reader.new(data)
+    rd.mark_here
     assert: rd.read_int! == I64[-32]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[-32.0]
     assert: rd.is_exhausted
 
   :it "reads number negative (10)"
     data = b"\xd1\xff\xe0"
     rd   = MessagePack.Reader.new(data)
+    rd.mark_here
     assert: rd.read_int! == I64[-32]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[-32.0]
     assert: rd.is_exhausted
 
   :it "reads number negative (11)"
     data = b"\xd2\xff\xff\xff\xe0"
     rd   = MessagePack.Reader.new(data)
+    rd.mark_here
     assert: rd.read_int! == I64[-32]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[-32.0]
     assert: rd.is_exhausted
 
   :it "reads number negative (12)"
     data = b"\xd3\xff\xff\xff\xff\xff\xff\xff\xe0"
     rd   = MessagePack.Reader.new(data)
+    rd.mark_here
     assert: rd.read_int! == I64[-32]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[-32.0]
     assert: rd.is_exhausted
 
   :it "reads number negative (13)"
     data = b"\xca\xc2\x00\x00\x00"
     rd   = MessagePack.Reader.new(data)
+    rd.mark_here
     assert: rd.read_int! == I64[-32]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[-32.0]
     assert: rd.is_exhausted
 
   :it "reads number negative (14)"
     data = b"\xcb\xc0\x40\x00\x00\x00\x00\x00\x00"
     rd   = MessagePack.Reader.new(data)
+    rd.mark_here
     assert: rd.read_int! == I64[-32]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[-32.0]
     assert: rd.is_exhausted
 
   :it "reads number negative (15)"
     data = b"\xd0\xdf"
     rd   = MessagePack.Reader.new(data)
+    rd.mark_here
     assert: rd.read_int! == I64[-33]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[-33.0]
     assert: rd.is_exhausted
 
   :it "reads number negative (16)"
     data = b"\xd1\xff\xdf"
     rd   = MessagePack.Reader.new(data)
+    rd.mark_here
     assert: rd.read_int! == I64[-33]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[-33.0]
     assert: rd.is_exhausted
 
   :it "reads number negative (17)"
     data = b"\xd2\xff\xff\xff\xdf"
     rd   = MessagePack.Reader.new(data)
+    rd.mark_here
     assert: rd.read_int! == I64[-33]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[-33.0]
     assert: rd.is_exhausted
 
   :it "reads number negative (18)"
     data = b"\xd3\xff\xff\xff\xff\xff\xff\xff\xdf"
     rd   = MessagePack.Reader.new(data)
+    rd.mark_here
     assert: rd.read_int! == I64[-33]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[-33.0]
     assert: rd.is_exhausted
 
   :it "reads number negative (19)"
     data = b"\xd0\x80"
     rd   = MessagePack.Reader.new(data)
+    rd.mark_here
     assert: rd.read_int! == I64[-128]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[-128.0]
     assert: rd.is_exhausted
 
   :it "reads number negative (20)"
     data = b"\xd1\xff\x80"
     rd   = MessagePack.Reader.new(data)
+    rd.mark_here
     assert: rd.read_int! == I64[-128]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[-128.0]
     assert: rd.is_exhausted
 
   :it "reads number negative (21)"
     data = b"\xd2\xff\xff\xff\x80"
     rd   = MessagePack.Reader.new(data)
+    rd.mark_here
     assert: rd.read_int! == I64[-128]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[-128.0]
     assert: rd.is_exhausted
 
   :it "reads number negative (22)"
     data = b"\xd3\xff\xff\xff\xff\xff\xff\xff\x80"
     rd   = MessagePack.Reader.new(data)
+    rd.mark_here
     assert: rd.read_int! == I64[-128]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[-128.0]
     assert: rd.is_exhausted
 
   :it "reads number negative (23)"
     data = b"\xd1\xff\x00"
     rd   = MessagePack.Reader.new(data)
+    rd.mark_here
     assert: rd.read_int! == I64[-256]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[-256.0]
     assert: rd.is_exhausted
 
   :it "reads number negative (24)"
     data = b"\xd2\xff\xff\xff\x00"
     rd   = MessagePack.Reader.new(data)
+    rd.mark_here
     assert: rd.read_int! == I64[-256]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[-256.0]
     assert: rd.is_exhausted
 
   :it "reads number negative (25)"
     data = b"\xd3\xff\xff\xff\xff\xff\xff\xff\x00"
     rd   = MessagePack.Reader.new(data)
+    rd.mark_here
     assert: rd.read_int! == I64[-256]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[-256.0]
     assert: rd.is_exhausted
 
   :it "reads number negative (26)"
     data = b"\xd1\x80\x00"
     rd   = MessagePack.Reader.new(data)
+    rd.mark_here
     assert: rd.read_int! == I64[-32768]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[-32768.0]
     assert: rd.is_exhausted
 
   :it "reads number negative (27)"
     data = b"\xd2\xff\xff\x80\x00"
     rd   = MessagePack.Reader.new(data)
+    rd.mark_here
     assert: rd.read_int! == I64[-32768]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[-32768.0]
     assert: rd.is_exhausted
 
   :it "reads number negative (28)"
     data = b"\xd3\xff\xff\xff\xff\xff\xff\x80\x00"
     rd   = MessagePack.Reader.new(data)
+    rd.mark_here
     assert: rd.read_int! == I64[-32768]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[-32768.0]
     assert: rd.is_exhausted
 
   :it "reads number negative (29)"
     data = b"\xd2\xff\xff\x00\x00"
     rd   = MessagePack.Reader.new(data)
+    rd.mark_here
     assert: rd.read_int! == I64[-65536]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[-65536.0]
     assert: rd.is_exhausted
 
   :it "reads number negative (30)"
     data = b"\xd3\xff\xff\xff\xff\xff\xff\x00\x00"
     rd   = MessagePack.Reader.new(data)
+    rd.mark_here
     assert: rd.read_int! == I64[-65536]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[-65536.0]
     assert: rd.is_exhausted
 
   :it "reads number negative (31)"
     data = b"\xd2\x80\x00\x00\x00"
     rd   = MessagePack.Reader.new(data)
+    rd.mark_here
     assert: rd.read_int! == I64[-2147483648]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[-2147483648.0]
     assert: rd.is_exhausted
 
   :it "reads number negative (32)"
     data = b"\xd3\xff\xff\xff\xff\x80\x00\x00\x00"
     rd   = MessagePack.Reader.new(data)
+    rd.mark_here
     assert: rd.read_int! == I64[-2147483648]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[-2147483648.0]
     assert: rd.is_exhausted
 
   :it "reads number negative (33)"
     data = b"\xcb\xc1\xe0\x00\x00\x00\x00\x00\x00"
     rd   = MessagePack.Reader.new(data)
+    rd.mark_here
     assert: rd.read_int! == I64[-2147483648]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[-2147483648.0]
     assert: rd.is_exhausted
 
   :it "reads number float (1)"
@@ -737,91 +1201,152 @@
   :it "reads number bignum (1)"
     data = b"\xcf\x00\x00\x00\x01\x00\x00\x00\x00"
     rd   = MessagePack.Reader.new(data)
+    rd.mark_here
     assert: rd.read_uint! == U64[4294967296]
+    rd.rewind_to_mark
+    assert: rd.read_int! == I64[4294967296]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[4294967296.0]
     assert: rd.is_exhausted
 
   :it "reads number bignum (2)"
     data = b"\xd3\x00\x00\x00\x01\x00\x00\x00\x00"
     rd   = MessagePack.Reader.new(data)
+    rd.mark_here
     assert: rd.read_uint! == U64[4294967296]
+    rd.rewind_to_mark
+    assert: rd.read_int! == I64[4294967296]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[4294967296.0]
     assert: rd.is_exhausted
 
   :it "reads number bignum (3)"
     data = b"\xca\x4f\x80\x00\x00"
     rd   = MessagePack.Reader.new(data)
+    rd.mark_here
     assert: rd.read_uint! == U64[4294967296]
+    rd.rewind_to_mark
+    assert: rd.read_int! == I64[4294967296]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[4294967296.0]
     assert: rd.is_exhausted
 
   :it "reads number bignum (4)"
     data = b"\xcb\x41\xf0\x00\x00\x00\x00\x00\x00"
     rd   = MessagePack.Reader.new(data)
+    rd.mark_here
     assert: rd.read_uint! == U64[4294967296]
+    rd.rewind_to_mark
+    assert: rd.read_int! == I64[4294967296]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[4294967296.0]
     assert: rd.is_exhausted
 
   :it "reads number bignum (5)"
     data = b"\xd3\xff\xff\xff\xff\x00\x00\x00\x00"
     rd   = MessagePack.Reader.new(data)
+    rd.mark_here
     assert: rd.read_int! == I64[-4294967296]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[-4294967296.0]
     assert: rd.is_exhausted
 
   :it "reads number bignum (6)"
     data = b"\xcb\xc1\xf0\x00\x00\x00\x00\x00\x00"
     rd   = MessagePack.Reader.new(data)
+    rd.mark_here
     assert: rd.read_int! == I64[-4294967296]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[-4294967296.0]
     assert: rd.is_exhausted
 
   :it "reads number bignum (7)"
     data = b"\xcf\x00\x01\x00\x00\x00\x00\x00\x00"
     rd   = MessagePack.Reader.new(data)
+    rd.mark_here
     assert: rd.read_uint! == U64[281474976710656]
+    rd.rewind_to_mark
+    assert: rd.read_int! == I64[281474976710656]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[281474976710656.0]
     assert: rd.is_exhausted
 
   :it "reads number bignum (8)"
     data = b"\xd3\x00\x01\x00\x00\x00\x00\x00\x00"
     rd   = MessagePack.Reader.new(data)
+    rd.mark_here
     assert: rd.read_uint! == U64[281474976710656]
+    rd.rewind_to_mark
+    assert: rd.read_int! == I64[281474976710656]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[281474976710656.0]
     assert: rd.is_exhausted
 
   :it "reads number bignum (9)"
     data = b"\xca\x57\x80\x00\x00"
     rd   = MessagePack.Reader.new(data)
+    rd.mark_here
     assert: rd.read_uint! == U64[281474976710656]
+    rd.rewind_to_mark
+    assert: rd.read_int! == I64[281474976710656]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[281474976710656.0]
     assert: rd.is_exhausted
 
   :it "reads number bignum (10)"
     data = b"\xcb\x42\xf0\x00\x00\x00\x00\x00\x00"
     rd   = MessagePack.Reader.new(data)
+    rd.mark_here
     assert: rd.read_uint! == U64[281474976710656]
+    rd.rewind_to_mark
+    assert: rd.read_int! == I64[281474976710656]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[281474976710656.0]
     assert: rd.is_exhausted
 
   :it "reads number bignum (11)"
     data = b"\xd3\xff\xff\x00\x00\x00\x00\x00\x00"
     rd   = MessagePack.Reader.new(data)
+    rd.mark_here
     assert: rd.read_int! == I64[-281474976710656]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[-281474976710656.0]
     assert: rd.is_exhausted
 
   :it "reads number bignum (12)"
     data = b"\xca\xd7\x80\x00\x00"
     rd   = MessagePack.Reader.new(data)
+    rd.mark_here
     assert: rd.read_int! == I64[-281474976710656]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[-281474976710656.0]
     assert: rd.is_exhausted
 
   :it "reads number bignum (13)"
     data = b"\xcb\xc2\xf0\x00\x00\x00\x00\x00\x00"
     rd   = MessagePack.Reader.new(data)
+    rd.mark_here
     assert: rd.read_int! == I64[-281474976710656]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[-281474976710656.0]
     assert: rd.is_exhausted
 
   :it "reads number bignum (14)"
     data = b"\xd3\x7f\xff\xff\xff\xff\xff\xff\xff"
     rd   = MessagePack.Reader.new(data)
+    rd.mark_here
     assert: rd.read_uint! == U64[9223372036854775807]
+    rd.rewind_to_mark
+    assert: rd.read_int! == I64[9223372036854775807]
     assert: rd.is_exhausted
 
   :it "reads number bignum (15)"
     data = b"\xcf\x7f\xff\xff\xff\xff\xff\xff\xff"
     rd   = MessagePack.Reader.new(data)
+    rd.mark_here
     assert: rd.read_uint! == U64[9223372036854775807]
+    rd.rewind_to_mark
+    assert: rd.read_int! == I64[9223372036854775807]
     assert: rd.is_exhausted
 
   :it "reads number bignum (16)"
@@ -833,13 +1358,19 @@
   :it "reads number bignum (17)"
     data = b"\xcf\x80\x00\x00\x00\x00\x00\x00\x00"
     rd   = MessagePack.Reader.new(data)
+    rd.mark_here
     assert: rd.read_uint! == U64[9223372036854775808]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[9223372036854775808.0]
     assert: rd.is_exhausted
 
   :it "reads number bignum (18)"
     data = b"\xd3\x80\x00\x00\x00\x00\x00\x00\x00"
     rd   = MessagePack.Reader.new(data)
+    rd.mark_here
     assert: rd.read_int! == I64[-9223372036854775808]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[-9223372036854775808.0]
     assert: rd.is_exhausted
 
   :it "reads number bignum (19)"
@@ -1032,128 +1563,528 @@
     data = b"\x91\x01"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_array_head! == USize[1]
+    rd.mark_here
     assert: rd.read_uint! == U64[1]
+    rd.rewind_to_mark
+    assert: rd.read_int! == I64[1]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[1.0]
     assert: rd.is_exhausted
 
   :it "reads array (5)"
     data = b"\xdc\x00\x01\x01"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_array_head! == USize[1]
+    rd.mark_here
     assert: rd.read_uint! == U64[1]
+    rd.rewind_to_mark
+    assert: rd.read_int! == I64[1]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[1.0]
     assert: rd.is_exhausted
 
   :it "reads array (6)"
     data = b"\xdd\x00\x00\x00\x01\x01"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_array_head! == USize[1]
+    rd.mark_here
     assert: rd.read_uint! == U64[1]
+    rd.rewind_to_mark
+    assert: rd.read_int! == I64[1]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[1.0]
     assert: rd.is_exhausted
 
   :it "reads array (7)"
     data = b"\x9f\x01\x02\x03\x04\x05\x06\x07\x08\x09\x0a\x0b\x0c\x0d\x0e\x0f"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_array_head! == USize[15]
+    rd.mark_here
     assert: rd.read_uint! == U64[1]
+    rd.rewind_to_mark
+    assert: rd.read_int! == I64[1]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[1.0]
+    rd.mark_here
     assert: rd.read_uint! == U64[2]
+    rd.rewind_to_mark
+    assert: rd.read_int! == I64[2]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[2.0]
+    rd.mark_here
     assert: rd.read_uint! == U64[3]
+    rd.rewind_to_mark
+    assert: rd.read_int! == I64[3]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[3.0]
+    rd.mark_here
     assert: rd.read_uint! == U64[4]
+    rd.rewind_to_mark
+    assert: rd.read_int! == I64[4]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[4.0]
+    rd.mark_here
     assert: rd.read_uint! == U64[5]
+    rd.rewind_to_mark
+    assert: rd.read_int! == I64[5]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[5.0]
+    rd.mark_here
     assert: rd.read_uint! == U64[6]
+    rd.rewind_to_mark
+    assert: rd.read_int! == I64[6]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[6.0]
+    rd.mark_here
     assert: rd.read_uint! == U64[7]
+    rd.rewind_to_mark
+    assert: rd.read_int! == I64[7]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[7.0]
+    rd.mark_here
     assert: rd.read_uint! == U64[8]
+    rd.rewind_to_mark
+    assert: rd.read_int! == I64[8]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[8.0]
+    rd.mark_here
     assert: rd.read_uint! == U64[9]
+    rd.rewind_to_mark
+    assert: rd.read_int! == I64[9]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[9.0]
+    rd.mark_here
     assert: rd.read_uint! == U64[10]
+    rd.rewind_to_mark
+    assert: rd.read_int! == I64[10]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[10.0]
+    rd.mark_here
     assert: rd.read_uint! == U64[11]
+    rd.rewind_to_mark
+    assert: rd.read_int! == I64[11]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[11.0]
+    rd.mark_here
     assert: rd.read_uint! == U64[12]
+    rd.rewind_to_mark
+    assert: rd.read_int! == I64[12]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[12.0]
+    rd.mark_here
     assert: rd.read_uint! == U64[13]
+    rd.rewind_to_mark
+    assert: rd.read_int! == I64[13]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[13.0]
+    rd.mark_here
     assert: rd.read_uint! == U64[14]
+    rd.rewind_to_mark
+    assert: rd.read_int! == I64[14]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[14.0]
+    rd.mark_here
     assert: rd.read_uint! == U64[15]
+    rd.rewind_to_mark
+    assert: rd.read_int! == I64[15]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[15.0]
     assert: rd.is_exhausted
 
   :it "reads array (8)"
     data = b"\xdc\x00\x0f\x01\x02\x03\x04\x05\x06\x07\x08\x09\x0a\x0b\x0c\x0d\x0e\x0f"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_array_head! == USize[15]
+    rd.mark_here
     assert: rd.read_uint! == U64[1]
+    rd.rewind_to_mark
+    assert: rd.read_int! == I64[1]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[1.0]
+    rd.mark_here
     assert: rd.read_uint! == U64[2]
+    rd.rewind_to_mark
+    assert: rd.read_int! == I64[2]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[2.0]
+    rd.mark_here
     assert: rd.read_uint! == U64[3]
+    rd.rewind_to_mark
+    assert: rd.read_int! == I64[3]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[3.0]
+    rd.mark_here
     assert: rd.read_uint! == U64[4]
+    rd.rewind_to_mark
+    assert: rd.read_int! == I64[4]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[4.0]
+    rd.mark_here
     assert: rd.read_uint! == U64[5]
+    rd.rewind_to_mark
+    assert: rd.read_int! == I64[5]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[5.0]
+    rd.mark_here
     assert: rd.read_uint! == U64[6]
+    rd.rewind_to_mark
+    assert: rd.read_int! == I64[6]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[6.0]
+    rd.mark_here
     assert: rd.read_uint! == U64[7]
+    rd.rewind_to_mark
+    assert: rd.read_int! == I64[7]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[7.0]
+    rd.mark_here
     assert: rd.read_uint! == U64[8]
+    rd.rewind_to_mark
+    assert: rd.read_int! == I64[8]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[8.0]
+    rd.mark_here
     assert: rd.read_uint! == U64[9]
+    rd.rewind_to_mark
+    assert: rd.read_int! == I64[9]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[9.0]
+    rd.mark_here
     assert: rd.read_uint! == U64[10]
+    rd.rewind_to_mark
+    assert: rd.read_int! == I64[10]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[10.0]
+    rd.mark_here
     assert: rd.read_uint! == U64[11]
+    rd.rewind_to_mark
+    assert: rd.read_int! == I64[11]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[11.0]
+    rd.mark_here
     assert: rd.read_uint! == U64[12]
+    rd.rewind_to_mark
+    assert: rd.read_int! == I64[12]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[12.0]
+    rd.mark_here
     assert: rd.read_uint! == U64[13]
+    rd.rewind_to_mark
+    assert: rd.read_int! == I64[13]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[13.0]
+    rd.mark_here
     assert: rd.read_uint! == U64[14]
+    rd.rewind_to_mark
+    assert: rd.read_int! == I64[14]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[14.0]
+    rd.mark_here
     assert: rd.read_uint! == U64[15]
+    rd.rewind_to_mark
+    assert: rd.read_int! == I64[15]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[15.0]
     assert: rd.is_exhausted
 
   :it "reads array (9)"
     data = b"\xdd\x00\x00\x00\x0f\x01\x02\x03\x04\x05\x06\x07\x08\x09\x0a\x0b\x0c\x0d\x0e\x0f"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_array_head! == USize[15]
+    rd.mark_here
     assert: rd.read_uint! == U64[1]
+    rd.rewind_to_mark
+    assert: rd.read_int! == I64[1]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[1.0]
+    rd.mark_here
     assert: rd.read_uint! == U64[2]
+    rd.rewind_to_mark
+    assert: rd.read_int! == I64[2]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[2.0]
+    rd.mark_here
     assert: rd.read_uint! == U64[3]
+    rd.rewind_to_mark
+    assert: rd.read_int! == I64[3]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[3.0]
+    rd.mark_here
     assert: rd.read_uint! == U64[4]
+    rd.rewind_to_mark
+    assert: rd.read_int! == I64[4]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[4.0]
+    rd.mark_here
     assert: rd.read_uint! == U64[5]
+    rd.rewind_to_mark
+    assert: rd.read_int! == I64[5]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[5.0]
+    rd.mark_here
     assert: rd.read_uint! == U64[6]
+    rd.rewind_to_mark
+    assert: rd.read_int! == I64[6]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[6.0]
+    rd.mark_here
     assert: rd.read_uint! == U64[7]
+    rd.rewind_to_mark
+    assert: rd.read_int! == I64[7]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[7.0]
+    rd.mark_here
     assert: rd.read_uint! == U64[8]
+    rd.rewind_to_mark
+    assert: rd.read_int! == I64[8]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[8.0]
+    rd.mark_here
     assert: rd.read_uint! == U64[9]
+    rd.rewind_to_mark
+    assert: rd.read_int! == I64[9]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[9.0]
+    rd.mark_here
     assert: rd.read_uint! == U64[10]
+    rd.rewind_to_mark
+    assert: rd.read_int! == I64[10]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[10.0]
+    rd.mark_here
     assert: rd.read_uint! == U64[11]
+    rd.rewind_to_mark
+    assert: rd.read_int! == I64[11]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[11.0]
+    rd.mark_here
     assert: rd.read_uint! == U64[12]
+    rd.rewind_to_mark
+    assert: rd.read_int! == I64[12]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[12.0]
+    rd.mark_here
     assert: rd.read_uint! == U64[13]
+    rd.rewind_to_mark
+    assert: rd.read_int! == I64[13]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[13.0]
+    rd.mark_here
     assert: rd.read_uint! == U64[14]
+    rd.rewind_to_mark
+    assert: rd.read_int! == I64[14]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[14.0]
+    rd.mark_here
     assert: rd.read_uint! == U64[15]
+    rd.rewind_to_mark
+    assert: rd.read_int! == I64[15]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[15.0]
     assert: rd.is_exhausted
 
   :it "reads array (10)"
     data = b"\xdc\x00\x10\x01\x02\x03\x04\x05\x06\x07\x08\x09\x0a\x0b\x0c\x0d\x0e\x0f\x10"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_array_head! == USize[16]
+    rd.mark_here
     assert: rd.read_uint! == U64[1]
+    rd.rewind_to_mark
+    assert: rd.read_int! == I64[1]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[1.0]
+    rd.mark_here
     assert: rd.read_uint! == U64[2]
+    rd.rewind_to_mark
+    assert: rd.read_int! == I64[2]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[2.0]
+    rd.mark_here
     assert: rd.read_uint! == U64[3]
+    rd.rewind_to_mark
+    assert: rd.read_int! == I64[3]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[3.0]
+    rd.mark_here
     assert: rd.read_uint! == U64[4]
+    rd.rewind_to_mark
+    assert: rd.read_int! == I64[4]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[4.0]
+    rd.mark_here
     assert: rd.read_uint! == U64[5]
+    rd.rewind_to_mark
+    assert: rd.read_int! == I64[5]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[5.0]
+    rd.mark_here
     assert: rd.read_uint! == U64[6]
+    rd.rewind_to_mark
+    assert: rd.read_int! == I64[6]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[6.0]
+    rd.mark_here
     assert: rd.read_uint! == U64[7]
+    rd.rewind_to_mark
+    assert: rd.read_int! == I64[7]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[7.0]
+    rd.mark_here
     assert: rd.read_uint! == U64[8]
+    rd.rewind_to_mark
+    assert: rd.read_int! == I64[8]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[8.0]
+    rd.mark_here
     assert: rd.read_uint! == U64[9]
+    rd.rewind_to_mark
+    assert: rd.read_int! == I64[9]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[9.0]
+    rd.mark_here
     assert: rd.read_uint! == U64[10]
+    rd.rewind_to_mark
+    assert: rd.read_int! == I64[10]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[10.0]
+    rd.mark_here
     assert: rd.read_uint! == U64[11]
+    rd.rewind_to_mark
+    assert: rd.read_int! == I64[11]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[11.0]
+    rd.mark_here
     assert: rd.read_uint! == U64[12]
+    rd.rewind_to_mark
+    assert: rd.read_int! == I64[12]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[12.0]
+    rd.mark_here
     assert: rd.read_uint! == U64[13]
+    rd.rewind_to_mark
+    assert: rd.read_int! == I64[13]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[13.0]
+    rd.mark_here
     assert: rd.read_uint! == U64[14]
+    rd.rewind_to_mark
+    assert: rd.read_int! == I64[14]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[14.0]
+    rd.mark_here
     assert: rd.read_uint! == U64[15]
+    rd.rewind_to_mark
+    assert: rd.read_int! == I64[15]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[15.0]
+    rd.mark_here
     assert: rd.read_uint! == U64[16]
+    rd.rewind_to_mark
+    assert: rd.read_int! == I64[16]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[16.0]
     assert: rd.is_exhausted
 
   :it "reads array (11)"
     data = b"\xdd\x00\x00\x00\x10\x01\x02\x03\x04\x05\x06\x07\x08\x09\x0a\x0b\x0c\x0d\x0e\x0f\x10"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_array_head! == USize[16]
+    rd.mark_here
     assert: rd.read_uint! == U64[1]
+    rd.rewind_to_mark
+    assert: rd.read_int! == I64[1]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[1.0]
+    rd.mark_here
     assert: rd.read_uint! == U64[2]
+    rd.rewind_to_mark
+    assert: rd.read_int! == I64[2]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[2.0]
+    rd.mark_here
     assert: rd.read_uint! == U64[3]
+    rd.rewind_to_mark
+    assert: rd.read_int! == I64[3]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[3.0]
+    rd.mark_here
     assert: rd.read_uint! == U64[4]
+    rd.rewind_to_mark
+    assert: rd.read_int! == I64[4]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[4.0]
+    rd.mark_here
     assert: rd.read_uint! == U64[5]
+    rd.rewind_to_mark
+    assert: rd.read_int! == I64[5]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[5.0]
+    rd.mark_here
     assert: rd.read_uint! == U64[6]
+    rd.rewind_to_mark
+    assert: rd.read_int! == I64[6]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[6.0]
+    rd.mark_here
     assert: rd.read_uint! == U64[7]
+    rd.rewind_to_mark
+    assert: rd.read_int! == I64[7]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[7.0]
+    rd.mark_here
     assert: rd.read_uint! == U64[8]
+    rd.rewind_to_mark
+    assert: rd.read_int! == I64[8]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[8.0]
+    rd.mark_here
     assert: rd.read_uint! == U64[9]
+    rd.rewind_to_mark
+    assert: rd.read_int! == I64[9]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[9.0]
+    rd.mark_here
     assert: rd.read_uint! == U64[10]
+    rd.rewind_to_mark
+    assert: rd.read_int! == I64[10]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[10.0]
+    rd.mark_here
     assert: rd.read_uint! == U64[11]
+    rd.rewind_to_mark
+    assert: rd.read_int! == I64[11]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[11.0]
+    rd.mark_here
     assert: rd.read_uint! == U64[12]
+    rd.rewind_to_mark
+    assert: rd.read_int! == I64[12]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[12.0]
+    rd.mark_here
     assert: rd.read_uint! == U64[13]
+    rd.rewind_to_mark
+    assert: rd.read_int! == I64[13]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[13.0]
+    rd.mark_here
     assert: rd.read_uint! == U64[14]
+    rd.rewind_to_mark
+    assert: rd.read_int! == I64[14]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[14.0]
+    rd.mark_here
     assert: rd.read_uint! == U64[15]
+    rd.rewind_to_mark
+    assert: rd.read_int! == I64[15]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[15.0]
+    rd.mark_here
     assert: rd.read_uint! == U64[16]
+    rd.rewind_to_mark
+    assert: rd.read_int! == I64[16]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[16.0]
     assert: rd.is_exhausted
 
   :it "reads array (12)"
@@ -1200,7 +2131,12 @@
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_map_head! == USize[1]
     assert: rd.read_string! == "a"
+    rd.mark_here
     assert: rd.read_uint! == U64[1]
+    rd.rewind_to_mark
+    assert: rd.read_int! == I64[1]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[1.0]
     assert: rd.is_exhausted
 
   :it "reads map (5)"
@@ -1208,7 +2144,12 @@
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_map_head! == USize[1]
     assert: rd.read_string! == "a"
+    rd.mark_here
     assert: rd.read_uint! == U64[1]
+    rd.rewind_to_mark
+    assert: rd.read_int! == I64[1]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[1.0]
     assert: rd.is_exhausted
 
   :it "reads map (6)"
@@ -1216,7 +2157,12 @@
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_map_head! == USize[1]
     assert: rd.read_string! == "a"
+    rd.mark_here
     assert: rd.read_uint! == U64[1]
+    rd.rewind_to_mark
+    assert: rd.read_int! == I64[1]
+    rd.rewind_to_mark
+    assert: rd.read_float! == F64[1.0]
     assert: rd.is_exhausted
 
   :it "reads map (7)"

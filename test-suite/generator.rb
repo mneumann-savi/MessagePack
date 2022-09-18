@@ -39,14 +39,21 @@ def gen_test_value(expected_value, out)
   in false
     out << %|    assert: rd.read_bool! == False|
   in Integer => n
-    read_fn, savi_type = if n.negative?
-                           ['read_int', 'I64']
-                         else
-                           ['read_uint', 'U64']
-                         end
-    out << %|    assert: rd.#{read_fn}! == #{savi_type}[#{n}]|
+    asserts = []
+    asserts << "rd.read_uint! == U64[#{n}]" if n >= 0
+    asserts << "rd.read_int! == I64[#{n}]" if n.negative? or n < 2**63
+    asserts << "rd.read_float! == F64[#{n}.0]" if n.to_f.to_i == n
+    gen_asserts(asserts, out)
   in Float => n
-    out << %|    assert: rd.read_f64! == F64[#{n}]|
+    asserts = []
+    asserts << "rd.read_f64! == F64[#{n}]"
+    if n.truncate.to_f == n
+      n = n.truncate
+      asserts << "rd.read_uint! == U64[#{n}]" if n >= 0
+      asserts << "rd.read_int! == I64[#{n}]" if n.negative? or n < 2**63
+    end
+    gen_asserts(asserts, out)
+
   in String => s
     out << %|    assert: rd.read_string! == #{s.inspect}|
   in MessagePack::Binary => bin
@@ -79,6 +86,21 @@ def gen_test_value(expected_value, out)
     end
   else
     raise
+  end
+end
+
+def gen_asserts(asserts, out)
+  case asserts
+  in []
+    raise
+  in [assert]
+    out << %|    assert: #{assert}|
+  in [*asserts]
+    out << %|    rd.mark_here|
+    asserts.each_with_index do |assert, i|
+      out << %|    rd.rewind_to_mark| if i > 0
+      out << %|    assert: #{assert}|
+    end
   end
 end
 
