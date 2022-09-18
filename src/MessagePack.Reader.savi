@@ -10,26 +10,34 @@
 
   :fun box is_eos: @_bytes.size >= @_pos
 
-  :fun box peek_type!
-    b = @_peek_byte!
-    case (
-    | b == 0xc0 | MessagePack.Type.Nil
-    |             error!
-    )
-
   :fun ref read_nil! None
     b = @_peek_byte!
     case (
-    | b == 0xc0 | @_advance!, None
-    |             error!
+    // +--------+
+    // |  0xc0  |
+    // +--------+
+    | b == 0xc0 |
+      @_advance!, None
+
+    | error!
     )
 
   :fun ref read_bool! Bool
     b = @_peek_byte!
     case (
-    | b == 0xc2 | @_advance!, False
-    | b == 0xc3 | @_advance!, True
-    |             error!
+    // +--------+
+    // |  0xc2  |
+    // +--------+
+    | b == 0xc2 |
+      @_advance!, False
+
+    // +--------+
+    // |  0xc3  |
+    // +--------+
+    | b == 0xc3 |
+      @_advance!, True
+
+    | error!
     )
 
   :fun ref read_uint! U64
@@ -206,7 +214,6 @@
       error!  // needs more data
     )
 
-
   :fun ref read_binary! Bytes
     b = @_peek_byte!
     len USize = 0
@@ -278,7 +285,6 @@
 
   :fun ref read_map_head! USize
     b = @_peek_byte!
-
     case (
     // fixmap stores a map whose length is upto 15 elements
     // +--------+~~~~~~~~~~~~~~~~~+
@@ -306,18 +312,136 @@
     | error!
     )
 
-  :fun ref read_timestamp! Pair(U64)
-    error!
-
   :fun ref read_ext! Pair(I8, Bytes)
-    error!
+    b = @_peek_byte!
+    len USize = 0
+    off USize = 0
+    type I8 = 0
+
+    case b == (
+    // fixext 1 stores an integer and a byte array whose length is 1 byte
+    // +--------+--------+--------+
+    // |  0xd4  |  type  |  data  |
+    // +--------+--------+--------+
+    | 0xd4 |
+      type = @_bytes.read_byte!(@_pos + 1).i8, len = 1, off = 2
+
+    // fixext 2 stores an integer and a byte array whose length is 2 bytes
+    // +--------+--------+--------+--------+
+    // |  0xd5  |  type  |       data      |
+    // +--------+--------+--------+--------+
+    | 0xd5 |
+      type = @_bytes.read_byte!(@_pos + 1).i8, len = 2, off = 2
+
+    // fixext 4 stores an integer and a byte array whose length is 4 bytes
+    // +--------+--------+--------+--------+--------+--------+
+    // |  0xd6  |  type  |                data               |
+    // +--------+--------+--------+--------+--------+--------+
+    | 0xd6 |
+      type = @_bytes.read_byte!(@_pos + 1).i8, len = 4, off = 2
+
+    // fixext 8 stores an integer and a byte array whose length is 8 bytes
+    // +--------+--------+--------+--------+--------+--------+--------+--------+--------+--------+
+    // |  0xd7  |  type  |                                  data                                 |
+    // +--------+--------+--------+--------+--------+--------+--------+--------+--------+--------+
+    | 0xd7 |
+      type = @_bytes.read_byte!(@_pos + 1).i8, len = 8, off = 2
+
+    // fixext 16 stores an integer and a byte array whose length is 16 bytes
+    // +--------+--------+--------+--------+--------+--------+--------+--------+--------+--------+
+    // |  0xd8  |  type  |                                  data                                ..
+    // +--------+--------+--------+--------+--------+--------+--------+--------+--------+--------+
+    // +--------+--------+--------+--------+--------+--------+--------+--------+
+    // ..                            data (cont.)                              |
+    // +--------+--------+--------+--------+--------+--------+--------+--------+
+    | 0xd8 |
+      type = @_bytes.read_byte!(@_pos + 1).i8, len = 16, off = 2
+
+    // ext 8 stores an integer and a byte array whose length is upto (2^8)-1 bytes:
+    // +--------+--------+--------+========+
+    // |  0xc7  |XXXXXXXX|  type  |  data  |
+    // +--------+--------+--------+========+
+    | 0xc7 |
+      len = @_bytes.read_byte!(@_pos + 1).usize
+      type = @_bytes.read_byte!(@_pos + 2).i8
+      off = 3
+
+    // ext 16 stores an integer and a byte array whose length is upto (2^16)-1 bytes:
+    // +--------+--------+--------+--------+========+
+    // |  0xc8  |YYYYYYYY|YYYYYYYY|  type  |  data  |
+    // +--------+--------+--------+--------+========+
+    | 0xc8 |
+      len = @_bytes.read_native_u16!(@_pos + 1).be_to_native.usize
+      type = @_bytes.read_byte!(@_pos + 3).i8
+      off = 4
+
+    // ext 32 stores an integer and a byte array whose length is upto (2^32)-1 bytes:
+    // +--------+--------+--------+--------+--------+--------+========+
+    // |  0xc9  |ZZZZZZZZ|ZZZZZZZZ|ZZZZZZZZ|ZZZZZZZZ|  type  |  data  |
+    // +--------+--------+--------+--------+--------+--------+========+
+    | 0xc9 |
+      len = @_bytes.read_native_u32!(@_pos + 1).be_to_native.usize
+      type = @_bytes.read_byte!(@_pos + 5).i8
+      off = 6
+
+    | error!
+    )
+
+    if (@_remaining_len >= off +! len) (
+      bytes = @_bytes.slice(@_pos + off, @_pos + off + len)
+      @_advance!(off + len)
+      Pair(I8, Bytes).new(type, --bytes)
+    |
+      error!  // needs more data
+    )
+
+  :fun ref read_timestamp! Pair(I64, U64)
+    b = @_peek_byte!
+
+    case b == (
+    // timestamp 32 stores the number of seconds that have elapsed since 1970-01-01 00:00:00 UTC
+    // in an 32-bit unsigned integer:
+    // +--------+--------+--------+--------+--------+--------+
+    // |  0xd6  |   -1   |   seconds in 32-bit unsigned int  |
+    // +--------+--------+--------+--------+--------+--------+
+    | 0xd6 |
+      if (@_bytes.read_byte!(@_pos + 1).i8 != -1) error!
+      secs = @_bytes.read_native_u32!(@_pos + 2).be_to_native.i64
+      @_advance!(6)
+      Pair(I64, U64).new(secs, 0)
+
+    // timestamp 64 stores the number of seconds and nanoseconds that have elapsed since
+    // 1970-01-01 00:00:00 UTC in 32-bit unsigned integers:
+    // +--------+--------+--------+--------+--------+------|-+--------+--------+--------+--------+
+    // |  0xd7  |   -1   | nanosec. in 30-bit unsigned int |   seconds in 34-bit unsigned int    |
+    // +--------+--------+--------+--------+--------+------^-+--------+--------+--------+--------+
+    | 0xd7 |
+      if (@_bytes.read_byte!(@_pos + 1).i8 != -1) error!
+      data = @_bytes.read_native_u64!(@_pos + 2).be_to_native.u64
+      @_advance!(10)
+      nanos = data.bit_shr(34), secs = data.bit_and(0x00000003ffffffff).i64
+      Pair(I64, U64).new(secs, nanos)
+
+    // timestamp 96 stores the number of seconds and nanoseconds that have elapsed since
+    // 1970-01-01 00:00:00 UTC in 64-bit signed integer and 32-bit unsigned integer:
+    // +--------+--------+--------+--------+--------+--------+--------+
+    // |  0xc7  |   12   |   -1   |nanoseconds in 32-bit unsigned int |
+    // +--------+--------+--------+--------+--------+--------+--------+
+    // +--------+--------+--------+--------+--------+--------+--------+--------+
+    //                     seconds in 64-bit signed int                        |
+    // +--------+--------+--------+--------+--------+--------+--------+--------+
+    | 0xc7 |
+      if (@_bytes.read_byte!(@_pos + 1) != 12) error!
+      if (@_bytes.read_byte!(@_pos + 2).i8 != -1) error!
+      nanos = @_bytes.read_native_u32!(@_pos + 3).be_to_native.u64
+      secs  = @_bytes.read_native_u64!(@_pos + 7).be_to_native.i64
+      Pair(I64, U64).new(secs, nanos)
+
+    | error!
+    )
 
   :fun ref _advance!(n USize = 1)
-    if (@_pos +! n <= @_bytes.size) (
-      @_pos = @_pos + n
-    |
-      error!
-    )
+    if (@_pos +! n <= @_bytes.size) (@_pos = @_pos + n | error!)
 
   :fun box _remaining_len: @_bytes.size - @_pos
 

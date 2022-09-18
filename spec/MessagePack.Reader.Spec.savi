@@ -1338,7 +1338,7 @@
     rd   = MessagePack.Reader.new(data)
     assert no_error: (
       ts = rd.read_timestamp!
-      assert: ts.hi == U64[1514862245]
+      assert: ts.hi == I64[1514862245]
       assert: ts.lo == U64[0]
     )
     assert: rd.is_eos
@@ -1348,7 +1348,7 @@
     rd   = MessagePack.Reader.new(data)
     assert no_error: (
       ts = rd.read_timestamp!
-      assert: ts.hi == U64[1514862245]
+      assert: ts.hi == I64[1514862245]
       assert: ts.lo == U64[678901234]
     )
     assert: rd.is_eos
@@ -1358,7 +1358,7 @@
     rd   = MessagePack.Reader.new(data)
     assert no_error: (
       ts = rd.read_timestamp!
-      assert: ts.hi == U64[2147483647]
+      assert: ts.hi == I64[2147483647]
       assert: ts.lo == U64[999999999]
     )
     assert: rd.is_eos
@@ -1368,7 +1368,7 @@
     rd   = MessagePack.Reader.new(data)
     assert no_error: (
       ts = rd.read_timestamp!
-      assert: ts.hi == U64[2147483648]
+      assert: ts.hi == I64[2147483648]
       assert: ts.lo == U64[0]
     )
     assert: rd.is_eos
@@ -1378,7 +1378,7 @@
     rd   = MessagePack.Reader.new(data)
     assert no_error: (
       ts = rd.read_timestamp!
-      assert: ts.hi == U64[2147483648]
+      assert: ts.hi == I64[2147483648]
       assert: ts.lo == U64[1]
     )
     assert: rd.is_eos
@@ -1388,7 +1388,7 @@
     rd   = MessagePack.Reader.new(data)
     assert no_error: (
       ts = rd.read_timestamp!
-      assert: ts.hi == U64[4294967295]
+      assert: ts.hi == I64[4294967295]
       assert: ts.lo == U64[0]
     )
     assert: rd.is_eos
@@ -1398,7 +1398,7 @@
     rd   = MessagePack.Reader.new(data)
     assert no_error: (
       ts = rd.read_timestamp!
-      assert: ts.hi == U64[4294967295]
+      assert: ts.hi == I64[4294967295]
       assert: ts.lo == U64[999999999]
     )
     assert: rd.is_eos
@@ -1408,7 +1408,7 @@
     rd   = MessagePack.Reader.new(data)
     assert no_error: (
       ts = rd.read_timestamp!
-      assert: ts.hi == U64[4294967296]
+      assert: ts.hi == I64[4294967296]
       assert: ts.lo == U64[0]
     )
     assert: rd.is_eos
@@ -1418,7 +1418,7 @@
     rd   = MessagePack.Reader.new(data)
     assert no_error: (
       ts = rd.read_timestamp!
-      assert: ts.hi == U64[17179869183]
+      assert: ts.hi == I64[17179869183]
       assert: ts.lo == U64[999999999]
     )
     assert: rd.is_eos
@@ -1428,7 +1428,7 @@
     rd   = MessagePack.Reader.new(data)
     assert no_error: (
       ts = rd.read_timestamp!
-      assert: ts.hi == U64[17179869184]
+      assert: ts.hi == I64[17179869184]
       assert: ts.lo == U64[0]
     )
     assert: rd.is_eos
@@ -1438,7 +1438,7 @@
     rd   = MessagePack.Reader.new(data)
     assert no_error: (
       ts = rd.read_timestamp!
-      assert: ts.hi == U64[-1]
+      assert: ts.hi == I64[-1]
       assert: ts.lo == U64[0]
     )
     assert: rd.is_eos
@@ -1448,7 +1448,7 @@
     rd   = MessagePack.Reader.new(data)
     assert no_error: (
       ts = rd.read_timestamp!
-      assert: ts.hi == U64[-1]
+      assert: ts.hi == I64[-1]
       assert: ts.lo == U64[999999999]
     )
     assert: rd.is_eos
@@ -1458,7 +1458,7 @@
     rd   = MessagePack.Reader.new(data)
     assert no_error: (
       ts = rd.read_timestamp!
-      assert: ts.hi == U64[0]
+      assert: ts.hi == I64[0]
       assert: ts.lo == U64[0]
     )
     assert: rd.is_eos
@@ -1468,7 +1468,7 @@
     rd   = MessagePack.Reader.new(data)
     assert no_error: (
       ts = rd.read_timestamp!
-      assert: ts.hi == U64[0]
+      assert: ts.hi == I64[0]
       assert: ts.lo == U64[1]
     )
     assert: rd.is_eos
@@ -1478,7 +1478,7 @@
     rd   = MessagePack.Reader.new(data)
     assert no_error: (
       ts = rd.read_timestamp!
-      assert: ts.hi == U64[1]
+      assert: ts.hi == I64[1]
       assert: ts.lo == U64[0]
     )
     assert: rd.is_eos
@@ -1488,7 +1488,7 @@
     rd   = MessagePack.Reader.new(data)
     assert no_error: (
       ts = rd.read_timestamp!
-      assert: ts.hi == U64[-2208988801]
+      assert: ts.hi == I64[-2208988801]
       assert: ts.lo == U64[999999999]
     )
     assert: rd.is_eos
@@ -1498,7 +1498,7 @@
     rd   = MessagePack.Reader.new(data)
     assert no_error: (
       ts = rd.read_timestamp!
-      assert: ts.hi == U64[-2208988800]
+      assert: ts.hi == I64[-2208988800]
       assert: ts.lo == U64[0]
     )
     assert: rd.is_eos
@@ -1508,7 +1508,7 @@
     rd   = MessagePack.Reader.new(data)
     assert no_error: (
       ts = rd.read_timestamp!
-      assert: ts.hi == U64[-62167219200]
+      assert: ts.hi == I64[-62167219200]
       assert: ts.lo == U64[0]
     )
     assert: rd.is_eos
@@ -1518,7 +1518,7 @@
     rd   = MessagePack.Reader.new(data)
     assert no_error: (
       ts = rd.read_timestamp!
-      assert: ts.hi == U64[253402300799]
+      assert: ts.hi == I64[253402300799]
       assert: ts.lo == U64[999999999]
     )
     assert: rd.is_eos

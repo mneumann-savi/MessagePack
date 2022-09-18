@@ -61,7 +61,7 @@ def gen_test_value(expected_value, out)
   in MessagePack::Timestamp => ts
     out << %|    assert no_error: (|
     out << %|      ts = rd.read_timestamp!|
-    out << %|      assert: ts.hi == U64[#{ts.hi}]|
+    out << %|      assert: ts.hi == I64[#{ts.hi}]|
     out << %|      assert: ts.lo == U64[#{ts.lo}]|
     out << %|    )|
   in Array => ary
