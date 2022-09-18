@@ -86,7 +86,7 @@
 
   :fun box is_exhausted: @_pos >= @_bytes.size
 
-  :fun ref _advance!(n U32)
+  :fun ref _advance!(n U32) USize
     newpos = @_pos +! n.usize
     if (newpos <= @_bytes.size) (@_pos = newpos | error!)
 
@@ -94,11 +94,5 @@
     @_read_bytes!(len).as_string
 
   :fun ref _read_bytes!(len U32) Bytes
-    endpos = @_pos +! len.usize
-    if (endpos <= @_bytes.size) (
-      bytes = @_bytes.slice(@_pos, endpos)
-      @_advance!(len)
-      --bytes
-    |
-      error!  // needs more data
-    )
+    start = @_pos
+    @_bytes.slice(start, @_advance!(len))

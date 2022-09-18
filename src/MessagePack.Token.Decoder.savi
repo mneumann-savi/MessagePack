@@ -98,8 +98,7 @@
 
     // int 64 stores a 64-bit big-endian signed integer
     // +--------+--------+--------+--------+--------+--------+--------+--------+--------+
-    // |  0xd3
-    // |ZZZZZZZZ|ZZZZZZZZ|ZZZZZZZZ|ZZZZZZZZ|ZZZZZZZZ|ZZZZZZZZ|ZZZZZZZZ|ZZZZZZZZ|
+    // |  0xd3  |ZZZZZZZZ|ZZZZZZZZ|ZZZZZZZZ|ZZZZZZZZ|ZZZZZZZZ|ZZZZZZZZ|ZZZZZZZZ|ZZZZZZZZ|
     // +--------+--------+--------+--------+--------+--------+--------+--------+--------+
     | b == 0xd3 |
       int = bytes.read_native_u64!(pos + 1).be_to_native.i64
