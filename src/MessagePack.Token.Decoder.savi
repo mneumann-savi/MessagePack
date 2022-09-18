@@ -1,8 +1,8 @@
 // Comments taken from the official spec:
 // https://github.com/msgpack/msgpack/blob/master/spec.md
 
-:module MessagePack.Token.Decoder
-  :fun decode!(bytes BinaryReadable, pos USize) MessagePack.Token
+:module MessagePack.Token.Decoder(T BinaryReadable'box)
+  :fun decode!(bytes T, pos USize) MessagePack.Token
     b = bytes.read_byte!(pos)
 
     case (
