@@ -2,7 +2,7 @@
 // https://github.com/msgpack/msgpack/blob/master/spec.md
 
 :module MessagePack.Token.Decoder
-  :fun decode!(bytes Bytes, pos USize) MessagePack.Token
+  :fun decode!(bytes BinaryReadable, pos USize) MessagePack.Token
     b = bytes.byte_at!(pos)
 
     case (
