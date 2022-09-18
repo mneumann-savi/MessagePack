@@ -1,3 +1,6 @@
+// Comments taken from the official spec:
+// https://github.com/msgpack/msgpack/blob/master/spec.md
+
 :class MessagePack.Reader
   :let _bytes Bytes
   :var _pos   USize
@@ -168,7 +171,7 @@
     // +--------+========+
     // |101XXXXX|  data  |
     // +--------+========+
-    | b >= U8[0b10100000] |
+    | b >= U8[0b101_00000] && b <= U8[0b101_11111] |
       len = b.bit_and(0b00011111).usize, off = 1
 
     // str 8 stores a byte array whose length is upto (2^8)-1 bytes:
@@ -243,12 +246,65 @@
       error!  // needs more data
     )
 
-
   :fun ref read_array_head! USize
-    error!
+    b = @_peek_byte!
+
+    case (
+    // fixarray stores an array whose length is upto 15 elements:
+    // +--------+~~~~~~~~~~~~~~~~~+
+    // |1001XXXX|    N objects    |
+    // +--------+~~~~~~~~~~~~~~~~~+
+    | b >= U8[0b1001_0000] && b <= U8[0b1001_1111] |
+      n = b.bit_and(0b0000_1111).usize
+      @_advance!, n
+
+    // array 16 stores an array whose length is upto (2^16)-1 elements:
+    // +--------+--------+--------+~~~~~~~~~~~~~~~~~+
+    // |  0xdc  |YYYYYYYY|YYYYYYYY|    N objects    |
+    // +--------+--------+--------+~~~~~~~~~~~~~~~~~+
+    | b == 0xdc |
+      n = @_bytes.read_native_u16!(@_pos + 1).be_to_native.usize
+      @_advance!(3), n
+
+      // array 32 stores an array whose length is upto (2^32)-1 elements:
+      // +--------+--------+--------+--------+--------+~~~~~~~~~~~~~~~~~+
+      // |  0xdd  |ZZZZZZZZ|ZZZZZZZZ|ZZZZZZZZ|ZZZZZZZZ|    N objects    |
+      // +--------+--------+--------+--------+--------+~~~~~~~~~~~~~~~~~+
+      n = @_bytes.read_native_u32!(@_pos + 1).be_to_native.usize
+      @_advance!(3), n
+
+    | error!
+    )
 
   :fun ref read_map_head! USize
-    error!
+    b = @_peek_byte!
+
+    case (
+    // fixmap stores a map whose length is upto 15 elements
+    // +--------+~~~~~~~~~~~~~~~~~+
+    // |1000XXXX|   N*2 objects   |
+    // +--------+~~~~~~~~~~~~~~~~~+
+    | b >= U8[0b1000_0000] && b <= U8[0b1000_1111] |
+      n = b.bit_and(0b0000_1111).usize
+      @_advance!, n
+
+      // map 16 stores a map whose length is upto (2^16)-1 elements
+      // +--------+--------+--------+~~~~~~~~~~~~~~~~~+
+      // |  0xde  |YYYYYYYY|YYYYYYYY|   N*2 objects   |
+      // +--------+--------+--------+~~~~~~~~~~~~~~~~~+
+      n = @_bytes.read_native_u16!(@_pos + 1).be_to_native.usize
+      @_advance!(3), n
+
+
+      // map 32 stores a map whose length is upto (2^32)-1 elements
+      // +--------+--------+--------+--------+--------+~~~~~~~~~~~~~~~~~+
+      // |  0xdf  |ZZZZZZZZ|ZZZZZZZZ|ZZZZZZZZ|ZZZZZZZZ|   N*2 objects   |
+      // +--------+--------+--------+--------+--------+~~~~~~~~~~~~~~~~~+
+      n = @_bytes.read_native_u16!(@_pos + 1).be_to_native.usize
+      @_advance!(5), n
+
+    | error!
+    )
 
   :fun ref read_timestamp! Pair(U64)
     error!
