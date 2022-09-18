@@ -10,7 +10,7 @@
 
   :fun ref rewind_to_mark
     @_pos = @_mark
-    
+
   :fun ref _next!
     token = MessagePack.Token.Decoder.decode!(@_bytes, @_pos)
     @_advance!(token.size.u32), token
