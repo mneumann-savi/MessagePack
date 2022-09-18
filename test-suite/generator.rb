@@ -42,7 +42,7 @@ def gen_test_value(expected_value, out)
     asserts = []
     asserts << "rd.read_uint! == U64[#{n}]" if n >= 0
     asserts << "rd.read_int! == I64[#{n}]" if n.negative? or n < 2**63
-    asserts << "rd.read_float! == F64[#{n}.0]" if n.to_f.to_i == n
+    asserts << "rd.read_f64! == F64[#{n}.0]" if n.to_f.to_i == n
     gen_asserts(asserts, out)
   in Float => n
     asserts = []
