@@ -21,7 +21,7 @@ end
 
 def gen_test_fixture(expected_value, input, title, out)
   out << %|  :it "reads #{title} (#{$IT_COUNT[title] += 1})"|
-  out << %|    data = b"#{hexstr_to_bytes(input)}"|
+  out << %|    data = @hex("#{input}")|
   out << %|    rd   = MessagePack.Reader.new(data)|
 
   gen_test_value(expected_value, out)
@@ -104,7 +104,7 @@ def gen_asserts(asserts, out)
       else
         rewind = ", rd.rewind_to_mark"
       end
-      out << %|    assert (#{assert})#{rewind}|
+      out << %|    assert: (#{assert})#{rewind}|
     end
   end
 end
@@ -139,6 +139,8 @@ if __FILE__ == $0
   out << %|:class MessagePack.Reader.Spec|
   out << %|  :is Spec|
   out << %|  :const describes: "MessagePack.Reader"|
+  out << %||
+  out << %|  :fun non hex(s String) Bytes: _Helper.hexstr_to_bytes(s)|
   out << %||
 
   for file in Dir["msgpack-test-suite/src/*.yaml"].sort_by{|f| File.basename(f).split('.').first.to_i}

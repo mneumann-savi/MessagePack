@@ -1,0 +1,23 @@
+:module _Helper
+  :fun hexstr_to_bytes(hexstr String) Bytes
+    bytes = Bytes.new_iso
+    byte U8 = 0
+    ndigits = 0
+    hexstr.each_byte -> (ch |
+      if (ndigits == 2) (
+        bytes.push(byte), byte = 0, ndigits = 0
+      )
+      case (
+      | ch >= '0' && ch <= '9' |
+        byte = (byte * 16) + (ch - '0'.u8), ndigits = ndigits + 1
+      | ch >= 'a' && ch <= 'f' |
+        byte = (byte * 16) + (ch - 'a'.u8 + 10), ndigits = ndigits + 1
+      | ch >= 'A' && ch <= 'F' |
+        byte = (byte * 16) + (ch - 'A'.u8 + 10), ndigits = ndigits + 1
+      | // ignore
+      )
+    )
+    if (ndigits > 0) (
+      bytes.push(byte)
+    )
+    --bytes

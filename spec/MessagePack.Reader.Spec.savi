@@ -2,1801 +2,1803 @@
   :is Spec
   :const describes: "MessagePack.Reader"
 
+  :fun non hex(s String) Bytes: _Helper.hexstr_to_bytes(s)
+
   :it "reads nil (1)"
-    data = b"\xc0"
+    data = @hex("c0")
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_nil! <: None
     assert: rd.is_exhausted
 
   :it "reads bool (1)"
-    data = b"\xc2"
+    data = @hex("c2")
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_bool! == False
     assert: rd.is_exhausted
 
   :it "reads bool (2)"
-    data = b"\xc3"
+    data = @hex("c3")
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_bool! == True
     assert: rd.is_exhausted
 
   :it "reads binary (1)"
-    data = b"\xc4\x00"
+    data = @hex("c4-00")
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_binary! == b""
     assert: rd.is_exhausted
 
   :it "reads binary (2)"
-    data = b"\xc5\x00\x00"
+    data = @hex("c5-00-00")
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_binary! == b""
     assert: rd.is_exhausted
 
   :it "reads binary (3)"
-    data = b"\xc6\x00\x00\x00\x00"
+    data = @hex("c6-00-00-00-00")
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_binary! == b""
     assert: rd.is_exhausted
 
   :it "reads binary (4)"
-    data = b"\xc4\x01\x01"
+    data = @hex("c4-01-01")
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_binary! == b"\x01"
     assert: rd.is_exhausted
 
   :it "reads binary (5)"
-    data = b"\xc5\x00\x01\x01"
+    data = @hex("c5-00-01-01")
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_binary! == b"\x01"
     assert: rd.is_exhausted
 
   :it "reads binary (6)"
-    data = b"\xc6\x00\x00\x00\x01\x01"
+    data = @hex("c6-00-00-00-01-01")
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_binary! == b"\x01"
     assert: rd.is_exhausted
 
   :it "reads binary (7)"
-    data = b"\xc4\x02\x00\xff"
+    data = @hex("c4-02-00-ff")
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_binary! == b"\x00\xff"
     assert: rd.is_exhausted
 
   :it "reads binary (8)"
-    data = b"\xc5\x00\x02\x00\xff"
+    data = @hex("c5-00-02-00-ff")
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_binary! == b"\x00\xff"
     assert: rd.is_exhausted
 
   :it "reads binary (9)"
-    data = b"\xc6\x00\x00\x00\x02\x00\xff"
+    data = @hex("c6-00-00-00-02-00-ff")
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_binary! == b"\x00\xff"
     assert: rd.is_exhausted
 
   :it "reads number positive (1)"
-    data = b"\x00"
+    data = @hex("00")
     rd   = MessagePack.Reader.new(data)
     rd.mark_here
-    assert (rd.read_uint! == U64[0]), rd.rewind_to_mark
-    assert (rd.read_int! == I64[0]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[0.0])
+    assert: (rd.read_uint! == U64[0]), rd.rewind_to_mark
+    assert: (rd.read_int! == I64[0]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[0.0])
     assert: rd.is_exhausted
 
   :it "reads number positive (2)"
-    data = b"\xcc\x00"
+    data = @hex("cc-00")
     rd   = MessagePack.Reader.new(data)
     rd.mark_here
-    assert (rd.read_uint! == U64[0]), rd.rewind_to_mark
-    assert (rd.read_int! == I64[0]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[0.0])
+    assert: (rd.read_uint! == U64[0]), rd.rewind_to_mark
+    assert: (rd.read_int! == I64[0]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[0.0])
     assert: rd.is_exhausted
 
   :it "reads number positive (3)"
-    data = b"\xcd\x00\x00"
+    data = @hex("cd-00-00")
     rd   = MessagePack.Reader.new(data)
     rd.mark_here
-    assert (rd.read_uint! == U64[0]), rd.rewind_to_mark
-    assert (rd.read_int! == I64[0]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[0.0])
+    assert: (rd.read_uint! == U64[0]), rd.rewind_to_mark
+    assert: (rd.read_int! == I64[0]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[0.0])
     assert: rd.is_exhausted
 
   :it "reads number positive (4)"
-    data = b"\xce\x00\x00\x00\x00"
+    data = @hex("ce-00-00-00-00")
     rd   = MessagePack.Reader.new(data)
     rd.mark_here
-    assert (rd.read_uint! == U64[0]), rd.rewind_to_mark
-    assert (rd.read_int! == I64[0]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[0.0])
+    assert: (rd.read_uint! == U64[0]), rd.rewind_to_mark
+    assert: (rd.read_int! == I64[0]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[0.0])
     assert: rd.is_exhausted
 
   :it "reads number positive (5)"
-    data = b"\xcf\x00\x00\x00\x00\x00\x00\x00\x00"
+    data = @hex("cf-00-00-00-00-00-00-00-00")
     rd   = MessagePack.Reader.new(data)
     rd.mark_here
-    assert (rd.read_uint! == U64[0]), rd.rewind_to_mark
-    assert (rd.read_int! == I64[0]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[0.0])
+    assert: (rd.read_uint! == U64[0]), rd.rewind_to_mark
+    assert: (rd.read_int! == I64[0]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[0.0])
     assert: rd.is_exhausted
 
   :it "reads number positive (6)"
-    data = b"\xd0\x00"
+    data = @hex("d0-00")
     rd   = MessagePack.Reader.new(data)
     rd.mark_here
-    assert (rd.read_uint! == U64[0]), rd.rewind_to_mark
-    assert (rd.read_int! == I64[0]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[0.0])
+    assert: (rd.read_uint! == U64[0]), rd.rewind_to_mark
+    assert: (rd.read_int! == I64[0]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[0.0])
     assert: rd.is_exhausted
 
   :it "reads number positive (7)"
-    data = b"\xd1\x00\x00"
+    data = @hex("d1-00-00")
     rd   = MessagePack.Reader.new(data)
     rd.mark_here
-    assert (rd.read_uint! == U64[0]), rd.rewind_to_mark
-    assert (rd.read_int! == I64[0]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[0.0])
+    assert: (rd.read_uint! == U64[0]), rd.rewind_to_mark
+    assert: (rd.read_int! == I64[0]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[0.0])
     assert: rd.is_exhausted
 
   :it "reads number positive (8)"
-    data = b"\xd2\x00\x00\x00\x00"
+    data = @hex("d2-00-00-00-00")
     rd   = MessagePack.Reader.new(data)
     rd.mark_here
-    assert (rd.read_uint! == U64[0]), rd.rewind_to_mark
-    assert (rd.read_int! == I64[0]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[0.0])
+    assert: (rd.read_uint! == U64[0]), rd.rewind_to_mark
+    assert: (rd.read_int! == I64[0]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[0.0])
     assert: rd.is_exhausted
 
   :it "reads number positive (9)"
-    data = b"\xd3\x00\x00\x00\x00\x00\x00\x00\x00"
+    data = @hex("d3-00-00-00-00-00-00-00-00")
     rd   = MessagePack.Reader.new(data)
     rd.mark_here
-    assert (rd.read_uint! == U64[0]), rd.rewind_to_mark
-    assert (rd.read_int! == I64[0]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[0.0])
+    assert: (rd.read_uint! == U64[0]), rd.rewind_to_mark
+    assert: (rd.read_int! == I64[0]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[0.0])
     assert: rd.is_exhausted
 
   :it "reads number positive (10)"
-    data = b"\xca\x00\x00\x00\x00"
+    data = @hex("ca-00-00-00-00")
     rd   = MessagePack.Reader.new(data)
     rd.mark_here
-    assert (rd.read_uint! == U64[0]), rd.rewind_to_mark
-    assert (rd.read_int! == I64[0]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[0.0])
+    assert: (rd.read_uint! == U64[0]), rd.rewind_to_mark
+    assert: (rd.read_int! == I64[0]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[0.0])
     assert: rd.is_exhausted
 
   :it "reads number positive (11)"
-    data = b"\xcb\x00\x00\x00\x00\x00\x00\x00\x00"
+    data = @hex("cb-00-00-00-00-00-00-00-00")
     rd   = MessagePack.Reader.new(data)
     rd.mark_here
-    assert (rd.read_uint! == U64[0]), rd.rewind_to_mark
-    assert (rd.read_int! == I64[0]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[0.0])
+    assert: (rd.read_uint! == U64[0]), rd.rewind_to_mark
+    assert: (rd.read_int! == I64[0]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[0.0])
     assert: rd.is_exhausted
 
   :it "reads number positive (12)"
-    data = b"\x01"
+    data = @hex("01")
     rd   = MessagePack.Reader.new(data)
     rd.mark_here
-    assert (rd.read_uint! == U64[1]), rd.rewind_to_mark
-    assert (rd.read_int! == I64[1]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[1.0])
+    assert: (rd.read_uint! == U64[1]), rd.rewind_to_mark
+    assert: (rd.read_int! == I64[1]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[1.0])
     assert: rd.is_exhausted
 
   :it "reads number positive (13)"
-    data = b"\xcc\x01"
+    data = @hex("cc-01")
     rd   = MessagePack.Reader.new(data)
     rd.mark_here
-    assert (rd.read_uint! == U64[1]), rd.rewind_to_mark
-    assert (rd.read_int! == I64[1]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[1.0])
+    assert: (rd.read_uint! == U64[1]), rd.rewind_to_mark
+    assert: (rd.read_int! == I64[1]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[1.0])
     assert: rd.is_exhausted
 
   :it "reads number positive (14)"
-    data = b"\xcd\x00\x01"
+    data = @hex("cd-00-01")
     rd   = MessagePack.Reader.new(data)
     rd.mark_here
-    assert (rd.read_uint! == U64[1]), rd.rewind_to_mark
-    assert (rd.read_int! == I64[1]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[1.0])
+    assert: (rd.read_uint! == U64[1]), rd.rewind_to_mark
+    assert: (rd.read_int! == I64[1]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[1.0])
     assert: rd.is_exhausted
 
   :it "reads number positive (15)"
-    data = b"\xce\x00\x00\x00\x01"
+    data = @hex("ce-00-00-00-01")
     rd   = MessagePack.Reader.new(data)
     rd.mark_here
-    assert (rd.read_uint! == U64[1]), rd.rewind_to_mark
-    assert (rd.read_int! == I64[1]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[1.0])
+    assert: (rd.read_uint! == U64[1]), rd.rewind_to_mark
+    assert: (rd.read_int! == I64[1]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[1.0])
     assert: rd.is_exhausted
 
   :it "reads number positive (16)"
-    data = b"\xcf\x00\x00\x00\x00\x00\x00\x00\x01"
+    data = @hex("cf-00-00-00-00-00-00-00-01")
     rd   = MessagePack.Reader.new(data)
     rd.mark_here
-    assert (rd.read_uint! == U64[1]), rd.rewind_to_mark
-    assert (rd.read_int! == I64[1]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[1.0])
+    assert: (rd.read_uint! == U64[1]), rd.rewind_to_mark
+    assert: (rd.read_int! == I64[1]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[1.0])
     assert: rd.is_exhausted
 
   :it "reads number positive (17)"
-    data = b"\xd0\x01"
+    data = @hex("d0-01")
     rd   = MessagePack.Reader.new(data)
     rd.mark_here
-    assert (rd.read_uint! == U64[1]), rd.rewind_to_mark
-    assert (rd.read_int! == I64[1]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[1.0])
+    assert: (rd.read_uint! == U64[1]), rd.rewind_to_mark
+    assert: (rd.read_int! == I64[1]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[1.0])
     assert: rd.is_exhausted
 
   :it "reads number positive (18)"
-    data = b"\xd1\x00\x01"
+    data = @hex("d1-00-01")
     rd   = MessagePack.Reader.new(data)
     rd.mark_here
-    assert (rd.read_uint! == U64[1]), rd.rewind_to_mark
-    assert (rd.read_int! == I64[1]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[1.0])
+    assert: (rd.read_uint! == U64[1]), rd.rewind_to_mark
+    assert: (rd.read_int! == I64[1]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[1.0])
     assert: rd.is_exhausted
 
   :it "reads number positive (19)"
-    data = b"\xd2\x00\x00\x00\x01"
+    data = @hex("d2-00-00-00-01")
     rd   = MessagePack.Reader.new(data)
     rd.mark_here
-    assert (rd.read_uint! == U64[1]), rd.rewind_to_mark
-    assert (rd.read_int! == I64[1]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[1.0])
+    assert: (rd.read_uint! == U64[1]), rd.rewind_to_mark
+    assert: (rd.read_int! == I64[1]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[1.0])
     assert: rd.is_exhausted
 
   :it "reads number positive (20)"
-    data = b"\xd3\x00\x00\x00\x00\x00\x00\x00\x01"
+    data = @hex("d3-00-00-00-00-00-00-00-01")
     rd   = MessagePack.Reader.new(data)
     rd.mark_here
-    assert (rd.read_uint! == U64[1]), rd.rewind_to_mark
-    assert (rd.read_int! == I64[1]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[1.0])
+    assert: (rd.read_uint! == U64[1]), rd.rewind_to_mark
+    assert: (rd.read_int! == I64[1]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[1.0])
     assert: rd.is_exhausted
 
   :it "reads number positive (21)"
-    data = b"\xca\x3f\x80\x00\x00"
+    data = @hex("ca-3f-80-00-00")
     rd   = MessagePack.Reader.new(data)
     rd.mark_here
-    assert (rd.read_uint! == U64[1]), rd.rewind_to_mark
-    assert (rd.read_int! == I64[1]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[1.0])
+    assert: (rd.read_uint! == U64[1]), rd.rewind_to_mark
+    assert: (rd.read_int! == I64[1]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[1.0])
     assert: rd.is_exhausted
 
   :it "reads number positive (22)"
-    data = b"\xcb\x3f\xf0\x00\x00\x00\x00\x00\x00"
+    data = @hex("cb-3f-f0-00-00-00-00-00-00")
     rd   = MessagePack.Reader.new(data)
     rd.mark_here
-    assert (rd.read_uint! == U64[1]), rd.rewind_to_mark
-    assert (rd.read_int! == I64[1]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[1.0])
+    assert: (rd.read_uint! == U64[1]), rd.rewind_to_mark
+    assert: (rd.read_int! == I64[1]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[1.0])
     assert: rd.is_exhausted
 
   :it "reads number positive (23)"
-    data = b"\x7f"
+    data = @hex("7f")
     rd   = MessagePack.Reader.new(data)
     rd.mark_here
-    assert (rd.read_uint! == U64[127]), rd.rewind_to_mark
-    assert (rd.read_int! == I64[127]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[127.0])
+    assert: (rd.read_uint! == U64[127]), rd.rewind_to_mark
+    assert: (rd.read_int! == I64[127]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[127.0])
     assert: rd.is_exhausted
 
   :it "reads number positive (24)"
-    data = b"\xcc\x7f"
+    data = @hex("cc-7f")
     rd   = MessagePack.Reader.new(data)
     rd.mark_here
-    assert (rd.read_uint! == U64[127]), rd.rewind_to_mark
-    assert (rd.read_int! == I64[127]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[127.0])
+    assert: (rd.read_uint! == U64[127]), rd.rewind_to_mark
+    assert: (rd.read_int! == I64[127]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[127.0])
     assert: rd.is_exhausted
 
   :it "reads number positive (25)"
-    data = b"\xcd\x00\x7f"
+    data = @hex("cd-00-7f")
     rd   = MessagePack.Reader.new(data)
     rd.mark_here
-    assert (rd.read_uint! == U64[127]), rd.rewind_to_mark
-    assert (rd.read_int! == I64[127]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[127.0])
+    assert: (rd.read_uint! == U64[127]), rd.rewind_to_mark
+    assert: (rd.read_int! == I64[127]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[127.0])
     assert: rd.is_exhausted
 
   :it "reads number positive (26)"
-    data = b"\xce\x00\x00\x00\x7f"
+    data = @hex("ce-00-00-00-7f")
     rd   = MessagePack.Reader.new(data)
     rd.mark_here
-    assert (rd.read_uint! == U64[127]), rd.rewind_to_mark
-    assert (rd.read_int! == I64[127]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[127.0])
+    assert: (rd.read_uint! == U64[127]), rd.rewind_to_mark
+    assert: (rd.read_int! == I64[127]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[127.0])
     assert: rd.is_exhausted
 
   :it "reads number positive (27)"
-    data = b"\xcf\x00\x00\x00\x00\x00\x00\x00\x7f"
+    data = @hex("cf-00-00-00-00-00-00-00-7f")
     rd   = MessagePack.Reader.new(data)
     rd.mark_here
-    assert (rd.read_uint! == U64[127]), rd.rewind_to_mark
-    assert (rd.read_int! == I64[127]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[127.0])
+    assert: (rd.read_uint! == U64[127]), rd.rewind_to_mark
+    assert: (rd.read_int! == I64[127]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[127.0])
     assert: rd.is_exhausted
 
   :it "reads number positive (28)"
-    data = b"\xd0\x7f"
+    data = @hex("d0-7f")
     rd   = MessagePack.Reader.new(data)
     rd.mark_here
-    assert (rd.read_uint! == U64[127]), rd.rewind_to_mark
-    assert (rd.read_int! == I64[127]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[127.0])
+    assert: (rd.read_uint! == U64[127]), rd.rewind_to_mark
+    assert: (rd.read_int! == I64[127]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[127.0])
     assert: rd.is_exhausted
 
   :it "reads number positive (29)"
-    data = b"\xd1\x00\x7f"
+    data = @hex("d1-00-7f")
     rd   = MessagePack.Reader.new(data)
     rd.mark_here
-    assert (rd.read_uint! == U64[127]), rd.rewind_to_mark
-    assert (rd.read_int! == I64[127]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[127.0])
+    assert: (rd.read_uint! == U64[127]), rd.rewind_to_mark
+    assert: (rd.read_int! == I64[127]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[127.0])
     assert: rd.is_exhausted
 
   :it "reads number positive (30)"
-    data = b"\xd2\x00\x00\x00\x7f"
+    data = @hex("d2-00-00-00-7f")
     rd   = MessagePack.Reader.new(data)
     rd.mark_here
-    assert (rd.read_uint! == U64[127]), rd.rewind_to_mark
-    assert (rd.read_int! == I64[127]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[127.0])
+    assert: (rd.read_uint! == U64[127]), rd.rewind_to_mark
+    assert: (rd.read_int! == I64[127]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[127.0])
     assert: rd.is_exhausted
 
   :it "reads number positive (31)"
-    data = b"\xd3\x00\x00\x00\x00\x00\x00\x00\x7f"
+    data = @hex("d3-00-00-00-00-00-00-00-7f")
     rd   = MessagePack.Reader.new(data)
     rd.mark_here
-    assert (rd.read_uint! == U64[127]), rd.rewind_to_mark
-    assert (rd.read_int! == I64[127]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[127.0])
+    assert: (rd.read_uint! == U64[127]), rd.rewind_to_mark
+    assert: (rd.read_int! == I64[127]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[127.0])
     assert: rd.is_exhausted
 
   :it "reads number positive (32)"
-    data = b"\xcc\x80"
+    data = @hex("cc-80")
     rd   = MessagePack.Reader.new(data)
     rd.mark_here
-    assert (rd.read_uint! == U64[128]), rd.rewind_to_mark
-    assert (rd.read_int! == I64[128]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[128.0])
+    assert: (rd.read_uint! == U64[128]), rd.rewind_to_mark
+    assert: (rd.read_int! == I64[128]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[128.0])
     assert: rd.is_exhausted
 
   :it "reads number positive (33)"
-    data = b"\xcd\x00\x80"
+    data = @hex("cd-00-80")
     rd   = MessagePack.Reader.new(data)
     rd.mark_here
-    assert (rd.read_uint! == U64[128]), rd.rewind_to_mark
-    assert (rd.read_int! == I64[128]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[128.0])
+    assert: (rd.read_uint! == U64[128]), rd.rewind_to_mark
+    assert: (rd.read_int! == I64[128]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[128.0])
     assert: rd.is_exhausted
 
   :it "reads number positive (34)"
-    data = b"\xce\x00\x00\x00\x80"
+    data = @hex("ce-00-00-00-80")
     rd   = MessagePack.Reader.new(data)
     rd.mark_here
-    assert (rd.read_uint! == U64[128]), rd.rewind_to_mark
-    assert (rd.read_int! == I64[128]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[128.0])
+    assert: (rd.read_uint! == U64[128]), rd.rewind_to_mark
+    assert: (rd.read_int! == I64[128]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[128.0])
     assert: rd.is_exhausted
 
   :it "reads number positive (35)"
-    data = b"\xcf\x00\x00\x00\x00\x00\x00\x00\x80"
+    data = @hex("cf-00-00-00-00-00-00-00-80")
     rd   = MessagePack.Reader.new(data)
     rd.mark_here
-    assert (rd.read_uint! == U64[128]), rd.rewind_to_mark
-    assert (rd.read_int! == I64[128]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[128.0])
+    assert: (rd.read_uint! == U64[128]), rd.rewind_to_mark
+    assert: (rd.read_int! == I64[128]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[128.0])
     assert: rd.is_exhausted
 
   :it "reads number positive (36)"
-    data = b"\xd1\x00\x80"
+    data = @hex("d1-00-80")
     rd   = MessagePack.Reader.new(data)
     rd.mark_here
-    assert (rd.read_uint! == U64[128]), rd.rewind_to_mark
-    assert (rd.read_int! == I64[128]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[128.0])
+    assert: (rd.read_uint! == U64[128]), rd.rewind_to_mark
+    assert: (rd.read_int! == I64[128]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[128.0])
     assert: rd.is_exhausted
 
   :it "reads number positive (37)"
-    data = b"\xd2\x00\x00\x00\x80"
+    data = @hex("d2-00-00-00-80")
     rd   = MessagePack.Reader.new(data)
     rd.mark_here
-    assert (rd.read_uint! == U64[128]), rd.rewind_to_mark
-    assert (rd.read_int! == I64[128]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[128.0])
+    assert: (rd.read_uint! == U64[128]), rd.rewind_to_mark
+    assert: (rd.read_int! == I64[128]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[128.0])
     assert: rd.is_exhausted
 
   :it "reads number positive (38)"
-    data = b"\xd3\x00\x00\x00\x00\x00\x00\x00\x80"
+    data = @hex("d3-00-00-00-00-00-00-00-80")
     rd   = MessagePack.Reader.new(data)
     rd.mark_here
-    assert (rd.read_uint! == U64[128]), rd.rewind_to_mark
-    assert (rd.read_int! == I64[128]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[128.0])
+    assert: (rd.read_uint! == U64[128]), rd.rewind_to_mark
+    assert: (rd.read_int! == I64[128]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[128.0])
     assert: rd.is_exhausted
 
   :it "reads number positive (39)"
-    data = b"\xcc\xff"
+    data = @hex("cc-ff")
     rd   = MessagePack.Reader.new(data)
     rd.mark_here
-    assert (rd.read_uint! == U64[255]), rd.rewind_to_mark
-    assert (rd.read_int! == I64[255]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[255.0])
+    assert: (rd.read_uint! == U64[255]), rd.rewind_to_mark
+    assert: (rd.read_int! == I64[255]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[255.0])
     assert: rd.is_exhausted
 
   :it "reads number positive (40)"
-    data = b"\xcd\x00\xff"
+    data = @hex("cd-00-ff")
     rd   = MessagePack.Reader.new(data)
     rd.mark_here
-    assert (rd.read_uint! == U64[255]), rd.rewind_to_mark
-    assert (rd.read_int! == I64[255]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[255.0])
+    assert: (rd.read_uint! == U64[255]), rd.rewind_to_mark
+    assert: (rd.read_int! == I64[255]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[255.0])
     assert: rd.is_exhausted
 
   :it "reads number positive (41)"
-    data = b"\xce\x00\x00\x00\xff"
+    data = @hex("ce-00-00-00-ff")
     rd   = MessagePack.Reader.new(data)
     rd.mark_here
-    assert (rd.read_uint! == U64[255]), rd.rewind_to_mark
-    assert (rd.read_int! == I64[255]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[255.0])
+    assert: (rd.read_uint! == U64[255]), rd.rewind_to_mark
+    assert: (rd.read_int! == I64[255]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[255.0])
     assert: rd.is_exhausted
 
   :it "reads number positive (42)"
-    data = b"\xcf\x00\x00\x00\x00\x00\x00\x00\xff"
+    data = @hex("cf-00-00-00-00-00-00-00-ff")
     rd   = MessagePack.Reader.new(data)
     rd.mark_here
-    assert (rd.read_uint! == U64[255]), rd.rewind_to_mark
-    assert (rd.read_int! == I64[255]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[255.0])
+    assert: (rd.read_uint! == U64[255]), rd.rewind_to_mark
+    assert: (rd.read_int! == I64[255]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[255.0])
     assert: rd.is_exhausted
 
   :it "reads number positive (43)"
-    data = b"\xd1\x00\xff"
+    data = @hex("d1-00-ff")
     rd   = MessagePack.Reader.new(data)
     rd.mark_here
-    assert (rd.read_uint! == U64[255]), rd.rewind_to_mark
-    assert (rd.read_int! == I64[255]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[255.0])
+    assert: (rd.read_uint! == U64[255]), rd.rewind_to_mark
+    assert: (rd.read_int! == I64[255]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[255.0])
     assert: rd.is_exhausted
 
   :it "reads number positive (44)"
-    data = b"\xd2\x00\x00\x00\xff"
+    data = @hex("d2-00-00-00-ff")
     rd   = MessagePack.Reader.new(data)
     rd.mark_here
-    assert (rd.read_uint! == U64[255]), rd.rewind_to_mark
-    assert (rd.read_int! == I64[255]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[255.0])
+    assert: (rd.read_uint! == U64[255]), rd.rewind_to_mark
+    assert: (rd.read_int! == I64[255]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[255.0])
     assert: rd.is_exhausted
 
   :it "reads number positive (45)"
-    data = b"\xd3\x00\x00\x00\x00\x00\x00\x00\xff"
+    data = @hex("d3-00-00-00-00-00-00-00-ff")
     rd   = MessagePack.Reader.new(data)
     rd.mark_here
-    assert (rd.read_uint! == U64[255]), rd.rewind_to_mark
-    assert (rd.read_int! == I64[255]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[255.0])
+    assert: (rd.read_uint! == U64[255]), rd.rewind_to_mark
+    assert: (rd.read_int! == I64[255]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[255.0])
     assert: rd.is_exhausted
 
   :it "reads number positive (46)"
-    data = b"\xcd\x01\x00"
+    data = @hex("cd-01-00")
     rd   = MessagePack.Reader.new(data)
     rd.mark_here
-    assert (rd.read_uint! == U64[256]), rd.rewind_to_mark
-    assert (rd.read_int! == I64[256]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[256.0])
+    assert: (rd.read_uint! == U64[256]), rd.rewind_to_mark
+    assert: (rd.read_int! == I64[256]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[256.0])
     assert: rd.is_exhausted
 
   :it "reads number positive (47)"
-    data = b"\xce\x00\x00\x01\x00"
+    data = @hex("ce-00-00-01-00")
     rd   = MessagePack.Reader.new(data)
     rd.mark_here
-    assert (rd.read_uint! == U64[256]), rd.rewind_to_mark
-    assert (rd.read_int! == I64[256]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[256.0])
+    assert: (rd.read_uint! == U64[256]), rd.rewind_to_mark
+    assert: (rd.read_int! == I64[256]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[256.0])
     assert: rd.is_exhausted
 
   :it "reads number positive (48)"
-    data = b"\xcf\x00\x00\x00\x00\x00\x00\x01\x00"
+    data = @hex("cf-00-00-00-00-00-00-01-00")
     rd   = MessagePack.Reader.new(data)
     rd.mark_here
-    assert (rd.read_uint! == U64[256]), rd.rewind_to_mark
-    assert (rd.read_int! == I64[256]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[256.0])
+    assert: (rd.read_uint! == U64[256]), rd.rewind_to_mark
+    assert: (rd.read_int! == I64[256]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[256.0])
     assert: rd.is_exhausted
 
   :it "reads number positive (49)"
-    data = b"\xd1\x01\x00"
+    data = @hex("d1-01-00")
     rd   = MessagePack.Reader.new(data)
     rd.mark_here
-    assert (rd.read_uint! == U64[256]), rd.rewind_to_mark
-    assert (rd.read_int! == I64[256]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[256.0])
+    assert: (rd.read_uint! == U64[256]), rd.rewind_to_mark
+    assert: (rd.read_int! == I64[256]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[256.0])
     assert: rd.is_exhausted
 
   :it "reads number positive (50)"
-    data = b"\xd2\x00\x00\x01\x00"
+    data = @hex("d2-00-00-01-00")
     rd   = MessagePack.Reader.new(data)
     rd.mark_here
-    assert (rd.read_uint! == U64[256]), rd.rewind_to_mark
-    assert (rd.read_int! == I64[256]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[256.0])
+    assert: (rd.read_uint! == U64[256]), rd.rewind_to_mark
+    assert: (rd.read_int! == I64[256]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[256.0])
     assert: rd.is_exhausted
 
   :it "reads number positive (51)"
-    data = b"\xd3\x00\x00\x00\x00\x00\x00\x01\x00"
+    data = @hex("d3-00-00-00-00-00-00-01-00")
     rd   = MessagePack.Reader.new(data)
     rd.mark_here
-    assert (rd.read_uint! == U64[256]), rd.rewind_to_mark
-    assert (rd.read_int! == I64[256]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[256.0])
+    assert: (rd.read_uint! == U64[256]), rd.rewind_to_mark
+    assert: (rd.read_int! == I64[256]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[256.0])
     assert: rd.is_exhausted
 
   :it "reads number positive (52)"
-    data = b"\xcd\xff\xff"
+    data = @hex("cd-ff-ff")
     rd   = MessagePack.Reader.new(data)
     rd.mark_here
-    assert (rd.read_uint! == U64[65535]), rd.rewind_to_mark
-    assert (rd.read_int! == I64[65535]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[65535.0])
+    assert: (rd.read_uint! == U64[65535]), rd.rewind_to_mark
+    assert: (rd.read_int! == I64[65535]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[65535.0])
     assert: rd.is_exhausted
 
   :it "reads number positive (53)"
-    data = b"\xce\x00\x00\xff\xff"
+    data = @hex("ce-00-00-ff-ff")
     rd   = MessagePack.Reader.new(data)
     rd.mark_here
-    assert (rd.read_uint! == U64[65535]), rd.rewind_to_mark
-    assert (rd.read_int! == I64[65535]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[65535.0])
+    assert: (rd.read_uint! == U64[65535]), rd.rewind_to_mark
+    assert: (rd.read_int! == I64[65535]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[65535.0])
     assert: rd.is_exhausted
 
   :it "reads number positive (54)"
-    data = b"\xcf\x00\x00\x00\x00\x00\x00\xff\xff"
+    data = @hex("cf-00-00-00-00-00-00-ff-ff")
     rd   = MessagePack.Reader.new(data)
     rd.mark_here
-    assert (rd.read_uint! == U64[65535]), rd.rewind_to_mark
-    assert (rd.read_int! == I64[65535]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[65535.0])
+    assert: (rd.read_uint! == U64[65535]), rd.rewind_to_mark
+    assert: (rd.read_int! == I64[65535]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[65535.0])
     assert: rd.is_exhausted
 
   :it "reads number positive (55)"
-    data = b"\xd2\x00\x00\xff\xff"
+    data = @hex("d2-00-00-ff-ff")
     rd   = MessagePack.Reader.new(data)
     rd.mark_here
-    assert (rd.read_uint! == U64[65535]), rd.rewind_to_mark
-    assert (rd.read_int! == I64[65535]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[65535.0])
+    assert: (rd.read_uint! == U64[65535]), rd.rewind_to_mark
+    assert: (rd.read_int! == I64[65535]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[65535.0])
     assert: rd.is_exhausted
 
   :it "reads number positive (56)"
-    data = b"\xd3\x00\x00\x00\x00\x00\x00\xff\xff"
+    data = @hex("d3-00-00-00-00-00-00-ff-ff")
     rd   = MessagePack.Reader.new(data)
     rd.mark_here
-    assert (rd.read_uint! == U64[65535]), rd.rewind_to_mark
-    assert (rd.read_int! == I64[65535]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[65535.0])
+    assert: (rd.read_uint! == U64[65535]), rd.rewind_to_mark
+    assert: (rd.read_int! == I64[65535]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[65535.0])
     assert: rd.is_exhausted
 
   :it "reads number positive (57)"
-    data = b"\xce\x00\x01\x00\x00"
+    data = @hex("ce-00-01-00-00")
     rd   = MessagePack.Reader.new(data)
     rd.mark_here
-    assert (rd.read_uint! == U64[65536]), rd.rewind_to_mark
-    assert (rd.read_int! == I64[65536]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[65536.0])
+    assert: (rd.read_uint! == U64[65536]), rd.rewind_to_mark
+    assert: (rd.read_int! == I64[65536]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[65536.0])
     assert: rd.is_exhausted
 
   :it "reads number positive (58)"
-    data = b"\xcf\x00\x00\x00\x00\x00\x01\x00\x00"
+    data = @hex("cf-00-00-00-00-00-01-00-00")
     rd   = MessagePack.Reader.new(data)
     rd.mark_here
-    assert (rd.read_uint! == U64[65536]), rd.rewind_to_mark
-    assert (rd.read_int! == I64[65536]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[65536.0])
+    assert: (rd.read_uint! == U64[65536]), rd.rewind_to_mark
+    assert: (rd.read_int! == I64[65536]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[65536.0])
     assert: rd.is_exhausted
 
   :it "reads number positive (59)"
-    data = b"\xd2\x00\x01\x00\x00"
+    data = @hex("d2-00-01-00-00")
     rd   = MessagePack.Reader.new(data)
     rd.mark_here
-    assert (rd.read_uint! == U64[65536]), rd.rewind_to_mark
-    assert (rd.read_int! == I64[65536]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[65536.0])
+    assert: (rd.read_uint! == U64[65536]), rd.rewind_to_mark
+    assert: (rd.read_int! == I64[65536]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[65536.0])
     assert: rd.is_exhausted
 
   :it "reads number positive (60)"
-    data = b"\xd3\x00\x00\x00\x00\x00\x01\x00\x00"
+    data = @hex("d3-00-00-00-00-00-01-00-00")
     rd   = MessagePack.Reader.new(data)
     rd.mark_here
-    assert (rd.read_uint! == U64[65536]), rd.rewind_to_mark
-    assert (rd.read_int! == I64[65536]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[65536.0])
+    assert: (rd.read_uint! == U64[65536]), rd.rewind_to_mark
+    assert: (rd.read_int! == I64[65536]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[65536.0])
     assert: rd.is_exhausted
 
   :it "reads number positive (61)"
-    data = b"\xce\x7f\xff\xff\xff"
+    data = @hex("ce-7f-ff-ff-ff")
     rd   = MessagePack.Reader.new(data)
     rd.mark_here
-    assert (rd.read_uint! == U64[2147483647]), rd.rewind_to_mark
-    assert (rd.read_int! == I64[2147483647]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[2147483647.0])
+    assert: (rd.read_uint! == U64[2147483647]), rd.rewind_to_mark
+    assert: (rd.read_int! == I64[2147483647]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[2147483647.0])
     assert: rd.is_exhausted
 
   :it "reads number positive (62)"
-    data = b"\xcf\x00\x00\x00\x00\x7f\xff\xff\xff"
+    data = @hex("cf-00-00-00-00-7f-ff-ff-ff")
     rd   = MessagePack.Reader.new(data)
     rd.mark_here
-    assert (rd.read_uint! == U64[2147483647]), rd.rewind_to_mark
-    assert (rd.read_int! == I64[2147483647]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[2147483647.0])
+    assert: (rd.read_uint! == U64[2147483647]), rd.rewind_to_mark
+    assert: (rd.read_int! == I64[2147483647]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[2147483647.0])
     assert: rd.is_exhausted
 
   :it "reads number positive (63)"
-    data = b"\xd2\x7f\xff\xff\xff"
+    data = @hex("d2-7f-ff-ff-ff")
     rd   = MessagePack.Reader.new(data)
     rd.mark_here
-    assert (rd.read_uint! == U64[2147483647]), rd.rewind_to_mark
-    assert (rd.read_int! == I64[2147483647]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[2147483647.0])
+    assert: (rd.read_uint! == U64[2147483647]), rd.rewind_to_mark
+    assert: (rd.read_int! == I64[2147483647]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[2147483647.0])
     assert: rd.is_exhausted
 
   :it "reads number positive (64)"
-    data = b"\xd3\x00\x00\x00\x00\x7f\xff\xff\xff"
+    data = @hex("d3-00-00-00-00-7f-ff-ff-ff")
     rd   = MessagePack.Reader.new(data)
     rd.mark_here
-    assert (rd.read_uint! == U64[2147483647]), rd.rewind_to_mark
-    assert (rd.read_int! == I64[2147483647]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[2147483647.0])
+    assert: (rd.read_uint! == U64[2147483647]), rd.rewind_to_mark
+    assert: (rd.read_int! == I64[2147483647]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[2147483647.0])
     assert: rd.is_exhausted
 
   :it "reads number positive (65)"
-    data = b"\xce\x80\x00\x00\x00"
+    data = @hex("ce-80-00-00-00")
     rd   = MessagePack.Reader.new(data)
     rd.mark_here
-    assert (rd.read_uint! == U64[2147483648]), rd.rewind_to_mark
-    assert (rd.read_int! == I64[2147483648]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[2147483648.0])
+    assert: (rd.read_uint! == U64[2147483648]), rd.rewind_to_mark
+    assert: (rd.read_int! == I64[2147483648]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[2147483648.0])
     assert: rd.is_exhausted
 
   :it "reads number positive (66)"
-    data = b"\xcf\x00\x00\x00\x00\x80\x00\x00\x00"
+    data = @hex("cf-00-00-00-00-80-00-00-00")
     rd   = MessagePack.Reader.new(data)
     rd.mark_here
-    assert (rd.read_uint! == U64[2147483648]), rd.rewind_to_mark
-    assert (rd.read_int! == I64[2147483648]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[2147483648.0])
+    assert: (rd.read_uint! == U64[2147483648]), rd.rewind_to_mark
+    assert: (rd.read_int! == I64[2147483648]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[2147483648.0])
     assert: rd.is_exhausted
 
   :it "reads number positive (67)"
-    data = b"\xd3\x00\x00\x00\x00\x80\x00\x00\x00"
+    data = @hex("d3-00-00-00-00-80-00-00-00")
     rd   = MessagePack.Reader.new(data)
     rd.mark_here
-    assert (rd.read_uint! == U64[2147483648]), rd.rewind_to_mark
-    assert (rd.read_int! == I64[2147483648]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[2147483648.0])
+    assert: (rd.read_uint! == U64[2147483648]), rd.rewind_to_mark
+    assert: (rd.read_int! == I64[2147483648]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[2147483648.0])
     assert: rd.is_exhausted
 
   :it "reads number positive (68)"
-    data = b"\xca\x4f\x00\x00\x00"
+    data = @hex("ca-4f-00-00-00")
     rd   = MessagePack.Reader.new(data)
     rd.mark_here
-    assert (rd.read_uint! == U64[2147483648]), rd.rewind_to_mark
-    assert (rd.read_int! == I64[2147483648]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[2147483648.0])
+    assert: (rd.read_uint! == U64[2147483648]), rd.rewind_to_mark
+    assert: (rd.read_int! == I64[2147483648]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[2147483648.0])
     assert: rd.is_exhausted
 
   :it "reads number positive (69)"
-    data = b"\xcb\x41\xe0\x00\x00\x00\x00\x00\x00"
+    data = @hex("cb-41-e0-00-00-00-00-00-00")
     rd   = MessagePack.Reader.new(data)
     rd.mark_here
-    assert (rd.read_uint! == U64[2147483648]), rd.rewind_to_mark
-    assert (rd.read_int! == I64[2147483648]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[2147483648.0])
+    assert: (rd.read_uint! == U64[2147483648]), rd.rewind_to_mark
+    assert: (rd.read_int! == I64[2147483648]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[2147483648.0])
     assert: rd.is_exhausted
 
   :it "reads number positive (70)"
-    data = b"\xce\xff\xff\xff\xff"
+    data = @hex("ce-ff-ff-ff-ff")
     rd   = MessagePack.Reader.new(data)
     rd.mark_here
-    assert (rd.read_uint! == U64[4294967295]), rd.rewind_to_mark
-    assert (rd.read_int! == I64[4294967295]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[4294967295.0])
+    assert: (rd.read_uint! == U64[4294967295]), rd.rewind_to_mark
+    assert: (rd.read_int! == I64[4294967295]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[4294967295.0])
     assert: rd.is_exhausted
 
   :it "reads number positive (71)"
-    data = b"\xcf\x00\x00\x00\x00\xff\xff\xff\xff"
+    data = @hex("cf-00-00-00-00-ff-ff-ff-ff")
     rd   = MessagePack.Reader.new(data)
     rd.mark_here
-    assert (rd.read_uint! == U64[4294967295]), rd.rewind_to_mark
-    assert (rd.read_int! == I64[4294967295]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[4294967295.0])
+    assert: (rd.read_uint! == U64[4294967295]), rd.rewind_to_mark
+    assert: (rd.read_int! == I64[4294967295]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[4294967295.0])
     assert: rd.is_exhausted
 
   :it "reads number positive (72)"
-    data = b"\xd3\x00\x00\x00\x00\xff\xff\xff\xff"
+    data = @hex("d3-00-00-00-00-ff-ff-ff-ff")
     rd   = MessagePack.Reader.new(data)
     rd.mark_here
-    assert (rd.read_uint! == U64[4294967295]), rd.rewind_to_mark
-    assert (rd.read_int! == I64[4294967295]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[4294967295.0])
+    assert: (rd.read_uint! == U64[4294967295]), rd.rewind_to_mark
+    assert: (rd.read_int! == I64[4294967295]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[4294967295.0])
     assert: rd.is_exhausted
 
   :it "reads number positive (73)"
-    data = b"\xcb\x41\xef\xff\xff\xff\xe0\x00\x00"
+    data = @hex("cb-41-ef-ff-ff-ff-e0-00-00")
     rd   = MessagePack.Reader.new(data)
     rd.mark_here
-    assert (rd.read_uint! == U64[4294967295]), rd.rewind_to_mark
-    assert (rd.read_int! == I64[4294967295]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[4294967295.0])
+    assert: (rd.read_uint! == U64[4294967295]), rd.rewind_to_mark
+    assert: (rd.read_int! == I64[4294967295]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[4294967295.0])
     assert: rd.is_exhausted
 
   :it "reads number negative (1)"
-    data = b"\xff"
+    data = @hex("ff")
     rd   = MessagePack.Reader.new(data)
     rd.mark_here
-    assert (rd.read_int! == I64[-1]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[-1.0])
+    assert: (rd.read_int! == I64[-1]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[-1.0])
     assert: rd.is_exhausted
 
   :it "reads number negative (2)"
-    data = b"\xd0\xff"
+    data = @hex("d0-ff")
     rd   = MessagePack.Reader.new(data)
     rd.mark_here
-    assert (rd.read_int! == I64[-1]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[-1.0])
+    assert: (rd.read_int! == I64[-1]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[-1.0])
     assert: rd.is_exhausted
 
   :it "reads number negative (3)"
-    data = b"\xd1\xff\xff"
+    data = @hex("d1-ff-ff")
     rd   = MessagePack.Reader.new(data)
     rd.mark_here
-    assert (rd.read_int! == I64[-1]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[-1.0])
+    assert: (rd.read_int! == I64[-1]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[-1.0])
     assert: rd.is_exhausted
 
   :it "reads number negative (4)"
-    data = b"\xd2\xff\xff\xff\xff"
+    data = @hex("d2-ff-ff-ff-ff")
     rd   = MessagePack.Reader.new(data)
     rd.mark_here
-    assert (rd.read_int! == I64[-1]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[-1.0])
+    assert: (rd.read_int! == I64[-1]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[-1.0])
     assert: rd.is_exhausted
 
   :it "reads number negative (5)"
-    data = b"\xd3\xff\xff\xff\xff\xff\xff\xff\xff"
+    data = @hex("d3-ff-ff-ff-ff-ff-ff-ff-ff")
     rd   = MessagePack.Reader.new(data)
     rd.mark_here
-    assert (rd.read_int! == I64[-1]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[-1.0])
+    assert: (rd.read_int! == I64[-1]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[-1.0])
     assert: rd.is_exhausted
 
   :it "reads number negative (6)"
-    data = b"\xca\xbf\x80\x00\x00"
+    data = @hex("ca-bf-80-00-00")
     rd   = MessagePack.Reader.new(data)
     rd.mark_here
-    assert (rd.read_int! == I64[-1]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[-1.0])
+    assert: (rd.read_int! == I64[-1]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[-1.0])
     assert: rd.is_exhausted
 
   :it "reads number negative (7)"
-    data = b"\xcb\xbf\xf0\x00\x00\x00\x00\x00\x00"
+    data = @hex("cb-bf-f0-00-00-00-00-00-00")
     rd   = MessagePack.Reader.new(data)
     rd.mark_here
-    assert (rd.read_int! == I64[-1]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[-1.0])
+    assert: (rd.read_int! == I64[-1]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[-1.0])
     assert: rd.is_exhausted
 
   :it "reads number negative (8)"
-    data = b"\xe0"
+    data = @hex("e0")
     rd   = MessagePack.Reader.new(data)
     rd.mark_here
-    assert (rd.read_int! == I64[-32]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[-32.0])
+    assert: (rd.read_int! == I64[-32]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[-32.0])
     assert: rd.is_exhausted
 
   :it "reads number negative (9)"
-    data = b"\xd0\xe0"
+    data = @hex("d0-e0")
     rd   = MessagePack.Reader.new(data)
     rd.mark_here
-    assert (rd.read_int! == I64[-32]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[-32.0])
+    assert: (rd.read_int! == I64[-32]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[-32.0])
     assert: rd.is_exhausted
 
   :it "reads number negative (10)"
-    data = b"\xd1\xff\xe0"
+    data = @hex("d1-ff-e0")
     rd   = MessagePack.Reader.new(data)
     rd.mark_here
-    assert (rd.read_int! == I64[-32]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[-32.0])
+    assert: (rd.read_int! == I64[-32]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[-32.0])
     assert: rd.is_exhausted
 
   :it "reads number negative (11)"
-    data = b"\xd2\xff\xff\xff\xe0"
+    data = @hex("d2-ff-ff-ff-e0")
     rd   = MessagePack.Reader.new(data)
     rd.mark_here
-    assert (rd.read_int! == I64[-32]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[-32.0])
+    assert: (rd.read_int! == I64[-32]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[-32.0])
     assert: rd.is_exhausted
 
   :it "reads number negative (12)"
-    data = b"\xd3\xff\xff\xff\xff\xff\xff\xff\xe0"
+    data = @hex("d3-ff-ff-ff-ff-ff-ff-ff-e0")
     rd   = MessagePack.Reader.new(data)
     rd.mark_here
-    assert (rd.read_int! == I64[-32]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[-32.0])
+    assert: (rd.read_int! == I64[-32]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[-32.0])
     assert: rd.is_exhausted
 
   :it "reads number negative (13)"
-    data = b"\xca\xc2\x00\x00\x00"
+    data = @hex("ca-c2-00-00-00")
     rd   = MessagePack.Reader.new(data)
     rd.mark_here
-    assert (rd.read_int! == I64[-32]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[-32.0])
+    assert: (rd.read_int! == I64[-32]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[-32.0])
     assert: rd.is_exhausted
 
   :it "reads number negative (14)"
-    data = b"\xcb\xc0\x40\x00\x00\x00\x00\x00\x00"
+    data = @hex("cb-c0-40-00-00-00-00-00-00")
     rd   = MessagePack.Reader.new(data)
     rd.mark_here
-    assert (rd.read_int! == I64[-32]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[-32.0])
+    assert: (rd.read_int! == I64[-32]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[-32.0])
     assert: rd.is_exhausted
 
   :it "reads number negative (15)"
-    data = b"\xd0\xdf"
+    data = @hex("d0-df")
     rd   = MessagePack.Reader.new(data)
     rd.mark_here
-    assert (rd.read_int! == I64[-33]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[-33.0])
+    assert: (rd.read_int! == I64[-33]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[-33.0])
     assert: rd.is_exhausted
 
   :it "reads number negative (16)"
-    data = b"\xd1\xff\xdf"
+    data = @hex("d1-ff-df")
     rd   = MessagePack.Reader.new(data)
     rd.mark_here
-    assert (rd.read_int! == I64[-33]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[-33.0])
+    assert: (rd.read_int! == I64[-33]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[-33.0])
     assert: rd.is_exhausted
 
   :it "reads number negative (17)"
-    data = b"\xd2\xff\xff\xff\xdf"
+    data = @hex("d2-ff-ff-ff-df")
     rd   = MessagePack.Reader.new(data)
     rd.mark_here
-    assert (rd.read_int! == I64[-33]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[-33.0])
+    assert: (rd.read_int! == I64[-33]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[-33.0])
     assert: rd.is_exhausted
 
   :it "reads number negative (18)"
-    data = b"\xd3\xff\xff\xff\xff\xff\xff\xff\xdf"
+    data = @hex("d3-ff-ff-ff-ff-ff-ff-ff-df")
     rd   = MessagePack.Reader.new(data)
     rd.mark_here
-    assert (rd.read_int! == I64[-33]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[-33.0])
+    assert: (rd.read_int! == I64[-33]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[-33.0])
     assert: rd.is_exhausted
 
   :it "reads number negative (19)"
-    data = b"\xd0\x80"
+    data = @hex("d0-80")
     rd   = MessagePack.Reader.new(data)
     rd.mark_here
-    assert (rd.read_int! == I64[-128]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[-128.0])
+    assert: (rd.read_int! == I64[-128]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[-128.0])
     assert: rd.is_exhausted
 
   :it "reads number negative (20)"
-    data = b"\xd1\xff\x80"
+    data = @hex("d1-ff-80")
     rd   = MessagePack.Reader.new(data)
     rd.mark_here
-    assert (rd.read_int! == I64[-128]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[-128.0])
+    assert: (rd.read_int! == I64[-128]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[-128.0])
     assert: rd.is_exhausted
 
   :it "reads number negative (21)"
-    data = b"\xd2\xff\xff\xff\x80"
+    data = @hex("d2-ff-ff-ff-80")
     rd   = MessagePack.Reader.new(data)
     rd.mark_here
-    assert (rd.read_int! == I64[-128]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[-128.0])
+    assert: (rd.read_int! == I64[-128]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[-128.0])
     assert: rd.is_exhausted
 
   :it "reads number negative (22)"
-    data = b"\xd3\xff\xff\xff\xff\xff\xff\xff\x80"
+    data = @hex("d3-ff-ff-ff-ff-ff-ff-ff-80")
     rd   = MessagePack.Reader.new(data)
     rd.mark_here
-    assert (rd.read_int! == I64[-128]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[-128.0])
+    assert: (rd.read_int! == I64[-128]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[-128.0])
     assert: rd.is_exhausted
 
   :it "reads number negative (23)"
-    data = b"\xd1\xff\x00"
+    data = @hex("d1-ff-00")
     rd   = MessagePack.Reader.new(data)
     rd.mark_here
-    assert (rd.read_int! == I64[-256]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[-256.0])
+    assert: (rd.read_int! == I64[-256]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[-256.0])
     assert: rd.is_exhausted
 
   :it "reads number negative (24)"
-    data = b"\xd2\xff\xff\xff\x00"
+    data = @hex("d2-ff-ff-ff-00")
     rd   = MessagePack.Reader.new(data)
     rd.mark_here
-    assert (rd.read_int! == I64[-256]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[-256.0])
+    assert: (rd.read_int! == I64[-256]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[-256.0])
     assert: rd.is_exhausted
 
   :it "reads number negative (25)"
-    data = b"\xd3\xff\xff\xff\xff\xff\xff\xff\x00"
+    data = @hex("d3-ff-ff-ff-ff-ff-ff-ff-00")
     rd   = MessagePack.Reader.new(data)
     rd.mark_here
-    assert (rd.read_int! == I64[-256]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[-256.0])
+    assert: (rd.read_int! == I64[-256]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[-256.0])
     assert: rd.is_exhausted
 
   :it "reads number negative (26)"
-    data = b"\xd1\x80\x00"
+    data = @hex("d1-80-00")
     rd   = MessagePack.Reader.new(data)
     rd.mark_here
-    assert (rd.read_int! == I64[-32768]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[-32768.0])
+    assert: (rd.read_int! == I64[-32768]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[-32768.0])
     assert: rd.is_exhausted
 
   :it "reads number negative (27)"
-    data = b"\xd2\xff\xff\x80\x00"
+    data = @hex("d2-ff-ff-80-00")
     rd   = MessagePack.Reader.new(data)
     rd.mark_here
-    assert (rd.read_int! == I64[-32768]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[-32768.0])
+    assert: (rd.read_int! == I64[-32768]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[-32768.0])
     assert: rd.is_exhausted
 
   :it "reads number negative (28)"
-    data = b"\xd3\xff\xff\xff\xff\xff\xff\x80\x00"
+    data = @hex("d3-ff-ff-ff-ff-ff-ff-80-00")
     rd   = MessagePack.Reader.new(data)
     rd.mark_here
-    assert (rd.read_int! == I64[-32768]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[-32768.0])
+    assert: (rd.read_int! == I64[-32768]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[-32768.0])
     assert: rd.is_exhausted
 
   :it "reads number negative (29)"
-    data = b"\xd2\xff\xff\x00\x00"
+    data = @hex("d2-ff-ff-00-00")
     rd   = MessagePack.Reader.new(data)
     rd.mark_here
-    assert (rd.read_int! == I64[-65536]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[-65536.0])
+    assert: (rd.read_int! == I64[-65536]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[-65536.0])
     assert: rd.is_exhausted
 
   :it "reads number negative (30)"
-    data = b"\xd3\xff\xff\xff\xff\xff\xff\x00\x00"
+    data = @hex("d3-ff-ff-ff-ff-ff-ff-00-00")
     rd   = MessagePack.Reader.new(data)
     rd.mark_here
-    assert (rd.read_int! == I64[-65536]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[-65536.0])
+    assert: (rd.read_int! == I64[-65536]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[-65536.0])
     assert: rd.is_exhausted
 
   :it "reads number negative (31)"
-    data = b"\xd2\x80\x00\x00\x00"
+    data = @hex("d2-80-00-00-00")
     rd   = MessagePack.Reader.new(data)
     rd.mark_here
-    assert (rd.read_int! == I64[-2147483648]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[-2147483648.0])
+    assert: (rd.read_int! == I64[-2147483648]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[-2147483648.0])
     assert: rd.is_exhausted
 
   :it "reads number negative (32)"
-    data = b"\xd3\xff\xff\xff\xff\x80\x00\x00\x00"
+    data = @hex("d3-ff-ff-ff-ff-80-00-00-00")
     rd   = MessagePack.Reader.new(data)
     rd.mark_here
-    assert (rd.read_int! == I64[-2147483648]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[-2147483648.0])
+    assert: (rd.read_int! == I64[-2147483648]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[-2147483648.0])
     assert: rd.is_exhausted
 
   :it "reads number negative (33)"
-    data = b"\xcb\xc1\xe0\x00\x00\x00\x00\x00\x00"
+    data = @hex("cb-c1-e0-00-00-00-00-00-00")
     rd   = MessagePack.Reader.new(data)
     rd.mark_here
-    assert (rd.read_int! == I64[-2147483648]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[-2147483648.0])
+    assert: (rd.read_int! == I64[-2147483648]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[-2147483648.0])
     assert: rd.is_exhausted
 
   :it "reads number float (1)"
-    data = b"\xca\x3f\x00\x00\x00"
+    data = @hex("ca-3f-00-00-00")
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_f64! == F64[0.5]
     assert: rd.is_exhausted
 
   :it "reads number float (2)"
-    data = b"\xcb\x3f\xe0\x00\x00\x00\x00\x00\x00"
+    data = @hex("cb-3f-e0-00-00-00-00-00-00")
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_f64! == F64[0.5]
     assert: rd.is_exhausted
 
   :it "reads number float (3)"
-    data = b"\xca\xbf\x00\x00\x00"
+    data = @hex("ca-bf-00-00-00")
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_f64! == F64[-0.5]
     assert: rd.is_exhausted
 
   :it "reads number float (4)"
-    data = b"\xcb\xbf\xe0\x00\x00\x00\x00\x00\x00"
+    data = @hex("cb-bf-e0-00-00-00-00-00-00")
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_f64! == F64[-0.5]
     assert: rd.is_exhausted
 
   :it "reads number bignum (1)"
-    data = b"\xcf\x00\x00\x00\x01\x00\x00\x00\x00"
+    data = @hex("cf-00-00-00-01-00-00-00-00")
     rd   = MessagePack.Reader.new(data)
     rd.mark_here
-    assert (rd.read_uint! == U64[4294967296]), rd.rewind_to_mark
-    assert (rd.read_int! == I64[4294967296]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[4294967296.0])
+    assert: (rd.read_uint! == U64[4294967296]), rd.rewind_to_mark
+    assert: (rd.read_int! == I64[4294967296]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[4294967296.0])
     assert: rd.is_exhausted
 
   :it "reads number bignum (2)"
-    data = b"\xd3\x00\x00\x00\x01\x00\x00\x00\x00"
+    data = @hex("d3-00-00-00-01-00-00-00-00")
     rd   = MessagePack.Reader.new(data)
     rd.mark_here
-    assert (rd.read_uint! == U64[4294967296]), rd.rewind_to_mark
-    assert (rd.read_int! == I64[4294967296]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[4294967296.0])
+    assert: (rd.read_uint! == U64[4294967296]), rd.rewind_to_mark
+    assert: (rd.read_int! == I64[4294967296]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[4294967296.0])
     assert: rd.is_exhausted
 
   :it "reads number bignum (3)"
-    data = b"\xca\x4f\x80\x00\x00"
+    data = @hex("ca-4f-80-00-00")
     rd   = MessagePack.Reader.new(data)
     rd.mark_here
-    assert (rd.read_uint! == U64[4294967296]), rd.rewind_to_mark
-    assert (rd.read_int! == I64[4294967296]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[4294967296.0])
+    assert: (rd.read_uint! == U64[4294967296]), rd.rewind_to_mark
+    assert: (rd.read_int! == I64[4294967296]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[4294967296.0])
     assert: rd.is_exhausted
 
   :it "reads number bignum (4)"
-    data = b"\xcb\x41\xf0\x00\x00\x00\x00\x00\x00"
+    data = @hex("cb-41-f0-00-00-00-00-00-00")
     rd   = MessagePack.Reader.new(data)
     rd.mark_here
-    assert (rd.read_uint! == U64[4294967296]), rd.rewind_to_mark
-    assert (rd.read_int! == I64[4294967296]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[4294967296.0])
+    assert: (rd.read_uint! == U64[4294967296]), rd.rewind_to_mark
+    assert: (rd.read_int! == I64[4294967296]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[4294967296.0])
     assert: rd.is_exhausted
 
   :it "reads number bignum (5)"
-    data = b"\xd3\xff\xff\xff\xff\x00\x00\x00\x00"
+    data = @hex("d3-ff-ff-ff-ff-00-00-00-00")
     rd   = MessagePack.Reader.new(data)
     rd.mark_here
-    assert (rd.read_int! == I64[-4294967296]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[-4294967296.0])
+    assert: (rd.read_int! == I64[-4294967296]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[-4294967296.0])
     assert: rd.is_exhausted
 
   :it "reads number bignum (6)"
-    data = b"\xcb\xc1\xf0\x00\x00\x00\x00\x00\x00"
+    data = @hex("cb-c1-f0-00-00-00-00-00-00")
     rd   = MessagePack.Reader.new(data)
     rd.mark_here
-    assert (rd.read_int! == I64[-4294967296]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[-4294967296.0])
+    assert: (rd.read_int! == I64[-4294967296]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[-4294967296.0])
     assert: rd.is_exhausted
 
   :it "reads number bignum (7)"
-    data = b"\xcf\x00\x01\x00\x00\x00\x00\x00\x00"
+    data = @hex("cf-00-01-00-00-00-00-00-00")
     rd   = MessagePack.Reader.new(data)
     rd.mark_here
-    assert (rd.read_uint! == U64[281474976710656]), rd.rewind_to_mark
-    assert (rd.read_int! == I64[281474976710656]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[281474976710656.0])
+    assert: (rd.read_uint! == U64[281474976710656]), rd.rewind_to_mark
+    assert: (rd.read_int! == I64[281474976710656]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[281474976710656.0])
     assert: rd.is_exhausted
 
   :it "reads number bignum (8)"
-    data = b"\xd3\x00\x01\x00\x00\x00\x00\x00\x00"
+    data = @hex("d3-00-01-00-00-00-00-00-00")
     rd   = MessagePack.Reader.new(data)
     rd.mark_here
-    assert (rd.read_uint! == U64[281474976710656]), rd.rewind_to_mark
-    assert (rd.read_int! == I64[281474976710656]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[281474976710656.0])
+    assert: (rd.read_uint! == U64[281474976710656]), rd.rewind_to_mark
+    assert: (rd.read_int! == I64[281474976710656]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[281474976710656.0])
     assert: rd.is_exhausted
 
   :it "reads number bignum (9)"
-    data = b"\xca\x57\x80\x00\x00"
+    data = @hex("ca-57-80-00-00")
     rd   = MessagePack.Reader.new(data)
     rd.mark_here
-    assert (rd.read_uint! == U64[281474976710656]), rd.rewind_to_mark
-    assert (rd.read_int! == I64[281474976710656]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[281474976710656.0])
+    assert: (rd.read_uint! == U64[281474976710656]), rd.rewind_to_mark
+    assert: (rd.read_int! == I64[281474976710656]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[281474976710656.0])
     assert: rd.is_exhausted
 
   :it "reads number bignum (10)"
-    data = b"\xcb\x42\xf0\x00\x00\x00\x00\x00\x00"
+    data = @hex("cb-42-f0-00-00-00-00-00-00")
     rd   = MessagePack.Reader.new(data)
     rd.mark_here
-    assert (rd.read_uint! == U64[281474976710656]), rd.rewind_to_mark
-    assert (rd.read_int! == I64[281474976710656]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[281474976710656.0])
+    assert: (rd.read_uint! == U64[281474976710656]), rd.rewind_to_mark
+    assert: (rd.read_int! == I64[281474976710656]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[281474976710656.0])
     assert: rd.is_exhausted
 
   :it "reads number bignum (11)"
-    data = b"\xd3\xff\xff\x00\x00\x00\x00\x00\x00"
+    data = @hex("d3-ff-ff-00-00-00-00-00-00")
     rd   = MessagePack.Reader.new(data)
     rd.mark_here
-    assert (rd.read_int! == I64[-281474976710656]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[-281474976710656.0])
+    assert: (rd.read_int! == I64[-281474976710656]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[-281474976710656.0])
     assert: rd.is_exhausted
 
   :it "reads number bignum (12)"
-    data = b"\xca\xd7\x80\x00\x00"
+    data = @hex("ca-d7-80-00-00")
     rd   = MessagePack.Reader.new(data)
     rd.mark_here
-    assert (rd.read_int! == I64[-281474976710656]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[-281474976710656.0])
+    assert: (rd.read_int! == I64[-281474976710656]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[-281474976710656.0])
     assert: rd.is_exhausted
 
   :it "reads number bignum (13)"
-    data = b"\xcb\xc2\xf0\x00\x00\x00\x00\x00\x00"
+    data = @hex("cb-c2-f0-00-00-00-00-00-00")
     rd   = MessagePack.Reader.new(data)
     rd.mark_here
-    assert (rd.read_int! == I64[-281474976710656]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[-281474976710656.0])
+    assert: (rd.read_int! == I64[-281474976710656]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[-281474976710656.0])
     assert: rd.is_exhausted
 
   :it "reads number bignum (14)"
-    data = b"\xd3\x7f\xff\xff\xff\xff\xff\xff\xff"
+    data = @hex("d3-7f-ff-ff-ff-ff-ff-ff-ff")
     rd   = MessagePack.Reader.new(data)
     rd.mark_here
-    assert (rd.read_uint! == U64[9223372036854775807]), rd.rewind_to_mark
-    assert (rd.read_int! == I64[9223372036854775807])
+    assert: (rd.read_uint! == U64[9223372036854775807]), rd.rewind_to_mark
+    assert: (rd.read_int! == I64[9223372036854775807])
     assert: rd.is_exhausted
 
   :it "reads number bignum (15)"
-    data = b"\xcf\x7f\xff\xff\xff\xff\xff\xff\xff"
+    data = @hex("cf-7f-ff-ff-ff-ff-ff-ff-ff")
     rd   = MessagePack.Reader.new(data)
     rd.mark_here
-    assert (rd.read_uint! == U64[9223372036854775807]), rd.rewind_to_mark
-    assert (rd.read_int! == I64[9223372036854775807])
+    assert: (rd.read_uint! == U64[9223372036854775807]), rd.rewind_to_mark
+    assert: (rd.read_int! == I64[9223372036854775807])
     assert: rd.is_exhausted
 
   :it "reads number bignum (16)"
-    data = b"\xd3\x80\x00\x00\x00\x00\x00\x00\x01"
+    data = @hex("d3-80-00-00-00-00-00-00-01")
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_int! == I64[-9223372036854775807]
     assert: rd.is_exhausted
 
   :it "reads number bignum (17)"
-    data = b"\xcf\x80\x00\x00\x00\x00\x00\x00\x00"
+    data = @hex("cf-80-00-00-00-00-00-00-00")
     rd   = MessagePack.Reader.new(data)
     rd.mark_here
-    assert (rd.read_uint! == U64[9223372036854775808]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[9223372036854775808.0])
+    assert: (rd.read_uint! == U64[9223372036854775808]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[9223372036854775808.0])
     assert: rd.is_exhausted
 
   :it "reads number bignum (18)"
-    data = b"\xd3\x80\x00\x00\x00\x00\x00\x00\x00"
+    data = @hex("d3-80-00-00-00-00-00-00-00")
     rd   = MessagePack.Reader.new(data)
     rd.mark_here
-    assert (rd.read_int! == I64[-9223372036854775808]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[-9223372036854775808.0])
+    assert: (rd.read_int! == I64[-9223372036854775808]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[-9223372036854775808.0])
     assert: rd.is_exhausted
 
   :it "reads number bignum (19)"
-    data = b"\xcf\xff\xff\xff\xff\xff\xff\xff\xff"
+    data = @hex("cf-ff-ff-ff-ff-ff-ff-ff-ff")
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_uint! == U64[18446744073709551615]
     assert: rd.is_exhausted
 
   :it "reads string ascii (1)"
-    data = b"\xa0"
+    data = @hex("a0")
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_string! == ""
     assert: rd.is_exhausted
 
   :it "reads string ascii (2)"
-    data = b"\xd9\x00"
+    data = @hex("d9-00")
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_string! == ""
     assert: rd.is_exhausted
 
   :it "reads string ascii (3)"
-    data = b"\xda\x00\x00"
+    data = @hex("da-00-00")
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_string! == ""
     assert: rd.is_exhausted
 
   :it "reads string ascii (4)"
-    data = b"\xdb\x00\x00\x00\x00"
+    data = @hex("db-00-00-00-00")
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_string! == ""
     assert: rd.is_exhausted
 
   :it "reads string ascii (5)"
-    data = b"\xa1\x61"
+    data = @hex("a1-61")
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_string! == "a"
     assert: rd.is_exhausted
 
   :it "reads string ascii (6)"
-    data = b"\xd9\x01\x61"
+    data = @hex("d9-01-61")
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_string! == "a"
     assert: rd.is_exhausted
 
   :it "reads string ascii (7)"
-    data = b"\xda\x00\x01\x61"
+    data = @hex("da-00-01-61")
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_string! == "a"
     assert: rd.is_exhausted
 
   :it "reads string ascii (8)"
-    data = b"\xdb\x00\x00\x00\x01\x61"
+    data = @hex("db-00-00-00-01-61")
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_string! == "a"
     assert: rd.is_exhausted
 
   :it "reads string ascii (9)"
-    data = b"\xbf\x31\x32\x33\x34\x35\x36\x37\x38\x39\x30\x31\x32\x33\x34\x35\x36\x37\x38\x39\x30\x31\x32\x33\x34\x35\x36\x37\x38\x39\x30\x31"
+    data = @hex("bf-31-32-33-34-35-36-37-38-39-30-31-32-33-34-35-36-37-38-39-30-31-32-33-34-35-36-37-38-39-30-31")
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_string! == "1234567890123456789012345678901"
     assert: rd.is_exhausted
 
   :it "reads string ascii (10)"
-    data = b"\xd9\x1f\x31\x32\x33\x34\x35\x36\x37\x38\x39\x30\x31\x32\x33\x34\x35\x36\x37\x38\x39\x30\x31\x32\x33\x34\x35\x36\x37\x38\x39\x30\x31"
+    data = @hex("d9-1f-31-32-33-34-35-36-37-38-39-30-31-32-33-34-35-36-37-38-39-30-31-32-33-34-35-36-37-38-39-30-31")
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_string! == "1234567890123456789012345678901"
     assert: rd.is_exhausted
 
   :it "reads string ascii (11)"
-    data = b"\xda\x00\x1f\x31\x32\x33\x34\x35\x36\x37\x38\x39\x30\x31\x32\x33\x34\x35\x36\x37\x38\x39\x30\x31\x32\x33\x34\x35\x36\x37\x38\x39\x30\x31"
+    data = @hex("da-00-1f-31-32-33-34-35-36-37-38-39-30-31-32-33-34-35-36-37-38-39-30-31-32-33-34-35-36-37-38-39-30-31")
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_string! == "1234567890123456789012345678901"
     assert: rd.is_exhausted
 
   :it "reads string ascii (12)"
-    data = b"\xd9\x20\x31\x32\x33\x34\x35\x36\x37\x38\x39\x30\x31\x32\x33\x34\x35\x36\x37\x38\x39\x30\x31\x32\x33\x34\x35\x36\x37\x38\x39\x30\x31\x32"
+    data = @hex("d9-20-31-32-33-34-35-36-37-38-39-30-31-32-33-34-35-36-37-38-39-30-31-32-33-34-35-36-37-38-39-30-31-32")
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_string! == "12345678901234567890123456789012"
     assert: rd.is_exhausted
 
   :it "reads string ascii (13)"
-    data = b"\xda\x00\x20\x31\x32\x33\x34\x35\x36\x37\x38\x39\x30\x31\x32\x33\x34\x35\x36\x37\x38\x39\x30\x31\x32\x33\x34\x35\x36\x37\x38\x39\x30\x31\x32"
+    data = @hex("da-00-20-31-32-33-34-35-36-37-38-39-30-31-32-33-34-35-36-37-38-39-30-31-32-33-34-35-36-37-38-39-30-31-32")
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_string! == "12345678901234567890123456789012"
     assert: rd.is_exhausted
 
   :it "reads string utf8 (1)"
-    data = b"\xb2\xd0\x9a\xd0\xb8\xd1\x80\xd0\xb8\xd0\xbb\xd0\xbb\xd0\xb8\xd1\x86\xd0\xb0"
+    data = @hex("b2-d0-9a-d0-b8-d1-80-d0-b8-d0-bb-d0-bb-d0-b8-d1-86-d0-b0")
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_string! == "Кириллица"
     assert: rd.is_exhausted
 
   :it "reads string utf8 (2)"
-    data = b"\xd9\x12\xd0\x9a\xd0\xb8\xd1\x80\xd0\xb8\xd0\xbb\xd0\xbb\xd0\xb8\xd1\x86\xd0\xb0"
+    data = @hex("d9-12-d0-9a-d0-b8-d1-80-d0-b8-d0-bb-d0-bb-d0-b8-d1-86-d0-b0")
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_string! == "Кириллица"
     assert: rd.is_exhausted
 
   :it "reads string utf8 (3)"
-    data = b"\xac\xe3\x81\xb2\xe3\x82\x89\xe3\x81\x8c\xe3\x81\xaa"
+    data = @hex("ac-e3-81-b2-e3-82-89-e3-81-8c-e3-81-aa")
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_string! == "ひらがな"
     assert: rd.is_exhausted
 
   :it "reads string utf8 (4)"
-    data = b"\xd9\x0c\xe3\x81\xb2\xe3\x82\x89\xe3\x81\x8c\xe3\x81\xaa"
+    data = @hex("d9-0c-e3-81-b2-e3-82-89-e3-81-8c-e3-81-aa")
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_string! == "ひらがな"
     assert: rd.is_exhausted
 
   :it "reads string utf8 (5)"
-    data = b"\xa6\xed\x95\x9c\xea\xb8\x80"
+    data = @hex("a6-ed-95-9c-ea-b8-80")
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_string! == "한글"
     assert: rd.is_exhausted
 
   :it "reads string utf8 (6)"
-    data = b"\xd9\x06\xed\x95\x9c\xea\xb8\x80"
+    data = @hex("d9-06-ed-95-9c-ea-b8-80")
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_string! == "한글"
     assert: rd.is_exhausted
 
   :it "reads string utf8 (7)"
-    data = b"\xa6\xe6\xb1\x89\xe5\xad\x97"
+    data = @hex("a6-e6-b1-89-e5-ad-97")
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_string! == "汉字"
     assert: rd.is_exhausted
 
   :it "reads string utf8 (8)"
-    data = b"\xd9\x06\xe6\xb1\x89\xe5\xad\x97"
+    data = @hex("d9-06-e6-b1-89-e5-ad-97")
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_string! == "汉字"
     assert: rd.is_exhausted
 
   :it "reads string utf8 (9)"
-    data = b"\xa6\xe6\xbc\xa2\xe5\xad\x97"
+    data = @hex("a6-e6-bc-a2-e5-ad-97")
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_string! == "漢字"
     assert: rd.is_exhausted
 
   :it "reads string utf8 (10)"
-    data = b"\xd9\x06\xe6\xbc\xa2\xe5\xad\x97"
+    data = @hex("d9-06-e6-bc-a2-e5-ad-97")
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_string! == "漢字"
     assert: rd.is_exhausted
 
   :it "reads string emoji (1)"
-    data = b"\xa3\xe2\x9d\xa4"
+    data = @hex("a3-e2-9d-a4")
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_string! == "❤"
     assert: rd.is_exhausted
 
   :it "reads string emoji (2)"
-    data = b"\xd9\x03\xe2\x9d\xa4"
+    data = @hex("d9-03-e2-9d-a4")
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_string! == "❤"
     assert: rd.is_exhausted
 
   :it "reads string emoji (3)"
-    data = b"\xa4\xf0\x9f\x8d\xba"
+    data = @hex("a4-f0-9f-8d-ba")
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_string! == "🍺"
     assert: rd.is_exhausted
 
   :it "reads string emoji (4)"
-    data = b"\xd9\x04\xf0\x9f\x8d\xba"
+    data = @hex("d9-04-f0-9f-8d-ba")
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_string! == "🍺"
     assert: rd.is_exhausted
 
   :it "reads array (1)"
-    data = b"\x90"
+    data = @hex("90")
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_array_head! == USize[0]
     assert: rd.is_exhausted
 
   :it "reads array (2)"
-    data = b"\xdc\x00\x00"
+    data = @hex("dc-00-00")
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_array_head! == USize[0]
     assert: rd.is_exhausted
 
   :it "reads array (3)"
-    data = b"\xdd\x00\x00\x00\x00"
+    data = @hex("dd-00-00-00-00")
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_array_head! == USize[0]
     assert: rd.is_exhausted
 
   :it "reads array (4)"
-    data = b"\x91\x01"
+    data = @hex("91-01")
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_array_head! == USize[1]
     rd.mark_here
-    assert (rd.read_uint! == U64[1]), rd.rewind_to_mark
-    assert (rd.read_int! == I64[1]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[1.0])
+    assert: (rd.read_uint! == U64[1]), rd.rewind_to_mark
+    assert: (rd.read_int! == I64[1]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[1.0])
     assert: rd.is_exhausted
 
   :it "reads array (5)"
-    data = b"\xdc\x00\x01\x01"
+    data = @hex("dc-00-01-01")
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_array_head! == USize[1]
     rd.mark_here
-    assert (rd.read_uint! == U64[1]), rd.rewind_to_mark
-    assert (rd.read_int! == I64[1]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[1.0])
+    assert: (rd.read_uint! == U64[1]), rd.rewind_to_mark
+    assert: (rd.read_int! == I64[1]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[1.0])
     assert: rd.is_exhausted
 
   :it "reads array (6)"
-    data = b"\xdd\x00\x00\x00\x01\x01"
+    data = @hex("dd-00-00-00-01-01")
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_array_head! == USize[1]
     rd.mark_here
-    assert (rd.read_uint! == U64[1]), rd.rewind_to_mark
-    assert (rd.read_int! == I64[1]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[1.0])
+    assert: (rd.read_uint! == U64[1]), rd.rewind_to_mark
+    assert: (rd.read_int! == I64[1]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[1.0])
     assert: rd.is_exhausted
 
   :it "reads array (7)"
-    data = b"\x9f\x01\x02\x03\x04\x05\x06\x07\x08\x09\x0a\x0b\x0c\x0d\x0e\x0f"
+    data = @hex("9f-01-02-03-04-05-06-07-08-09-0a-0b-0c-0d-0e-0f")
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_array_head! == USize[15]
     rd.mark_here
-    assert (rd.read_uint! == U64[1]), rd.rewind_to_mark
-    assert (rd.read_int! == I64[1]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[1.0])
+    assert: (rd.read_uint! == U64[1]), rd.rewind_to_mark
+    assert: (rd.read_int! == I64[1]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[1.0])
     rd.mark_here
-    assert (rd.read_uint! == U64[2]), rd.rewind_to_mark
-    assert (rd.read_int! == I64[2]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[2.0])
+    assert: (rd.read_uint! == U64[2]), rd.rewind_to_mark
+    assert: (rd.read_int! == I64[2]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[2.0])
     rd.mark_here
-    assert (rd.read_uint! == U64[3]), rd.rewind_to_mark
-    assert (rd.read_int! == I64[3]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[3.0])
+    assert: (rd.read_uint! == U64[3]), rd.rewind_to_mark
+    assert: (rd.read_int! == I64[3]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[3.0])
     rd.mark_here
-    assert (rd.read_uint! == U64[4]), rd.rewind_to_mark
-    assert (rd.read_int! == I64[4]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[4.0])
+    assert: (rd.read_uint! == U64[4]), rd.rewind_to_mark
+    assert: (rd.read_int! == I64[4]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[4.0])
     rd.mark_here
-    assert (rd.read_uint! == U64[5]), rd.rewind_to_mark
-    assert (rd.read_int! == I64[5]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[5.0])
+    assert: (rd.read_uint! == U64[5]), rd.rewind_to_mark
+    assert: (rd.read_int! == I64[5]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[5.0])
     rd.mark_here
-    assert (rd.read_uint! == U64[6]), rd.rewind_to_mark
-    assert (rd.read_int! == I64[6]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[6.0])
+    assert: (rd.read_uint! == U64[6]), rd.rewind_to_mark
+    assert: (rd.read_int! == I64[6]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[6.0])
     rd.mark_here
-    assert (rd.read_uint! == U64[7]), rd.rewind_to_mark
-    assert (rd.read_int! == I64[7]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[7.0])
+    assert: (rd.read_uint! == U64[7]), rd.rewind_to_mark
+    assert: (rd.read_int! == I64[7]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[7.0])
     rd.mark_here
-    assert (rd.read_uint! == U64[8]), rd.rewind_to_mark
-    assert (rd.read_int! == I64[8]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[8.0])
+    assert: (rd.read_uint! == U64[8]), rd.rewind_to_mark
+    assert: (rd.read_int! == I64[8]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[8.0])
     rd.mark_here
-    assert (rd.read_uint! == U64[9]), rd.rewind_to_mark
-    assert (rd.read_int! == I64[9]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[9.0])
+    assert: (rd.read_uint! == U64[9]), rd.rewind_to_mark
+    assert: (rd.read_int! == I64[9]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[9.0])
     rd.mark_here
-    assert (rd.read_uint! == U64[10]), rd.rewind_to_mark
-    assert (rd.read_int! == I64[10]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[10.0])
+    assert: (rd.read_uint! == U64[10]), rd.rewind_to_mark
+    assert: (rd.read_int! == I64[10]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[10.0])
     rd.mark_here
-    assert (rd.read_uint! == U64[11]), rd.rewind_to_mark
-    assert (rd.read_int! == I64[11]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[11.0])
+    assert: (rd.read_uint! == U64[11]), rd.rewind_to_mark
+    assert: (rd.read_int! == I64[11]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[11.0])
     rd.mark_here
-    assert (rd.read_uint! == U64[12]), rd.rewind_to_mark
-    assert (rd.read_int! == I64[12]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[12.0])
+    assert: (rd.read_uint! == U64[12]), rd.rewind_to_mark
+    assert: (rd.read_int! == I64[12]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[12.0])
     rd.mark_here
-    assert (rd.read_uint! == U64[13]), rd.rewind_to_mark
-    assert (rd.read_int! == I64[13]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[13.0])
+    assert: (rd.read_uint! == U64[13]), rd.rewind_to_mark
+    assert: (rd.read_int! == I64[13]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[13.0])
     rd.mark_here
-    assert (rd.read_uint! == U64[14]), rd.rewind_to_mark
-    assert (rd.read_int! == I64[14]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[14.0])
+    assert: (rd.read_uint! == U64[14]), rd.rewind_to_mark
+    assert: (rd.read_int! == I64[14]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[14.0])
     rd.mark_here
-    assert (rd.read_uint! == U64[15]), rd.rewind_to_mark
-    assert (rd.read_int! == I64[15]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[15.0])
+    assert: (rd.read_uint! == U64[15]), rd.rewind_to_mark
+    assert: (rd.read_int! == I64[15]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[15.0])
     assert: rd.is_exhausted
 
   :it "reads array (8)"
-    data = b"\xdc\x00\x0f\x01\x02\x03\x04\x05\x06\x07\x08\x09\x0a\x0b\x0c\x0d\x0e\x0f"
+    data = @hex("dc-00-0f-01-02-03-04-05-06-07-08-09-0a-0b-0c-0d-0e-0f")
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_array_head! == USize[15]
     rd.mark_here
-    assert (rd.read_uint! == U64[1]), rd.rewind_to_mark
-    assert (rd.read_int! == I64[1]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[1.0])
+    assert: (rd.read_uint! == U64[1]), rd.rewind_to_mark
+    assert: (rd.read_int! == I64[1]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[1.0])
     rd.mark_here
-    assert (rd.read_uint! == U64[2]), rd.rewind_to_mark
-    assert (rd.read_int! == I64[2]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[2.0])
+    assert: (rd.read_uint! == U64[2]), rd.rewind_to_mark
+    assert: (rd.read_int! == I64[2]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[2.0])
     rd.mark_here
-    assert (rd.read_uint! == U64[3]), rd.rewind_to_mark
-    assert (rd.read_int! == I64[3]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[3.0])
+    assert: (rd.read_uint! == U64[3]), rd.rewind_to_mark
+    assert: (rd.read_int! == I64[3]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[3.0])
     rd.mark_here
-    assert (rd.read_uint! == U64[4]), rd.rewind_to_mark
-    assert (rd.read_int! == I64[4]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[4.0])
+    assert: (rd.read_uint! == U64[4]), rd.rewind_to_mark
+    assert: (rd.read_int! == I64[4]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[4.0])
     rd.mark_here
-    assert (rd.read_uint! == U64[5]), rd.rewind_to_mark
-    assert (rd.read_int! == I64[5]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[5.0])
+    assert: (rd.read_uint! == U64[5]), rd.rewind_to_mark
+    assert: (rd.read_int! == I64[5]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[5.0])
     rd.mark_here
-    assert (rd.read_uint! == U64[6]), rd.rewind_to_mark
-    assert (rd.read_int! == I64[6]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[6.0])
+    assert: (rd.read_uint! == U64[6]), rd.rewind_to_mark
+    assert: (rd.read_int! == I64[6]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[6.0])
     rd.mark_here
-    assert (rd.read_uint! == U64[7]), rd.rewind_to_mark
-    assert (rd.read_int! == I64[7]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[7.0])
+    assert: (rd.read_uint! == U64[7]), rd.rewind_to_mark
+    assert: (rd.read_int! == I64[7]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[7.0])
     rd.mark_here
-    assert (rd.read_uint! == U64[8]), rd.rewind_to_mark
-    assert (rd.read_int! == I64[8]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[8.0])
+    assert: (rd.read_uint! == U64[8]), rd.rewind_to_mark
+    assert: (rd.read_int! == I64[8]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[8.0])
     rd.mark_here
-    assert (rd.read_uint! == U64[9]), rd.rewind_to_mark
-    assert (rd.read_int! == I64[9]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[9.0])
+    assert: (rd.read_uint! == U64[9]), rd.rewind_to_mark
+    assert: (rd.read_int! == I64[9]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[9.0])
     rd.mark_here
-    assert (rd.read_uint! == U64[10]), rd.rewind_to_mark
-    assert (rd.read_int! == I64[10]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[10.0])
+    assert: (rd.read_uint! == U64[10]), rd.rewind_to_mark
+    assert: (rd.read_int! == I64[10]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[10.0])
     rd.mark_here
-    assert (rd.read_uint! == U64[11]), rd.rewind_to_mark
-    assert (rd.read_int! == I64[11]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[11.0])
+    assert: (rd.read_uint! == U64[11]), rd.rewind_to_mark
+    assert: (rd.read_int! == I64[11]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[11.0])
     rd.mark_here
-    assert (rd.read_uint! == U64[12]), rd.rewind_to_mark
-    assert (rd.read_int! == I64[12]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[12.0])
+    assert: (rd.read_uint! == U64[12]), rd.rewind_to_mark
+    assert: (rd.read_int! == I64[12]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[12.0])
     rd.mark_here
-    assert (rd.read_uint! == U64[13]), rd.rewind_to_mark
-    assert (rd.read_int! == I64[13]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[13.0])
+    assert: (rd.read_uint! == U64[13]), rd.rewind_to_mark
+    assert: (rd.read_int! == I64[13]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[13.0])
     rd.mark_here
-    assert (rd.read_uint! == U64[14]), rd.rewind_to_mark
-    assert (rd.read_int! == I64[14]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[14.0])
+    assert: (rd.read_uint! == U64[14]), rd.rewind_to_mark
+    assert: (rd.read_int! == I64[14]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[14.0])
     rd.mark_here
-    assert (rd.read_uint! == U64[15]), rd.rewind_to_mark
-    assert (rd.read_int! == I64[15]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[15.0])
+    assert: (rd.read_uint! == U64[15]), rd.rewind_to_mark
+    assert: (rd.read_int! == I64[15]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[15.0])
     assert: rd.is_exhausted
 
   :it "reads array (9)"
-    data = b"\xdd\x00\x00\x00\x0f\x01\x02\x03\x04\x05\x06\x07\x08\x09\x0a\x0b\x0c\x0d\x0e\x0f"
+    data = @hex("dd-00-00-00-0f-01-02-03-04-05-06-07-08-09-0a-0b-0c-0d-0e-0f")
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_array_head! == USize[15]
     rd.mark_here
-    assert (rd.read_uint! == U64[1]), rd.rewind_to_mark
-    assert (rd.read_int! == I64[1]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[1.0])
+    assert: (rd.read_uint! == U64[1]), rd.rewind_to_mark
+    assert: (rd.read_int! == I64[1]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[1.0])
     rd.mark_here
-    assert (rd.read_uint! == U64[2]), rd.rewind_to_mark
-    assert (rd.read_int! == I64[2]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[2.0])
+    assert: (rd.read_uint! == U64[2]), rd.rewind_to_mark
+    assert: (rd.read_int! == I64[2]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[2.0])
     rd.mark_here
-    assert (rd.read_uint! == U64[3]), rd.rewind_to_mark
-    assert (rd.read_int! == I64[3]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[3.0])
+    assert: (rd.read_uint! == U64[3]), rd.rewind_to_mark
+    assert: (rd.read_int! == I64[3]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[3.0])
     rd.mark_here
-    assert (rd.read_uint! == U64[4]), rd.rewind_to_mark
-    assert (rd.read_int! == I64[4]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[4.0])
+    assert: (rd.read_uint! == U64[4]), rd.rewind_to_mark
+    assert: (rd.read_int! == I64[4]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[4.0])
     rd.mark_here
-    assert (rd.read_uint! == U64[5]), rd.rewind_to_mark
-    assert (rd.read_int! == I64[5]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[5.0])
+    assert: (rd.read_uint! == U64[5]), rd.rewind_to_mark
+    assert: (rd.read_int! == I64[5]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[5.0])
     rd.mark_here
-    assert (rd.read_uint! == U64[6]), rd.rewind_to_mark
-    assert (rd.read_int! == I64[6]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[6.0])
+    assert: (rd.read_uint! == U64[6]), rd.rewind_to_mark
+    assert: (rd.read_int! == I64[6]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[6.0])
     rd.mark_here
-    assert (rd.read_uint! == U64[7]), rd.rewind_to_mark
-    assert (rd.read_int! == I64[7]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[7.0])
+    assert: (rd.read_uint! == U64[7]), rd.rewind_to_mark
+    assert: (rd.read_int! == I64[7]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[7.0])
     rd.mark_here
-    assert (rd.read_uint! == U64[8]), rd.rewind_to_mark
-    assert (rd.read_int! == I64[8]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[8.0])
+    assert: (rd.read_uint! == U64[8]), rd.rewind_to_mark
+    assert: (rd.read_int! == I64[8]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[8.0])
     rd.mark_here
-    assert (rd.read_uint! == U64[9]), rd.rewind_to_mark
-    assert (rd.read_int! == I64[9]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[9.0])
+    assert: (rd.read_uint! == U64[9]), rd.rewind_to_mark
+    assert: (rd.read_int! == I64[9]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[9.0])
     rd.mark_here
-    assert (rd.read_uint! == U64[10]), rd.rewind_to_mark
-    assert (rd.read_int! == I64[10]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[10.0])
+    assert: (rd.read_uint! == U64[10]), rd.rewind_to_mark
+    assert: (rd.read_int! == I64[10]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[10.0])
     rd.mark_here
-    assert (rd.read_uint! == U64[11]), rd.rewind_to_mark
-    assert (rd.read_int! == I64[11]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[11.0])
+    assert: (rd.read_uint! == U64[11]), rd.rewind_to_mark
+    assert: (rd.read_int! == I64[11]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[11.0])
     rd.mark_here
-    assert (rd.read_uint! == U64[12]), rd.rewind_to_mark
-    assert (rd.read_int! == I64[12]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[12.0])
+    assert: (rd.read_uint! == U64[12]), rd.rewind_to_mark
+    assert: (rd.read_int! == I64[12]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[12.0])
     rd.mark_here
-    assert (rd.read_uint! == U64[13]), rd.rewind_to_mark
-    assert (rd.read_int! == I64[13]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[13.0])
+    assert: (rd.read_uint! == U64[13]), rd.rewind_to_mark
+    assert: (rd.read_int! == I64[13]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[13.0])
     rd.mark_here
-    assert (rd.read_uint! == U64[14]), rd.rewind_to_mark
-    assert (rd.read_int! == I64[14]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[14.0])
+    assert: (rd.read_uint! == U64[14]), rd.rewind_to_mark
+    assert: (rd.read_int! == I64[14]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[14.0])
     rd.mark_here
-    assert (rd.read_uint! == U64[15]), rd.rewind_to_mark
-    assert (rd.read_int! == I64[15]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[15.0])
+    assert: (rd.read_uint! == U64[15]), rd.rewind_to_mark
+    assert: (rd.read_int! == I64[15]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[15.0])
     assert: rd.is_exhausted
 
   :it "reads array (10)"
-    data = b"\xdc\x00\x10\x01\x02\x03\x04\x05\x06\x07\x08\x09\x0a\x0b\x0c\x0d\x0e\x0f\x10"
+    data = @hex("dc-00-10-01-02-03-04-05-06-07-08-09-0a-0b-0c-0d-0e-0f-10")
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_array_head! == USize[16]
     rd.mark_here
-    assert (rd.read_uint! == U64[1]), rd.rewind_to_mark
-    assert (rd.read_int! == I64[1]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[1.0])
+    assert: (rd.read_uint! == U64[1]), rd.rewind_to_mark
+    assert: (rd.read_int! == I64[1]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[1.0])
     rd.mark_here
-    assert (rd.read_uint! == U64[2]), rd.rewind_to_mark
-    assert (rd.read_int! == I64[2]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[2.0])
+    assert: (rd.read_uint! == U64[2]), rd.rewind_to_mark
+    assert: (rd.read_int! == I64[2]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[2.0])
     rd.mark_here
-    assert (rd.read_uint! == U64[3]), rd.rewind_to_mark
-    assert (rd.read_int! == I64[3]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[3.0])
+    assert: (rd.read_uint! == U64[3]), rd.rewind_to_mark
+    assert: (rd.read_int! == I64[3]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[3.0])
     rd.mark_here
-    assert (rd.read_uint! == U64[4]), rd.rewind_to_mark
-    assert (rd.read_int! == I64[4]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[4.0])
+    assert: (rd.read_uint! == U64[4]), rd.rewind_to_mark
+    assert: (rd.read_int! == I64[4]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[4.0])
     rd.mark_here
-    assert (rd.read_uint! == U64[5]), rd.rewind_to_mark
-    assert (rd.read_int! == I64[5]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[5.0])
+    assert: (rd.read_uint! == U64[5]), rd.rewind_to_mark
+    assert: (rd.read_int! == I64[5]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[5.0])
     rd.mark_here
-    assert (rd.read_uint! == U64[6]), rd.rewind_to_mark
-    assert (rd.read_int! == I64[6]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[6.0])
+    assert: (rd.read_uint! == U64[6]), rd.rewind_to_mark
+    assert: (rd.read_int! == I64[6]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[6.0])
     rd.mark_here
-    assert (rd.read_uint! == U64[7]), rd.rewind_to_mark
-    assert (rd.read_int! == I64[7]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[7.0])
+    assert: (rd.read_uint! == U64[7]), rd.rewind_to_mark
+    assert: (rd.read_int! == I64[7]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[7.0])
     rd.mark_here
-    assert (rd.read_uint! == U64[8]), rd.rewind_to_mark
-    assert (rd.read_int! == I64[8]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[8.0])
+    assert: (rd.read_uint! == U64[8]), rd.rewind_to_mark
+    assert: (rd.read_int! == I64[8]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[8.0])
     rd.mark_here
-    assert (rd.read_uint! == U64[9]), rd.rewind_to_mark
-    assert (rd.read_int! == I64[9]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[9.0])
+    assert: (rd.read_uint! == U64[9]), rd.rewind_to_mark
+    assert: (rd.read_int! == I64[9]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[9.0])
     rd.mark_here
-    assert (rd.read_uint! == U64[10]), rd.rewind_to_mark
-    assert (rd.read_int! == I64[10]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[10.0])
+    assert: (rd.read_uint! == U64[10]), rd.rewind_to_mark
+    assert: (rd.read_int! == I64[10]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[10.0])
     rd.mark_here
-    assert (rd.read_uint! == U64[11]), rd.rewind_to_mark
-    assert (rd.read_int! == I64[11]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[11.0])
+    assert: (rd.read_uint! == U64[11]), rd.rewind_to_mark
+    assert: (rd.read_int! == I64[11]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[11.0])
     rd.mark_here
-    assert (rd.read_uint! == U64[12]), rd.rewind_to_mark
-    assert (rd.read_int! == I64[12]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[12.0])
+    assert: (rd.read_uint! == U64[12]), rd.rewind_to_mark
+    assert: (rd.read_int! == I64[12]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[12.0])
     rd.mark_here
-    assert (rd.read_uint! == U64[13]), rd.rewind_to_mark
-    assert (rd.read_int! == I64[13]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[13.0])
+    assert: (rd.read_uint! == U64[13]), rd.rewind_to_mark
+    assert: (rd.read_int! == I64[13]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[13.0])
     rd.mark_here
-    assert (rd.read_uint! == U64[14]), rd.rewind_to_mark
-    assert (rd.read_int! == I64[14]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[14.0])
+    assert: (rd.read_uint! == U64[14]), rd.rewind_to_mark
+    assert: (rd.read_int! == I64[14]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[14.0])
     rd.mark_here
-    assert (rd.read_uint! == U64[15]), rd.rewind_to_mark
-    assert (rd.read_int! == I64[15]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[15.0])
+    assert: (rd.read_uint! == U64[15]), rd.rewind_to_mark
+    assert: (rd.read_int! == I64[15]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[15.0])
     rd.mark_here
-    assert (rd.read_uint! == U64[16]), rd.rewind_to_mark
-    assert (rd.read_int! == I64[16]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[16.0])
+    assert: (rd.read_uint! == U64[16]), rd.rewind_to_mark
+    assert: (rd.read_int! == I64[16]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[16.0])
     assert: rd.is_exhausted
 
   :it "reads array (11)"
-    data = b"\xdd\x00\x00\x00\x10\x01\x02\x03\x04\x05\x06\x07\x08\x09\x0a\x0b\x0c\x0d\x0e\x0f\x10"
+    data = @hex("dd-00-00-00-10-01-02-03-04-05-06-07-08-09-0a-0b-0c-0d-0e-0f-10")
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_array_head! == USize[16]
     rd.mark_here
-    assert (rd.read_uint! == U64[1]), rd.rewind_to_mark
-    assert (rd.read_int! == I64[1]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[1.0])
+    assert: (rd.read_uint! == U64[1]), rd.rewind_to_mark
+    assert: (rd.read_int! == I64[1]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[1.0])
     rd.mark_here
-    assert (rd.read_uint! == U64[2]), rd.rewind_to_mark
-    assert (rd.read_int! == I64[2]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[2.0])
+    assert: (rd.read_uint! == U64[2]), rd.rewind_to_mark
+    assert: (rd.read_int! == I64[2]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[2.0])
     rd.mark_here
-    assert (rd.read_uint! == U64[3]), rd.rewind_to_mark
-    assert (rd.read_int! == I64[3]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[3.0])
+    assert: (rd.read_uint! == U64[3]), rd.rewind_to_mark
+    assert: (rd.read_int! == I64[3]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[3.0])
     rd.mark_here
-    assert (rd.read_uint! == U64[4]), rd.rewind_to_mark
-    assert (rd.read_int! == I64[4]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[4.0])
+    assert: (rd.read_uint! == U64[4]), rd.rewind_to_mark
+    assert: (rd.read_int! == I64[4]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[4.0])
     rd.mark_here
-    assert (rd.read_uint! == U64[5]), rd.rewind_to_mark
-    assert (rd.read_int! == I64[5]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[5.0])
+    assert: (rd.read_uint! == U64[5]), rd.rewind_to_mark
+    assert: (rd.read_int! == I64[5]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[5.0])
     rd.mark_here
-    assert (rd.read_uint! == U64[6]), rd.rewind_to_mark
-    assert (rd.read_int! == I64[6]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[6.0])
+    assert: (rd.read_uint! == U64[6]), rd.rewind_to_mark
+    assert: (rd.read_int! == I64[6]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[6.0])
     rd.mark_here
-    assert (rd.read_uint! == U64[7]), rd.rewind_to_mark
-    assert (rd.read_int! == I64[7]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[7.0])
+    assert: (rd.read_uint! == U64[7]), rd.rewind_to_mark
+    assert: (rd.read_int! == I64[7]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[7.0])
     rd.mark_here
-    assert (rd.read_uint! == U64[8]), rd.rewind_to_mark
-    assert (rd.read_int! == I64[8]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[8.0])
+    assert: (rd.read_uint! == U64[8]), rd.rewind_to_mark
+    assert: (rd.read_int! == I64[8]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[8.0])
     rd.mark_here
-    assert (rd.read_uint! == U64[9]), rd.rewind_to_mark
-    assert (rd.read_int! == I64[9]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[9.0])
+    assert: (rd.read_uint! == U64[9]), rd.rewind_to_mark
+    assert: (rd.read_int! == I64[9]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[9.0])
     rd.mark_here
-    assert (rd.read_uint! == U64[10]), rd.rewind_to_mark
-    assert (rd.read_int! == I64[10]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[10.0])
+    assert: (rd.read_uint! == U64[10]), rd.rewind_to_mark
+    assert: (rd.read_int! == I64[10]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[10.0])
     rd.mark_here
-    assert (rd.read_uint! == U64[11]), rd.rewind_to_mark
-    assert (rd.read_int! == I64[11]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[11.0])
+    assert: (rd.read_uint! == U64[11]), rd.rewind_to_mark
+    assert: (rd.read_int! == I64[11]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[11.0])
     rd.mark_here
-    assert (rd.read_uint! == U64[12]), rd.rewind_to_mark
-    assert (rd.read_int! == I64[12]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[12.0])
+    assert: (rd.read_uint! == U64[12]), rd.rewind_to_mark
+    assert: (rd.read_int! == I64[12]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[12.0])
     rd.mark_here
-    assert (rd.read_uint! == U64[13]), rd.rewind_to_mark
-    assert (rd.read_int! == I64[13]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[13.0])
+    assert: (rd.read_uint! == U64[13]), rd.rewind_to_mark
+    assert: (rd.read_int! == I64[13]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[13.0])
     rd.mark_here
-    assert (rd.read_uint! == U64[14]), rd.rewind_to_mark
-    assert (rd.read_int! == I64[14]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[14.0])
+    assert: (rd.read_uint! == U64[14]), rd.rewind_to_mark
+    assert: (rd.read_int! == I64[14]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[14.0])
     rd.mark_here
-    assert (rd.read_uint! == U64[15]), rd.rewind_to_mark
-    assert (rd.read_int! == I64[15]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[15.0])
+    assert: (rd.read_uint! == U64[15]), rd.rewind_to_mark
+    assert: (rd.read_int! == I64[15]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[15.0])
     rd.mark_here
-    assert (rd.read_uint! == U64[16]), rd.rewind_to_mark
-    assert (rd.read_int! == I64[16]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[16.0])
+    assert: (rd.read_uint! == U64[16]), rd.rewind_to_mark
+    assert: (rd.read_int! == I64[16]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[16.0])
     assert: rd.is_exhausted
 
   :it "reads array (12)"
-    data = b"\x91\xa1\x61"
+    data = @hex("91-a1-61")
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_array_head! == USize[1]
     assert: rd.read_string! == "a"
     assert: rd.is_exhausted
 
   :it "reads array (13)"
-    data = b"\xdc\x00\x01\xa1\x61"
+    data = @hex("dc-00-01-a1-61")
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_array_head! == USize[1]
     assert: rd.read_string! == "a"
     assert: rd.is_exhausted
 
   :it "reads array (14)"
-    data = b"\xdd\x00\x00\x00\x01\xa1\x61"
+    data = @hex("dd-00-00-00-01-a1-61")
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_array_head! == USize[1]
     assert: rd.read_string! == "a"
     assert: rd.is_exhausted
 
   :it "reads map (1)"
-    data = b"\x80"
+    data = @hex("80")
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_map_head! == USize[0]
     assert: rd.is_exhausted
 
   :it "reads map (2)"
-    data = b"\xde\x00\x00"
+    data = @hex("de-00-00")
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_map_head! == USize[0]
     assert: rd.is_exhausted
 
   :it "reads map (3)"
-    data = b"\xdf\x00\x00\x00\x00"
+    data = @hex("df-00-00-00-00")
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_map_head! == USize[0]
     assert: rd.is_exhausted
 
   :it "reads map (4)"
-    data = b"\x81\xa1\x61\x01"
+    data = @hex("81-a1-61-01")
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_map_head! == USize[1]
     assert: rd.read_string! == "a"
     rd.mark_here
-    assert (rd.read_uint! == U64[1]), rd.rewind_to_mark
-    assert (rd.read_int! == I64[1]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[1.0])
+    assert: (rd.read_uint! == U64[1]), rd.rewind_to_mark
+    assert: (rd.read_int! == I64[1]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[1.0])
     assert: rd.is_exhausted
 
   :it "reads map (5)"
-    data = b"\xde\x00\x01\xa1\x61\x01"
+    data = @hex("de-00-01-a1-61-01")
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_map_head! == USize[1]
     assert: rd.read_string! == "a"
     rd.mark_here
-    assert (rd.read_uint! == U64[1]), rd.rewind_to_mark
-    assert (rd.read_int! == I64[1]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[1.0])
+    assert: (rd.read_uint! == U64[1]), rd.rewind_to_mark
+    assert: (rd.read_int! == I64[1]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[1.0])
     assert: rd.is_exhausted
 
   :it "reads map (6)"
-    data = b"\xdf\x00\x00\x00\x01\xa1\x61\x01"
+    data = @hex("df-00-00-00-01-a1-61-01")
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_map_head! == USize[1]
     assert: rd.read_string! == "a"
     rd.mark_here
-    assert (rd.read_uint! == U64[1]), rd.rewind_to_mark
-    assert (rd.read_int! == I64[1]), rd.rewind_to_mark
-    assert (rd.read_f64! == F64[1.0])
+    assert: (rd.read_uint! == U64[1]), rd.rewind_to_mark
+    assert: (rd.read_int! == I64[1]), rd.rewind_to_mark
+    assert: (rd.read_f64! == F64[1.0])
     assert: rd.is_exhausted
 
   :it "reads map (7)"
-    data = b"\x81\xa1\x61\xa1\x41"
+    data = @hex("81-a1-61-a1-41")
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_map_head! == USize[1]
     assert: rd.read_string! == "a"
@@ -1804,7 +1806,7 @@
     assert: rd.is_exhausted
 
   :it "reads map (8)"
-    data = b"\xde\x00\x01\xa1\x61\xa1\x41"
+    data = @hex("de-00-01-a1-61-a1-41")
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_map_head! == USize[1]
     assert: rd.read_string! == "a"
@@ -1812,7 +1814,7 @@
     assert: rd.is_exhausted
 
   :it "reads map (9)"
-    data = b"\xdf\x00\x00\x00\x01\xa1\x61\xa1\x41"
+    data = @hex("df-00-00-00-01-a1-61-a1-41")
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_map_head! == USize[1]
     assert: rd.read_string! == "a"
@@ -1820,49 +1822,49 @@
     assert: rd.is_exhausted
 
   :it "reads nested (1)"
-    data = b"\x91\x90"
+    data = @hex("91-90")
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_array_head! == USize[1]
     assert: rd.read_array_head! == USize[0]
     assert: rd.is_exhausted
 
   :it "reads nested (2)"
-    data = b"\xdc\x00\x01\xdc\x00\x00"
+    data = @hex("dc-00-01-dc-00-00")
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_array_head! == USize[1]
     assert: rd.read_array_head! == USize[0]
     assert: rd.is_exhausted
 
   :it "reads nested (3)"
-    data = b"\xdd\x00\x00\x00\x01\xdd\x00\x00\x00\x00"
+    data = @hex("dd-00-00-00-01-dd-00-00-00-00")
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_array_head! == USize[1]
     assert: rd.read_array_head! == USize[0]
     assert: rd.is_exhausted
 
   :it "reads nested (4)"
-    data = b"\x91\x80"
+    data = @hex("91-80")
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_array_head! == USize[1]
     assert: rd.read_map_head! == USize[0]
     assert: rd.is_exhausted
 
   :it "reads nested (5)"
-    data = b"\xdc\x00\x01\x80"
+    data = @hex("dc-00-01-80")
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_array_head! == USize[1]
     assert: rd.read_map_head! == USize[0]
     assert: rd.is_exhausted
 
   :it "reads nested (6)"
-    data = b"\xdd\x00\x00\x00\x01\x80"
+    data = @hex("dd-00-00-00-01-80")
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_array_head! == USize[1]
     assert: rd.read_map_head! == USize[0]
     assert: rd.is_exhausted
 
   :it "reads nested (7)"
-    data = b"\x81\xa1\x61\x80"
+    data = @hex("81-a1-61-80")
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_map_head! == USize[1]
     assert: rd.read_string! == "a"
@@ -1870,7 +1872,7 @@
     assert: rd.is_exhausted
 
   :it "reads nested (8)"
-    data = b"\xde\x00\x01\xa1\x61\xde\x00\x00"
+    data = @hex("de-00-01-a1-61-de-00-00")
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_map_head! == USize[1]
     assert: rd.read_string! == "a"
@@ -1878,7 +1880,7 @@
     assert: rd.is_exhausted
 
   :it "reads nested (9)"
-    data = b"\xdf\x00\x00\x00\x01\xa1\x61\xdf\x00\x00\x00\x00"
+    data = @hex("df-00-00-00-01-a1-61-df-00-00-00-00")
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_map_head! == USize[1]
     assert: rd.read_string! == "a"
@@ -1886,7 +1888,7 @@
     assert: rd.is_exhausted
 
   :it "reads nested (10)"
-    data = b"\x81\xa1\x61\x90"
+    data = @hex("81-a1-61-90")
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_map_head! == USize[1]
     assert: rd.read_string! == "a"
@@ -1894,7 +1896,7 @@
     assert: rd.is_exhausted
 
   :it "reads nested (11)"
-    data = b"\xde\x00\x01\xa1\x61\x90"
+    data = @hex("de-00-01-a1-61-90")
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_map_head! == USize[1]
     assert: rd.read_string! == "a"
@@ -1902,7 +1904,7 @@
     assert: rd.is_exhausted
 
   :it "reads nested (12)"
-    data = b"\xdf\x00\x00\x00\x01\xa1\x61\x90"
+    data = @hex("df-00-00-00-01-a1-61-90")
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_map_head! == USize[1]
     assert: rd.read_string! == "a"
@@ -1910,7 +1912,7 @@
     assert: rd.is_exhausted
 
   :it "reads timestamp (1)"
-    data = b"\xd6\xff\x5a\x4a\xf6\xa5"
+    data = @hex("d6-ff-5a-4a-f6-a5")
     rd   = MessagePack.Reader.new(data)
     assert no_error: (
       ts = rd.read_timestamp!
@@ -1920,7 +1922,7 @@
     assert: rd.is_exhausted
 
   :it "reads timestamp (2)"
-    data = b"\xd7\xff\xa1\xdc\xd7\xc8\x5a\x4a\xf6\xa5"
+    data = @hex("d7-ff-a1-dc-d7-c8-5a-4a-f6-a5")
     rd   = MessagePack.Reader.new(data)
     assert no_error: (
       ts = rd.read_timestamp!
@@ -1930,7 +1932,7 @@
     assert: rd.is_exhausted
 
   :it "reads timestamp (3)"
-    data = b"\xd7\xff\xee\x6b\x27\xfc\x7f\xff\xff\xff"
+    data = @hex("d7-ff-ee-6b-27-fc-7f-ff-ff-ff")
     rd   = MessagePack.Reader.new(data)
     assert no_error: (
       ts = rd.read_timestamp!
@@ -1940,7 +1942,7 @@
     assert: rd.is_exhausted
 
   :it "reads timestamp (4)"
-    data = b"\xd6\xff\x80\x00\x00\x00"
+    data = @hex("d6-ff-80-00-00-00")
     rd   = MessagePack.Reader.new(data)
     assert no_error: (
       ts = rd.read_timestamp!
@@ -1950,7 +1952,7 @@
     assert: rd.is_exhausted
 
   :it "reads timestamp (5)"
-    data = b"\xd7\xff\x00\x00\x00\x04\x80\x00\x00\x00"
+    data = @hex("d7-ff-00-00-00-04-80-00-00-00")
     rd   = MessagePack.Reader.new(data)
     assert no_error: (
       ts = rd.read_timestamp!
@@ -1960,7 +1962,7 @@
     assert: rd.is_exhausted
 
   :it "reads timestamp (6)"
-    data = b"\xd6\xff\xff\xff\xff\xff"
+    data = @hex("d6-ff-ff-ff-ff-ff")
     rd   = MessagePack.Reader.new(data)
     assert no_error: (
       ts = rd.read_timestamp!
@@ -1970,7 +1972,7 @@
     assert: rd.is_exhausted
 
   :it "reads timestamp (7)"
-    data = b"\xd7\xff\xee\x6b\x27\xfc\xff\xff\xff\xff"
+    data = @hex("d7-ff-ee-6b-27-fc-ff-ff-ff-ff")
     rd   = MessagePack.Reader.new(data)
     assert no_error: (
       ts = rd.read_timestamp!
@@ -1980,7 +1982,7 @@
     assert: rd.is_exhausted
 
   :it "reads timestamp (8)"
-    data = b"\xd7\xff\x00\x00\x00\x01\x00\x00\x00\x00"
+    data = @hex("d7-ff-00-00-00-01-00-00-00-00")
     rd   = MessagePack.Reader.new(data)
     assert no_error: (
       ts = rd.read_timestamp!
@@ -1990,7 +1992,7 @@
     assert: rd.is_exhausted
 
   :it "reads timestamp (9)"
-    data = b"\xd7\xff\xee\x6b\x27\xff\xff\xff\xff\xff"
+    data = @hex("d7-ff-ee-6b-27-ff-ff-ff-ff-ff")
     rd   = MessagePack.Reader.new(data)
     assert no_error: (
       ts = rd.read_timestamp!
@@ -2000,7 +2002,7 @@
     assert: rd.is_exhausted
 
   :it "reads timestamp (10)"
-    data = b"\xc7\x0c\xff\x00\x00\x00\x00\x00\x00\x00\x04\x00\x00\x00\x00"
+    data = @hex("c7-0c-ff-00-00-00-00-00-00-00-04-00-00-00-00")
     rd   = MessagePack.Reader.new(data)
     assert no_error: (
       ts = rd.read_timestamp!
@@ -2010,7 +2012,7 @@
     assert: rd.is_exhausted
 
   :it "reads timestamp (11)"
-    data = b"\xc7\x0c\xff\x00\x00\x00\x00\xff\xff\xff\xff\xff\xff\xff\xff"
+    data = @hex("c7-0c-ff-00-00-00-00-ff-ff-ff-ff-ff-ff-ff-ff")
     rd   = MessagePack.Reader.new(data)
     assert no_error: (
       ts = rd.read_timestamp!
@@ -2020,7 +2022,7 @@
     assert: rd.is_exhausted
 
   :it "reads timestamp (12)"
-    data = b"\xc7\x0c\xff\x3b\x9a\xc9\xff\xff\xff\xff\xff\xff\xff\xff\xff"
+    data = @hex("c7-0c-ff-3b-9a-c9-ff-ff-ff-ff-ff-ff-ff-ff-ff")
     rd   = MessagePack.Reader.new(data)
     assert no_error: (
       ts = rd.read_timestamp!
@@ -2030,7 +2032,7 @@
     assert: rd.is_exhausted
 
   :it "reads timestamp (13)"
-    data = b"\xd6\xff\x00\x00\x00\x00"
+    data = @hex("d6-ff-00-00-00-00")
     rd   = MessagePack.Reader.new(data)
     assert no_error: (
       ts = rd.read_timestamp!
@@ -2040,7 +2042,7 @@
     assert: rd.is_exhausted
 
   :it "reads timestamp (14)"
-    data = b"\xd7\xff\x00\x00\x00\x04\x00\x00\x00\x00"
+    data = @hex("d7-ff-00-00-00-04-00-00-00-00")
     rd   = MessagePack.Reader.new(data)
     assert no_error: (
       ts = rd.read_timestamp!
@@ -2050,7 +2052,7 @@
     assert: rd.is_exhausted
 
   :it "reads timestamp (15)"
-    data = b"\xd6\xff\x00\x00\x00\x01"
+    data = @hex("d6-ff-00-00-00-01")
     rd   = MessagePack.Reader.new(data)
     assert no_error: (
       ts = rd.read_timestamp!
@@ -2060,7 +2062,7 @@
     assert: rd.is_exhausted
 
   :it "reads timestamp (16)"
-    data = b"\xc7\x0c\xff\x3b\x9a\xc9\xff\xff\xff\xff\xff\x7c\x55\x81\x7f"
+    data = @hex("c7-0c-ff-3b-9a-c9-ff-ff-ff-ff-ff-7c-55-81-7f")
     rd   = MessagePack.Reader.new(data)
     assert no_error: (
       ts = rd.read_timestamp!
@@ -2070,7 +2072,7 @@
     assert: rd.is_exhausted
 
   :it "reads timestamp (17)"
-    data = b"\xc7\x0c\xff\x00\x00\x00\x00\xff\xff\xff\xff\x7c\x55\x81\x80"
+    data = @hex("c7-0c-ff-00-00-00-00-ff-ff-ff-ff-7c-55-81-80")
     rd   = MessagePack.Reader.new(data)
     assert no_error: (
       ts = rd.read_timestamp!
@@ -2080,7 +2082,7 @@
     assert: rd.is_exhausted
 
   :it "reads timestamp (18)"
-    data = b"\xc7\x0c\xff\x00\x00\x00\x00\xff\xff\xff\xf1\x86\x8b\x84\x00"
+    data = @hex("c7-0c-ff-00-00-00-00-ff-ff-ff-f1-86-8b-84-00")
     rd   = MessagePack.Reader.new(data)
     assert no_error: (
       ts = rd.read_timestamp!
@@ -2090,7 +2092,7 @@
     assert: rd.is_exhausted
 
   :it "reads timestamp (19)"
-    data = b"\xc7\x0c\xff\x3b\x9a\xc9\xff\x00\x00\x00\x3a\xff\xf4\x41\x7f"
+    data = @hex("c7-0c-ff-3b-9a-c9-ff-00-00-00-3a-ff-f4-41-7f")
     rd   = MessagePack.Reader.new(data)
     assert no_error: (
       ts = rd.read_timestamp!
@@ -2100,7 +2102,7 @@
     assert: rd.is_exhausted
 
   :it "reads ext (1)"
-    data = b"\xd4\x01\x10"
+    data = @hex("d4-01-10")
     rd   = MessagePack.Reader.new(data)
     assert no_error: (
       actual = rd.read_ext!
@@ -2110,7 +2112,7 @@
     assert: rd.is_exhausted
 
   :it "reads ext (2)"
-    data = b"\xd5\x02\x20\x21"
+    data = @hex("d5-02-20-21")
     rd   = MessagePack.Reader.new(data)
     assert no_error: (
       actual = rd.read_ext!
@@ -2120,7 +2122,7 @@
     assert: rd.is_exhausted
 
   :it "reads ext (3)"
-    data = b"\xd6\x03\x30\x31\x32\x33"
+    data = @hex("d6-03-30-31-32-33")
     rd   = MessagePack.Reader.new(data)
     assert no_error: (
       actual = rd.read_ext!
@@ -2130,7 +2132,7 @@
     assert: rd.is_exhausted
 
   :it "reads ext (4)"
-    data = b"\xd7\x04\x40\x41\x42\x43\x44\x45\x46\x47"
+    data = @hex("d7-04-40-41-42-43-44-45-46-47")
     rd   = MessagePack.Reader.new(data)
     assert no_error: (
       actual = rd.read_ext!
@@ -2140,7 +2142,7 @@
     assert: rd.is_exhausted
 
   :it "reads ext (5)"
-    data = b"\xd8\x05\x50\x51\x52\x53\x54\x55\x56\x57\x58\x59\x5a\x5b\x5c\x5d\x5e\x5f"
+    data = @hex("d8-05-50-51-52-53-54-55-56-57-58-59-5a-5b-5c-5d-5e-5f")
     rd   = MessagePack.Reader.new(data)
     assert no_error: (
       actual = rd.read_ext!
@@ -2150,7 +2152,7 @@
     assert: rd.is_exhausted
 
   :it "reads ext (6)"
-    data = b"\xc7\x00\x06"
+    data = @hex("c7-00-06")
     rd   = MessagePack.Reader.new(data)
     assert no_error: (
       actual = rd.read_ext!
@@ -2160,7 +2162,7 @@
     assert: rd.is_exhausted
 
   :it "reads ext (7)"
-    data = b"\xc8\x00\x00\x06"
+    data = @hex("c8-00-00-06")
     rd   = MessagePack.Reader.new(data)
     assert no_error: (
       actual = rd.read_ext!
@@ -2170,7 +2172,7 @@
     assert: rd.is_exhausted
 
   :it "reads ext (8)"
-    data = b"\xc9\x00\x00\x00\x00\x06"
+    data = @hex("c9-00-00-00-00-06")
     rd   = MessagePack.Reader.new(data)
     assert no_error: (
       actual = rd.read_ext!
@@ -2180,7 +2182,7 @@
     assert: rd.is_exhausted
 
   :it "reads ext (9)"
-    data = b"\xc7\x03\x07\x70\x71\x72"
+    data = @hex("c7-03-07-70-71-72")
     rd   = MessagePack.Reader.new(data)
     assert no_error: (
       actual = rd.read_ext!
@@ -2190,7 +2192,7 @@
     assert: rd.is_exhausted
 
   :it "reads ext (10)"
-    data = b"\xc8\x00\x03\x07\x70\x71\x72"
+    data = @hex("c8-00-03-07-70-71-72")
     rd   = MessagePack.Reader.new(data)
     assert no_error: (
       actual = rd.read_ext!
@@ -2200,7 +2202,7 @@
     assert: rd.is_exhausted
 
   :it "reads ext (11)"
-    data = b"\xc9\x00\x00\x00\x03\x07\x70\x71\x72"
+    data = @hex("c9-00-00-00-03-07-70-71-72")
     rd   = MessagePack.Reader.new(data)
     assert no_error: (
       actual = rd.read_ext!
