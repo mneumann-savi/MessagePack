@@ -98,8 +98,13 @@ def gen_asserts(asserts, out)
   in [*asserts]
     out << %|    rd.mark_here|
     asserts.each_with_index do |assert, i|
-      out << %|    rd.rewind_to_mark| if i > 0
-      out << %|    assert: #{assert}|
+      if i == asserts.size - 1
+        # last iteration
+        rewind = ""
+      else
+        rewind = ", rd.rewind_to_mark"
+      end
+      out << %|    assert (#{assert})#{rewind}|
     end
   end
 end
