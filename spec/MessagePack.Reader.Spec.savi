@@ -6,1048 +6,1048 @@
     data = b"\xc0"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_nil! <: None
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads bool (1)"
     data = b"\xc2"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_bool! == False
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads bool (2)"
     data = b"\xc3"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_bool! == True
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads binary (1)"
     data = b"\xc4\x00"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_binary! == b""
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads binary (2)"
     data = b"\xc5\x00\x00"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_binary! == b""
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads binary (3)"
     data = b"\xc6\x00\x00\x00\x00"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_binary! == b""
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads binary (4)"
     data = b"\xc4\x01\x01"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_binary! == b"\x01"
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads binary (5)"
     data = b"\xc5\x00\x01\x01"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_binary! == b"\x01"
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads binary (6)"
     data = b"\xc6\x00\x00\x00\x01\x01"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_binary! == b"\x01"
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads binary (7)"
     data = b"\xc4\x02\x00\xff"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_binary! == b"\x00\xff"
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads binary (8)"
     data = b"\xc5\x00\x02\x00\xff"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_binary! == b"\x00\xff"
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads binary (9)"
     data = b"\xc6\x00\x00\x00\x02\x00\xff"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_binary! == b"\x00\xff"
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads number positive (1)"
     data = b"\x00"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_uint! == U64[0]
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads number positive (2)"
     data = b"\xcc\x00"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_uint! == U64[0]
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads number positive (3)"
     data = b"\xcd\x00\x00"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_uint! == U64[0]
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads number positive (4)"
     data = b"\xce\x00\x00\x00\x00"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_uint! == U64[0]
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads number positive (5)"
     data = b"\xcf\x00\x00\x00\x00\x00\x00\x00\x00"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_uint! == U64[0]
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads number positive (6)"
     data = b"\xd0\x00"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_uint! == U64[0]
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads number positive (7)"
     data = b"\xd1\x00\x00"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_uint! == U64[0]
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads number positive (8)"
     data = b"\xd2\x00\x00\x00\x00"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_uint! == U64[0]
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads number positive (9)"
     data = b"\xd3\x00\x00\x00\x00\x00\x00\x00\x00"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_uint! == U64[0]
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads number positive (10)"
     data = b"\xca\x00\x00\x00\x00"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_uint! == U64[0]
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads number positive (11)"
     data = b"\xcb\x00\x00\x00\x00\x00\x00\x00\x00"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_uint! == U64[0]
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads number positive (12)"
     data = b"\x01"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_uint! == U64[1]
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads number positive (13)"
     data = b"\xcc\x01"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_uint! == U64[1]
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads number positive (14)"
     data = b"\xcd\x00\x01"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_uint! == U64[1]
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads number positive (15)"
     data = b"\xce\x00\x00\x00\x01"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_uint! == U64[1]
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads number positive (16)"
     data = b"\xcf\x00\x00\x00\x00\x00\x00\x00\x01"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_uint! == U64[1]
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads number positive (17)"
     data = b"\xd0\x01"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_uint! == U64[1]
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads number positive (18)"
     data = b"\xd1\x00\x01"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_uint! == U64[1]
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads number positive (19)"
     data = b"\xd2\x00\x00\x00\x01"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_uint! == U64[1]
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads number positive (20)"
     data = b"\xd3\x00\x00\x00\x00\x00\x00\x00\x01"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_uint! == U64[1]
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads number positive (21)"
     data = b"\xca\x3f\x80\x00\x00"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_uint! == U64[1]
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads number positive (22)"
     data = b"\xcb\x3f\xf0\x00\x00\x00\x00\x00\x00"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_uint! == U64[1]
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads number positive (23)"
     data = b"\x7f"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_uint! == U64[127]
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads number positive (24)"
     data = b"\xcc\x7f"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_uint! == U64[127]
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads number positive (25)"
     data = b"\xcd\x00\x7f"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_uint! == U64[127]
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads number positive (26)"
     data = b"\xce\x00\x00\x00\x7f"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_uint! == U64[127]
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads number positive (27)"
     data = b"\xcf\x00\x00\x00\x00\x00\x00\x00\x7f"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_uint! == U64[127]
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads number positive (28)"
     data = b"\xd0\x7f"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_uint! == U64[127]
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads number positive (29)"
     data = b"\xd1\x00\x7f"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_uint! == U64[127]
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads number positive (30)"
     data = b"\xd2\x00\x00\x00\x7f"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_uint! == U64[127]
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads number positive (31)"
     data = b"\xd3\x00\x00\x00\x00\x00\x00\x00\x7f"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_uint! == U64[127]
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads number positive (32)"
     data = b"\xcc\x80"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_uint! == U64[128]
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads number positive (33)"
     data = b"\xcd\x00\x80"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_uint! == U64[128]
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads number positive (34)"
     data = b"\xce\x00\x00\x00\x80"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_uint! == U64[128]
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads number positive (35)"
     data = b"\xcf\x00\x00\x00\x00\x00\x00\x00\x80"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_uint! == U64[128]
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads number positive (36)"
     data = b"\xd1\x00\x80"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_uint! == U64[128]
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads number positive (37)"
     data = b"\xd2\x00\x00\x00\x80"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_uint! == U64[128]
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads number positive (38)"
     data = b"\xd3\x00\x00\x00\x00\x00\x00\x00\x80"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_uint! == U64[128]
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads number positive (39)"
     data = b"\xcc\xff"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_uint! == U64[255]
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads number positive (40)"
     data = b"\xcd\x00\xff"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_uint! == U64[255]
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads number positive (41)"
     data = b"\xce\x00\x00\x00\xff"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_uint! == U64[255]
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads number positive (42)"
     data = b"\xcf\x00\x00\x00\x00\x00\x00\x00\xff"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_uint! == U64[255]
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads number positive (43)"
     data = b"\xd1\x00\xff"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_uint! == U64[255]
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads number positive (44)"
     data = b"\xd2\x00\x00\x00\xff"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_uint! == U64[255]
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads number positive (45)"
     data = b"\xd3\x00\x00\x00\x00\x00\x00\x00\xff"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_uint! == U64[255]
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads number positive (46)"
     data = b"\xcd\x01\x00"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_uint! == U64[256]
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads number positive (47)"
     data = b"\xce\x00\x00\x01\x00"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_uint! == U64[256]
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads number positive (48)"
     data = b"\xcf\x00\x00\x00\x00\x00\x00\x01\x00"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_uint! == U64[256]
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads number positive (49)"
     data = b"\xd1\x01\x00"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_uint! == U64[256]
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads number positive (50)"
     data = b"\xd2\x00\x00\x01\x00"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_uint! == U64[256]
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads number positive (51)"
     data = b"\xd3\x00\x00\x00\x00\x00\x00\x01\x00"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_uint! == U64[256]
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads number positive (52)"
     data = b"\xcd\xff\xff"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_uint! == U64[65535]
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads number positive (53)"
     data = b"\xce\x00\x00\xff\xff"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_uint! == U64[65535]
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads number positive (54)"
     data = b"\xcf\x00\x00\x00\x00\x00\x00\xff\xff"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_uint! == U64[65535]
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads number positive (55)"
     data = b"\xd2\x00\x00\xff\xff"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_uint! == U64[65535]
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads number positive (56)"
     data = b"\xd3\x00\x00\x00\x00\x00\x00\xff\xff"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_uint! == U64[65535]
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads number positive (57)"
     data = b"\xce\x00\x01\x00\x00"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_uint! == U64[65536]
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads number positive (58)"
     data = b"\xcf\x00\x00\x00\x00\x00\x01\x00\x00"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_uint! == U64[65536]
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads number positive (59)"
     data = b"\xd2\x00\x01\x00\x00"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_uint! == U64[65536]
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads number positive (60)"
     data = b"\xd3\x00\x00\x00\x00\x00\x01\x00\x00"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_uint! == U64[65536]
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads number positive (61)"
     data = b"\xce\x7f\xff\xff\xff"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_uint! == U64[2147483647]
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads number positive (62)"
     data = b"\xcf\x00\x00\x00\x00\x7f\xff\xff\xff"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_uint! == U64[2147483647]
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads number positive (63)"
     data = b"\xd2\x7f\xff\xff\xff"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_uint! == U64[2147483647]
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads number positive (64)"
     data = b"\xd3\x00\x00\x00\x00\x7f\xff\xff\xff"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_uint! == U64[2147483647]
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads number positive (65)"
     data = b"\xce\x80\x00\x00\x00"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_uint! == U64[2147483648]
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads number positive (66)"
     data = b"\xcf\x00\x00\x00\x00\x80\x00\x00\x00"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_uint! == U64[2147483648]
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads number positive (67)"
     data = b"\xd3\x00\x00\x00\x00\x80\x00\x00\x00"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_uint! == U64[2147483648]
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads number positive (68)"
     data = b"\xca\x4f\x00\x00\x00"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_uint! == U64[2147483648]
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads number positive (69)"
     data = b"\xcb\x41\xe0\x00\x00\x00\x00\x00\x00"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_uint! == U64[2147483648]
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads number positive (70)"
     data = b"\xce\xff\xff\xff\xff"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_uint! == U64[4294967295]
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads number positive (71)"
     data = b"\xcf\x00\x00\x00\x00\xff\xff\xff\xff"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_uint! == U64[4294967295]
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads number positive (72)"
     data = b"\xd3\x00\x00\x00\x00\xff\xff\xff\xff"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_uint! == U64[4294967295]
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads number positive (73)"
     data = b"\xcb\x41\xef\xff\xff\xff\xe0\x00\x00"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_uint! == U64[4294967295]
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads number negative (1)"
     data = b"\xff"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_int! == I64[-1]
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads number negative (2)"
     data = b"\xd0\xff"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_int! == I64[-1]
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads number negative (3)"
     data = b"\xd1\xff\xff"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_int! == I64[-1]
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads number negative (4)"
     data = b"\xd2\xff\xff\xff\xff"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_int! == I64[-1]
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads number negative (5)"
     data = b"\xd3\xff\xff\xff\xff\xff\xff\xff\xff"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_int! == I64[-1]
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads number negative (6)"
     data = b"\xca\xbf\x80\x00\x00"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_int! == I64[-1]
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads number negative (7)"
     data = b"\xcb\xbf\xf0\x00\x00\x00\x00\x00\x00"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_int! == I64[-1]
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads number negative (8)"
     data = b"\xe0"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_int! == I64[-32]
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads number negative (9)"
     data = b"\xd0\xe0"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_int! == I64[-32]
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads number negative (10)"
     data = b"\xd1\xff\xe0"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_int! == I64[-32]
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads number negative (11)"
     data = b"\xd2\xff\xff\xff\xe0"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_int! == I64[-32]
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads number negative (12)"
     data = b"\xd3\xff\xff\xff\xff\xff\xff\xff\xe0"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_int! == I64[-32]
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads number negative (13)"
     data = b"\xca\xc2\x00\x00\x00"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_int! == I64[-32]
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads number negative (14)"
     data = b"\xcb\xc0\x40\x00\x00\x00\x00\x00\x00"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_int! == I64[-32]
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads number negative (15)"
     data = b"\xd0\xdf"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_int! == I64[-33]
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads number negative (16)"
     data = b"\xd1\xff\xdf"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_int! == I64[-33]
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads number negative (17)"
     data = b"\xd2\xff\xff\xff\xdf"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_int! == I64[-33]
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads number negative (18)"
     data = b"\xd3\xff\xff\xff\xff\xff\xff\xff\xdf"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_int! == I64[-33]
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads number negative (19)"
     data = b"\xd0\x80"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_int! == I64[-128]
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads number negative (20)"
     data = b"\xd1\xff\x80"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_int! == I64[-128]
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads number negative (21)"
     data = b"\xd2\xff\xff\xff\x80"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_int! == I64[-128]
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads number negative (22)"
     data = b"\xd3\xff\xff\xff\xff\xff\xff\xff\x80"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_int! == I64[-128]
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads number negative (23)"
     data = b"\xd1\xff\x00"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_int! == I64[-256]
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads number negative (24)"
     data = b"\xd2\xff\xff\xff\x00"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_int! == I64[-256]
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads number negative (25)"
     data = b"\xd3\xff\xff\xff\xff\xff\xff\xff\x00"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_int! == I64[-256]
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads number negative (26)"
     data = b"\xd1\x80\x00"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_int! == I64[-32768]
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads number negative (27)"
     data = b"\xd2\xff\xff\x80\x00"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_int! == I64[-32768]
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads number negative (28)"
     data = b"\xd3\xff\xff\xff\xff\xff\xff\x80\x00"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_int! == I64[-32768]
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads number negative (29)"
     data = b"\xd2\xff\xff\x00\x00"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_int! == I64[-65536]
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads number negative (30)"
     data = b"\xd3\xff\xff\xff\xff\xff\xff\x00\x00"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_int! == I64[-65536]
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads number negative (31)"
     data = b"\xd2\x80\x00\x00\x00"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_int! == I64[-2147483648]
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads number negative (32)"
     data = b"\xd3\xff\xff\xff\xff\x80\x00\x00\x00"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_int! == I64[-2147483648]
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads number negative (33)"
     data = b"\xcb\xc1\xe0\x00\x00\x00\x00\x00\x00"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_int! == I64[-2147483648]
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads number float (1)"
     data = b"\xca\x3f\x00\x00\x00"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_f64! == F64[0.5]
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads number float (2)"
     data = b"\xcb\x3f\xe0\x00\x00\x00\x00\x00\x00"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_f64! == F64[0.5]
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads number float (3)"
     data = b"\xca\xbf\x00\x00\x00"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_f64! == F64[-0.5]
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads number float (4)"
     data = b"\xcb\xbf\xe0\x00\x00\x00\x00\x00\x00"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_f64! == F64[-0.5]
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads number bignum (1)"
     data = b"\xcf\x00\x00\x00\x01\x00\x00\x00\x00"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_uint! == U64[4294967296]
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads number bignum (2)"
     data = b"\xd3\x00\x00\x00\x01\x00\x00\x00\x00"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_uint! == U64[4294967296]
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads number bignum (3)"
     data = b"\xca\x4f\x80\x00\x00"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_uint! == U64[4294967296]
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads number bignum (4)"
     data = b"\xcb\x41\xf0\x00\x00\x00\x00\x00\x00"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_uint! == U64[4294967296]
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads number bignum (5)"
     data = b"\xd3\xff\xff\xff\xff\x00\x00\x00\x00"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_int! == I64[-4294967296]
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads number bignum (6)"
     data = b"\xcb\xc1\xf0\x00\x00\x00\x00\x00\x00"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_int! == I64[-4294967296]
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads number bignum (7)"
     data = b"\xcf\x00\x01\x00\x00\x00\x00\x00\x00"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_uint! == U64[281474976710656]
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads number bignum (8)"
     data = b"\xd3\x00\x01\x00\x00\x00\x00\x00\x00"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_uint! == U64[281474976710656]
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads number bignum (9)"
     data = b"\xca\x57\x80\x00\x00"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_uint! == U64[281474976710656]
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads number bignum (10)"
     data = b"\xcb\x42\xf0\x00\x00\x00\x00\x00\x00"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_uint! == U64[281474976710656]
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads number bignum (11)"
     data = b"\xd3\xff\xff\x00\x00\x00\x00\x00\x00"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_int! == I64[-281474976710656]
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads number bignum (12)"
     data = b"\xca\xd7\x80\x00\x00"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_int! == I64[-281474976710656]
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads number bignum (13)"
     data = b"\xcb\xc2\xf0\x00\x00\x00\x00\x00\x00"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_int! == I64[-281474976710656]
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads number bignum (14)"
     data = b"\xd3\x7f\xff\xff\xff\xff\xff\xff\xff"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_uint! == U64[9223372036854775807]
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads number bignum (15)"
     data = b"\xcf\x7f\xff\xff\xff\xff\xff\xff\xff"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_uint! == U64[9223372036854775807]
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads number bignum (16)"
     data = b"\xd3\x80\x00\x00\x00\x00\x00\x00\x01"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_int! == I64[-9223372036854775807]
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads number bignum (17)"
     data = b"\xcf\x80\x00\x00\x00\x00\x00\x00\x00"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_uint! == U64[9223372036854775808]
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads number bignum (18)"
     data = b"\xd3\x80\x00\x00\x00\x00\x00\x00\x00"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_int! == I64[-9223372036854775808]
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads number bignum (19)"
     data = b"\xcf\xff\xff\xff\xff\xff\xff\xff\xff"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_uint! == U64[18446744073709551615]
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads string ascii (1)"
     data = b"\xa0"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_string! == ""
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads string ascii (2)"
     data = b"\xd9\x00"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_string! == ""
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads string ascii (3)"
     data = b"\xda\x00\x00"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_string! == ""
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads string ascii (4)"
     data = b"\xdb\x00\x00\x00\x00"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_string! == ""
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads string ascii (5)"
     data = b"\xa1\x61"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_string! == "a"
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads string ascii (6)"
     data = b"\xd9\x01\x61"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_string! == "a"
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads string ascii (7)"
     data = b"\xda\x00\x01\x61"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_string! == "a"
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads string ascii (8)"
     data = b"\xdb\x00\x00\x00\x01\x61"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_string! == "a"
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads string ascii (9)"
     data = b"\xbf\x31\x32\x33\x34\x35\x36\x37\x38\x39\x30\x31\x32\x33\x34\x35\x36\x37\x38\x39\x30\x31\x32\x33\x34\x35\x36\x37\x38\x39\x30\x31"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_string! == "1234567890123456789012345678901"
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads string ascii (10)"
     data = b"\xd9\x1f\x31\x32\x33\x34\x35\x36\x37\x38\x39\x30\x31\x32\x33\x34\x35\x36\x37\x38\x39\x30\x31\x32\x33\x34\x35\x36\x37\x38\x39\x30\x31"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_string! == "1234567890123456789012345678901"
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads string ascii (11)"
     data = b"\xda\x00\x1f\x31\x32\x33\x34\x35\x36\x37\x38\x39\x30\x31\x32\x33\x34\x35\x36\x37\x38\x39\x30\x31\x32\x33\x34\x35\x36\x37\x38\x39\x30\x31"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_string! == "1234567890123456789012345678901"
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads string ascii (12)"
     data = b"\xd9\x20\x31\x32\x33\x34\x35\x36\x37\x38\x39\x30\x31\x32\x33\x34\x35\x36\x37\x38\x39\x30\x31\x32\x33\x34\x35\x36\x37\x38\x39\x30\x31\x32"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_string! == "12345678901234567890123456789012"
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads string ascii (13)"
     data = b"\xda\x00\x20\x31\x32\x33\x34\x35\x36\x37\x38\x39\x30\x31\x32\x33\x34\x35\x36\x37\x38\x39\x30\x31\x32\x33\x34\x35\x36\x37\x38\x39\x30\x31\x32"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_string! == "12345678901234567890123456789012"
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads string utf8 (1)"
     data = b"\xb2\xd0\x9a\xd0\xb8\xd1\x80\xd0\xb8\xd0\xbb\xd0\xbb\xd0\xb8\xd1\x86\xd0\xb0"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_string! == "Кириллица"
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads string utf8 (2)"
     data = b"\xd9\x12\xd0\x9a\xd0\xb8\xd1\x80\xd0\xb8\xd0\xbb\xd0\xbb\xd0\xb8\xd1\x86\xd0\xb0"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_string! == "Кириллица"
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads string utf8 (3)"
     data = b"\xac\xe3\x81\xb2\xe3\x82\x89\xe3\x81\x8c\xe3\x81\xaa"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_string! == "ひらがな"
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads string utf8 (4)"
     data = b"\xd9\x0c\xe3\x81\xb2\xe3\x82\x89\xe3\x81\x8c\xe3\x81\xaa"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_string! == "ひらがな"
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads string utf8 (5)"
     data = b"\xa6\xed\x95\x9c\xea\xb8\x80"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_string! == "한글"
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads string utf8 (6)"
     data = b"\xd9\x06\xed\x95\x9c\xea\xb8\x80"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_string! == "한글"
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads string utf8 (7)"
     data = b"\xa6\xe6\xb1\x89\xe5\xad\x97"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_string! == "汉字"
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads string utf8 (8)"
     data = b"\xd9\x06\xe6\xb1\x89\xe5\xad\x97"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_string! == "汉字"
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads string utf8 (9)"
     data = b"\xa6\xe6\xbc\xa2\xe5\xad\x97"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_string! == "漢字"
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads string utf8 (10)"
     data = b"\xd9\x06\xe6\xbc\xa2\xe5\xad\x97"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_string! == "漢字"
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads string emoji (1)"
     data = b"\xa3\xe2\x9d\xa4"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_string! == "❤"
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads string emoji (2)"
     data = b"\xd9\x03\xe2\x9d\xa4"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_string! == "❤"
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads string emoji (3)"
     data = b"\xa4\xf0\x9f\x8d\xba"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_string! == "🍺"
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads string emoji (4)"
     data = b"\xd9\x04\xf0\x9f\x8d\xba"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_string! == "🍺"
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads array (1)"
     data = b"\x90"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_array_head! == USize[0]
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads array (2)"
     data = b"\xdc\x00\x00"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_array_head! == USize[0]
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads array (3)"
     data = b"\xdd\x00\x00\x00\x00"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_array_head! == USize[0]
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads array (4)"
     data = b"\x91\x01"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_array_head! == USize[1]
     assert: rd.read_uint! == U64[1]
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads array (5)"
     data = b"\xdc\x00\x01\x01"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_array_head! == USize[1]
     assert: rd.read_uint! == U64[1]
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads array (6)"
     data = b"\xdd\x00\x00\x00\x01\x01"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_array_head! == USize[1]
     assert: rd.read_uint! == U64[1]
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads array (7)"
     data = b"\x9f\x01\x02\x03\x04\x05\x06\x07\x08\x09\x0a\x0b\x0c\x0d\x0e\x0f"
@@ -1068,7 +1068,7 @@
     assert: rd.read_uint! == U64[13]
     assert: rd.read_uint! == U64[14]
     assert: rd.read_uint! == U64[15]
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads array (8)"
     data = b"\xdc\x00\x0f\x01\x02\x03\x04\x05\x06\x07\x08\x09\x0a\x0b\x0c\x0d\x0e\x0f"
@@ -1089,7 +1089,7 @@
     assert: rd.read_uint! == U64[13]
     assert: rd.read_uint! == U64[14]
     assert: rd.read_uint! == U64[15]
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads array (9)"
     data = b"\xdd\x00\x00\x00\x0f\x01\x02\x03\x04\x05\x06\x07\x08\x09\x0a\x0b\x0c\x0d\x0e\x0f"
@@ -1110,7 +1110,7 @@
     assert: rd.read_uint! == U64[13]
     assert: rd.read_uint! == U64[14]
     assert: rd.read_uint! == U64[15]
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads array (10)"
     data = b"\xdc\x00\x10\x01\x02\x03\x04\x05\x06\x07\x08\x09\x0a\x0b\x0c\x0d\x0e\x0f\x10"
@@ -1132,7 +1132,7 @@
     assert: rd.read_uint! == U64[14]
     assert: rd.read_uint! == U64[15]
     assert: rd.read_uint! == U64[16]
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads array (11)"
     data = b"\xdd\x00\x00\x00\x10\x01\x02\x03\x04\x05\x06\x07\x08\x09\x0a\x0b\x0c\x0d\x0e\x0f\x10"
@@ -1154,46 +1154,46 @@
     assert: rd.read_uint! == U64[14]
     assert: rd.read_uint! == U64[15]
     assert: rd.read_uint! == U64[16]
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads array (12)"
     data = b"\x91\xa1\x61"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_array_head! == USize[1]
     assert: rd.read_string! == "a"
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads array (13)"
     data = b"\xdc\x00\x01\xa1\x61"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_array_head! == USize[1]
     assert: rd.read_string! == "a"
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads array (14)"
     data = b"\xdd\x00\x00\x00\x01\xa1\x61"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_array_head! == USize[1]
     assert: rd.read_string! == "a"
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads map (1)"
     data = b"\x80"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_map_head! == USize[0]
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads map (2)"
     data = b"\xde\x00\x00"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_map_head! == USize[0]
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads map (3)"
     data = b"\xdf\x00\x00\x00\x00"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_map_head! == USize[0]
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads map (4)"
     data = b"\x81\xa1\x61\x01"
@@ -1201,7 +1201,7 @@
     assert: rd.read_map_head! == USize[1]
     assert: rd.read_string! == "a"
     assert: rd.read_uint! == U64[1]
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads map (5)"
     data = b"\xde\x00\x01\xa1\x61\x01"
@@ -1209,7 +1209,7 @@
     assert: rd.read_map_head! == USize[1]
     assert: rd.read_string! == "a"
     assert: rd.read_uint! == U64[1]
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads map (6)"
     data = b"\xdf\x00\x00\x00\x01\xa1\x61\x01"
@@ -1217,7 +1217,7 @@
     assert: rd.read_map_head! == USize[1]
     assert: rd.read_string! == "a"
     assert: rd.read_uint! == U64[1]
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads map (7)"
     data = b"\x81\xa1\x61\xa1\x41"
@@ -1225,7 +1225,7 @@
     assert: rd.read_map_head! == USize[1]
     assert: rd.read_string! == "a"
     assert: rd.read_string! == "A"
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads map (8)"
     data = b"\xde\x00\x01\xa1\x61\xa1\x41"
@@ -1233,7 +1233,7 @@
     assert: rd.read_map_head! == USize[1]
     assert: rd.read_string! == "a"
     assert: rd.read_string! == "A"
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads map (9)"
     data = b"\xdf\x00\x00\x00\x01\xa1\x61\xa1\x41"
@@ -1241,49 +1241,49 @@
     assert: rd.read_map_head! == USize[1]
     assert: rd.read_string! == "a"
     assert: rd.read_string! == "A"
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads nested (1)"
     data = b"\x91\x90"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_array_head! == USize[1]
     assert: rd.read_array_head! == USize[0]
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads nested (2)"
     data = b"\xdc\x00\x01\xdc\x00\x00"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_array_head! == USize[1]
     assert: rd.read_array_head! == USize[0]
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads nested (3)"
     data = b"\xdd\x00\x00\x00\x01\xdd\x00\x00\x00\x00"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_array_head! == USize[1]
     assert: rd.read_array_head! == USize[0]
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads nested (4)"
     data = b"\x91\x80"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_array_head! == USize[1]
     assert: rd.read_map_head! == USize[0]
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads nested (5)"
     data = b"\xdc\x00\x01\x80"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_array_head! == USize[1]
     assert: rd.read_map_head! == USize[0]
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads nested (6)"
     data = b"\xdd\x00\x00\x00\x01\x80"
     rd   = MessagePack.Reader.new(data)
     assert: rd.read_array_head! == USize[1]
     assert: rd.read_map_head! == USize[0]
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads nested (7)"
     data = b"\x81\xa1\x61\x80"
@@ -1291,7 +1291,7 @@
     assert: rd.read_map_head! == USize[1]
     assert: rd.read_string! == "a"
     assert: rd.read_map_head! == USize[0]
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads nested (8)"
     data = b"\xde\x00\x01\xa1\x61\xde\x00\x00"
@@ -1299,7 +1299,7 @@
     assert: rd.read_map_head! == USize[1]
     assert: rd.read_string! == "a"
     assert: rd.read_map_head! == USize[0]
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads nested (9)"
     data = b"\xdf\x00\x00\x00\x01\xa1\x61\xdf\x00\x00\x00\x00"
@@ -1307,7 +1307,7 @@
     assert: rd.read_map_head! == USize[1]
     assert: rd.read_string! == "a"
     assert: rd.read_map_head! == USize[0]
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads nested (10)"
     data = b"\x81\xa1\x61\x90"
@@ -1315,7 +1315,7 @@
     assert: rd.read_map_head! == USize[1]
     assert: rd.read_string! == "a"
     assert: rd.read_array_head! == USize[0]
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads nested (11)"
     data = b"\xde\x00\x01\xa1\x61\x90"
@@ -1323,7 +1323,7 @@
     assert: rd.read_map_head! == USize[1]
     assert: rd.read_string! == "a"
     assert: rd.read_array_head! == USize[0]
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads nested (12)"
     data = b"\xdf\x00\x00\x00\x01\xa1\x61\x90"
@@ -1331,7 +1331,7 @@
     assert: rd.read_map_head! == USize[1]
     assert: rd.read_string! == "a"
     assert: rd.read_array_head! == USize[0]
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads timestamp (1)"
     data = b"\xd6\xff\x5a\x4a\xf6\xa5"
@@ -1341,7 +1341,7 @@
       assert: ts.hi == I64[1514862245]
       assert: ts.lo == U64[0]
     )
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads timestamp (2)"
     data = b"\xd7\xff\xa1\xdc\xd7\xc8\x5a\x4a\xf6\xa5"
@@ -1351,7 +1351,7 @@
       assert: ts.hi == I64[1514862245]
       assert: ts.lo == U64[678901234]
     )
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads timestamp (3)"
     data = b"\xd7\xff\xee\x6b\x27\xfc\x7f\xff\xff\xff"
@@ -1361,7 +1361,7 @@
       assert: ts.hi == I64[2147483647]
       assert: ts.lo == U64[999999999]
     )
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads timestamp (4)"
     data = b"\xd6\xff\x80\x00\x00\x00"
@@ -1371,7 +1371,7 @@
       assert: ts.hi == I64[2147483648]
       assert: ts.lo == U64[0]
     )
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads timestamp (5)"
     data = b"\xd7\xff\x00\x00\x00\x04\x80\x00\x00\x00"
@@ -1381,7 +1381,7 @@
       assert: ts.hi == I64[2147483648]
       assert: ts.lo == U64[1]
     )
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads timestamp (6)"
     data = b"\xd6\xff\xff\xff\xff\xff"
@@ -1391,7 +1391,7 @@
       assert: ts.hi == I64[4294967295]
       assert: ts.lo == U64[0]
     )
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads timestamp (7)"
     data = b"\xd7\xff\xee\x6b\x27\xfc\xff\xff\xff\xff"
@@ -1401,7 +1401,7 @@
       assert: ts.hi == I64[4294967295]
       assert: ts.lo == U64[999999999]
     )
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads timestamp (8)"
     data = b"\xd7\xff\x00\x00\x00\x01\x00\x00\x00\x00"
@@ -1411,7 +1411,7 @@
       assert: ts.hi == I64[4294967296]
       assert: ts.lo == U64[0]
     )
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads timestamp (9)"
     data = b"\xd7\xff\xee\x6b\x27\xff\xff\xff\xff\xff"
@@ -1421,7 +1421,7 @@
       assert: ts.hi == I64[17179869183]
       assert: ts.lo == U64[999999999]
     )
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads timestamp (10)"
     data = b"\xc7\x0c\xff\x00\x00\x00\x00\x00\x00\x00\x04\x00\x00\x00\x00"
@@ -1431,7 +1431,7 @@
       assert: ts.hi == I64[17179869184]
       assert: ts.lo == U64[0]
     )
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads timestamp (11)"
     data = b"\xc7\x0c\xff\x00\x00\x00\x00\xff\xff\xff\xff\xff\xff\xff\xff"
@@ -1441,7 +1441,7 @@
       assert: ts.hi == I64[-1]
       assert: ts.lo == U64[0]
     )
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads timestamp (12)"
     data = b"\xc7\x0c\xff\x3b\x9a\xc9\xff\xff\xff\xff\xff\xff\xff\xff\xff"
@@ -1451,7 +1451,7 @@
       assert: ts.hi == I64[-1]
       assert: ts.lo == U64[999999999]
     )
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads timestamp (13)"
     data = b"\xd6\xff\x00\x00\x00\x00"
@@ -1461,7 +1461,7 @@
       assert: ts.hi == I64[0]
       assert: ts.lo == U64[0]
     )
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads timestamp (14)"
     data = b"\xd7\xff\x00\x00\x00\x04\x00\x00\x00\x00"
@@ -1471,7 +1471,7 @@
       assert: ts.hi == I64[0]
       assert: ts.lo == U64[1]
     )
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads timestamp (15)"
     data = b"\xd6\xff\x00\x00\x00\x01"
@@ -1481,7 +1481,7 @@
       assert: ts.hi == I64[1]
       assert: ts.lo == U64[0]
     )
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads timestamp (16)"
     data = b"\xc7\x0c\xff\x3b\x9a\xc9\xff\xff\xff\xff\xff\x7c\x55\x81\x7f"
@@ -1491,7 +1491,7 @@
       assert: ts.hi == I64[-2208988801]
       assert: ts.lo == U64[999999999]
     )
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads timestamp (17)"
     data = b"\xc7\x0c\xff\x00\x00\x00\x00\xff\xff\xff\xff\x7c\x55\x81\x80"
@@ -1501,7 +1501,7 @@
       assert: ts.hi == I64[-2208988800]
       assert: ts.lo == U64[0]
     )
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads timestamp (18)"
     data = b"\xc7\x0c\xff\x00\x00\x00\x00\xff\xff\xff\xf1\x86\x8b\x84\x00"
@@ -1511,7 +1511,7 @@
       assert: ts.hi == I64[-62167219200]
       assert: ts.lo == U64[0]
     )
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads timestamp (19)"
     data = b"\xc7\x0c\xff\x3b\x9a\xc9\xff\x00\x00\x00\x3a\xff\xf4\x41\x7f"
@@ -1521,7 +1521,7 @@
       assert: ts.hi == I64[253402300799]
       assert: ts.lo == U64[999999999]
     )
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads ext (1)"
     data = b"\xd4\x01\x10"
@@ -1531,7 +1531,7 @@
       assert: actual.first == I8[1]
       assert: actual.second == b"\x10"
     )
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads ext (2)"
     data = b"\xd5\x02\x20\x21"
@@ -1541,7 +1541,7 @@
       assert: actual.first == I8[2]
       assert: actual.second == b"\x20\x21"
     )
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads ext (3)"
     data = b"\xd6\x03\x30\x31\x32\x33"
@@ -1551,7 +1551,7 @@
       assert: actual.first == I8[3]
       assert: actual.second == b"\x30\x31\x32\x33"
     )
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads ext (4)"
     data = b"\xd7\x04\x40\x41\x42\x43\x44\x45\x46\x47"
@@ -1561,7 +1561,7 @@
       assert: actual.first == I8[4]
       assert: actual.second == b"\x40\x41\x42\x43\x44\x45\x46\x47"
     )
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads ext (5)"
     data = b"\xd8\x05\x50\x51\x52\x53\x54\x55\x56\x57\x58\x59\x5a\x5b\x5c\x5d\x5e\x5f"
@@ -1571,7 +1571,7 @@
       assert: actual.first == I8[5]
       assert: actual.second == b"\x50\x51\x52\x53\x54\x55\x56\x57\x58\x59\x5a\x5b\x5c\x5d\x5e\x5f"
     )
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads ext (6)"
     data = b"\xc7\x00\x06"
@@ -1581,7 +1581,7 @@
       assert: actual.first == I8[6]
       assert: actual.second == b""
     )
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads ext (7)"
     data = b"\xc8\x00\x00\x06"
@@ -1591,7 +1591,7 @@
       assert: actual.first == I8[6]
       assert: actual.second == b""
     )
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads ext (8)"
     data = b"\xc9\x00\x00\x00\x00\x06"
@@ -1601,7 +1601,7 @@
       assert: actual.first == I8[6]
       assert: actual.second == b""
     )
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads ext (9)"
     data = b"\xc7\x03\x07\x70\x71\x72"
@@ -1611,7 +1611,7 @@
       assert: actual.first == I8[7]
       assert: actual.second == b"\x70\x71\x72"
     )
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads ext (10)"
     data = b"\xc8\x00\x03\x07\x70\x71\x72"
@@ -1621,7 +1621,7 @@
       assert: actual.first == I8[7]
       assert: actual.second == b"\x70\x71\x72"
     )
-    assert: rd.is_eos
+    assert: rd.is_exhausted
 
   :it "reads ext (11)"
     data = b"\xc9\x00\x00\x00\x03\x07\x70\x71\x72"
@@ -1631,4 +1631,4 @@
       assert: actual.first == I8[7]
       assert: actual.second == b"\x70\x71\x72"
     )
-    assert: rd.is_eos
+    assert: rd.is_exhausted

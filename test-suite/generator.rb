@@ -25,7 +25,7 @@ def gen_test_fixture(expected_value, input, title, out)
   out << %|    rd   = MessagePack.Reader.new(data)|
 
   gen_test_value(expected_value, out)
-  out << %|    assert: rd.is_eos|
+  out << %|    assert: rd.is_exhausted|
 
   out << %||
 end

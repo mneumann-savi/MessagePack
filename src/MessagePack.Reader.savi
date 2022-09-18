@@ -84,9 +84,7 @@
     | error!
     )
 
-  :fun box is_eos: @_is_exhausted
-
-  :fun box _is_exhausted: @_pos >= @_bytes.size
+  :fun box is_exhausted: @_pos >= @_bytes.size
 
   :fun ref _advance!(n U32)
     newpos = @_pos +! n.usize
