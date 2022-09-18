@@ -1,47 +1,142 @@
 :: A poor-man's tagged union.
 ::
-:: TODO: We only need the `_lo` field for encoding Timestamps.
-:: Instead, treat Timestamps transparently as exts.
-:struct MessagePack.Token
+:: Field `_value` is interpreted differently depending on `_type`.
+:struct val MessagePack.Token
   :let _type MessagePack.Token.Type
-  :let _hi U64
-  :let _lo U64
+  :let _value U64
 
-  :new (@_type, @_hi, @_lo)
+  :new (@_type, @_value)
+
+  :new nil
+    @_type = MessagePack.Token.Type.Nil, @_value = 0
+
+  :new bool(b Bool)
+    @_type = MessagePack.Token.Type.Bool, @_value = if b (1 | 0)
+
+  :new uint(u U64)
+    @_type = MessagePack.Token.Type.UInt, @_value = u
+
+  :new int(i I64)
+    @_type = MessagePack.Token.Type.Int, @_value = i.u64
+
+  :new float(f F64)
+    @_type = MessagePack.Token.Type.Float, @_value = f.bits
+
+  :new string_ahead(len U32)
+    @_type = MessagePack.Token.Type.StringAhead, @_value = len.u64
+
+  :new binary_ahead(len U32)
+    @_type = MessagePack.Token.Type.BinaryAhead, @_value = len.u64
+
+  :new array_ahead(len U32)
+    @_type = MessagePack.Token.Type.ArrayAhead, @_value = len.u64
+
+  :new map_ahead(len U32)
+    @_type = MessagePack.Token.Type.MapAhead, @_value = len.u64
+
+  :new ext_ahead(type I8, len U32)
+    @_type = MessagePack.Token.Type.ExtAhead
+    @_value = type.u8.u64.bit_shl(32).bit_or(len.u64)
+
+  :fun nil!
+    case @_type == (
+    | MessagePack.Token.Type.Nil | None
+    |                              error!
+    )
+
+  :fun bool! Bool
+    case @_type == (
+    | MessagePack.Token.Type.Bool | @_value != 0
+    |                               error!
+    )
+
+  :fun u64_convertible! U64
+    case @_type == (
+    | MessagePack.Token.Type.UInt  | @_value
+    | MessagePack.Token.Type.Int   | @_value.i64.u64!
+    | MessagePack.Token.Type.Float | F64.from_bits(@_value).u64!
+    |                                error!
+    )
+
+  :fun i64_convertible! I64
+    case @_type == (
+    | MessagePack.Token.Type.UInt  | @_value.i64!
+    | MessagePack.Token.Type.Int   | @_value.i64
+    | MessagePack.Token.Type.Float | F64.from_bits(@_value).i64!
+    |                                error!
+    )
+
+  :fun f64_convertible! F64
+    case @_type == (
+    | MessagePack.Token.Type.UInt  | @_value.f64!
+    | MessagePack.Token.Type.Int   | @_value.i64.f64!
+    | MessagePack.Token.Type.Float | F64.from_bits(@_value)
+    |                                error!
+    )
+
+  :fun string_ahead! U32
+    case @_type == (
+    | MessagePack.Token.Type.StringAhead | @_value.u32
+    |                                      error!
+    )
+
+  :fun binary_ahead! U32
+    case @_type == (
+    | MessagePack.Token.Type.BinaryAhead | @_value.u32
+    |                                      error!
+    )
+
+  :fun array_ahead! U32
+    case @_type == (
+    | MessagePack.Token.Type.ArrayAhead | @_value.u32
+    |                                     error!
+    )
+
+  :fun map_ahead! U32
+    case @_type == (
+    | MessagePack.Token.Type.MapAhead | @_value.u32
+    |                                   error!
+    )
+
+  :fun ext_ahead! Pair(I8, U32)
+    case @_type == (
+    | MessagePack.Token.Type.ExtAhead |
+      type = @_value.bit_shr(32).u8.i8
+      len = @_value.bit_and(0xFFFF_FFFF).u32
+      Pair(I8, U32).new(type, len)
+    | error!
+    )
 
 :: Actual data is stored in the fields `_hi` and `_lo` of `MessagePack.Token`. 
 ::
 :enum MessagePack.Token.Type
   :member Nil 0
 
-  :: Truthiness stored in `_hi`
+  :: Truthiness stored in `_value`
   :member Bool 1
 
-  :: U64 value stored in `_hi`
+  :: U64 value stored in `_value`
   :member UInt 2
 
-  :: I64 value stored in `_hi`
+  :: I64 value stored in `_value`
   :member Int 3
 
-  :: F64 value stored in `_hi`
+  :: F64 value stored in `_value`
   :member Float 4
 
-  :: String length stored in lower 32-bits of `_hi`.
+  :: String length stored in lower 32-bits of `_value`.
   :member StringAhead 5
 
-  :: Binary length stored in lower 32-bits of `_hi`.
+  :: Binary length stored in lower 32-bits of `_value`.
   :member BinaryAhead 6
 
-  :: Array length stored in lower 32-bits of `_hi`. 
+  :: Array length stored in lower 32-bits of `_value`.
   :member ArrayAhead 7
 
-  :: Map length stored in lower 32-bits of `_hi`. 
+  :: Map length stored in lower 32-bits of `_value`.
   :member MapAhead 8
 
-  :: Ext data length stored in lower 32-bits of `_hi`.
-  :: Ext type stored in lower 8-bits of `_lo`.
+  :: Ext data length stored in lower 32-bits of `_value`.
+  :: Ext type stored in in higher 32-bits of `_value`.
   :member ExtAhead 9
-
-  :: `_hi` stores seconds, `_lo` nanoseconds.
-  :member Timestamp 10
 
