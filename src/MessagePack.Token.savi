@@ -1,0 +1,47 @@
+:: A poor-man's tagged union.
+::
+:: TODO: We only need the `_lo` field for encoding Timestamps.
+:: Instead, treat Timestamps transparently as exts.
+:struct MessagePack.Token
+  :let _type MessagePack.Token.Type
+  :let _hi U64
+  :let _lo U64
+
+  :new (@_type, @_hi, @_lo)
+
+:: Actual data is stored in the fields `_hi` and `_lo` of `MessagePack.Token`. 
+::
+:enum MessagePack.Token.Type
+  :member Nil 0
+
+  :: Truthiness stored in `_hi`
+  :member Bool 1
+
+  :: U64 value stored in `_hi`
+  :member UInt 2
+
+  :: I64 value stored in `_hi`
+  :member Int 3
+
+  :: F64 value stored in `_hi`
+  :member Float 4
+
+  :: String length stored in lower 32-bits of `_hi`.
+  :member StringAhead 5
+
+  :: Binary length stored in lower 32-bits of `_hi`.
+  :member BinaryAhead 6
+
+  :: Array length stored in lower 32-bits of `_hi`. 
+  :member ArrayAhead 7
+
+  :: Map length stored in lower 32-bits of `_hi`. 
+  :member MapAhead 8
+
+  :: Ext data length stored in lower 32-bits of `_hi`.
+  :: Ext type stored in lower 8-bits of `_lo`.
+  :member ExtAhead 9
+
+  :: `_hi` stores seconds, `_lo` nanoseconds.
+  :member Timestamp 10
+
