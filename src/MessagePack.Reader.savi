@@ -159,7 +159,56 @@
     )
 
   :fun ref read_string! String
-    error!
+    b = @_peek_byte!
+    len USize = 0
+    off USize = 0
+
+    case (
+    // fixstr stores a byte array whose length is upto 31 bytes:
+    // +--------+========+
+    // |101XXXXX|  data  |
+    // +--------+========+
+    | b >= U8[0b10100000] |
+      len = b.bit_and(0b00011111).usize, off = 1
+
+    // str 8 stores a byte array whose length is upto (2^8)-1 bytes:
+    // +--------+--------+========+
+    // |  0xd9  |YYYYYYYY|  data  |
+    // +--------+--------+========+
+    | b == 0xd9 |
+      len = @_bytes.read_byte!(@_pos + 1).usize, off = 2
+
+    // str 16 stores a byte array whose length is upto (2^16)-1 bytes:
+    // +--------+--------+--------+========+
+    // |  0xda  |ZZZZZZZZ|ZZZZZZZZ|  data  |
+    // +--------+--------+--------+========+
+    | b == 0xda |
+      len = @_bytes.read_native_u16!(@_pos + 1).be_to_native.usize, off = 3
+
+    // str 32 stores a byte array whose length is upto (2^32)-1 bytes:
+    // +--------+--------+--------+--------+--------+========+
+    // |  0xdb  |AAAAAAAA|AAAAAAAA|AAAAAAAA|AAAAAAAA|  data  |
+    // +--------+--------+--------+--------+--------+========+
+    | b == 0xdd |
+      len = @_bytes.read_native_u32!(@_pos + 1).be_to_native.usize, off = 5
+    |
+      error!
+    )
+
+    if (@_remaining_len >= off +! len) (
+      // XXX: Is there a better way of constructing a String'iso?
+      // Or a String'val from a Bytes array?
+      // str = String.new_iso(len)
+      // @_bytes.each_with_index(@_pos + 1, @_pos + 1 + len) -> (b, _i |
+      //  str.push_byte(b)
+      //)
+      str = @_bytes.slice(@_pos + off, @_pos + off + len).as_string
+      @_advance!(off + len)
+      str
+    |
+      error!  // needs more data
+    )
+
 
   :fun ref read_binary! Bytes
     error!
@@ -182,6 +231,8 @@
     |
       error!
     )
+
+  :fun box _remaining_len: @_bytes.size - @_pos
 
   :fun box _peek_byte!: @_bytes.byte_at!(@_pos)
 
