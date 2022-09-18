@@ -3,7 +3,7 @@
 
 :module MessagePack.Token.Decoder
   :fun decode!(bytes BinaryReadable, pos USize) MessagePack.Token
-    b = bytes.byte_at!(pos)
+    b = bytes.read_byte!(pos)
 
     case (
     // +--------+
