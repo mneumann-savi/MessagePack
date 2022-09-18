@@ -1,48 +1,49 @@
 :class MessagePack.Reader
-  :let _rd MessagePack.Token.Reader
+  :let _bytes Bytes
+  :var _pos   USize
 
-  :new (_bytes)
-    @_rd = MessagePack.Token.Reader.new(_bytes)
+  :new (@_bytes, @_pos = 0)
 
-  :fun box is_eos: @_rd.is_exhausted
+  :fun ref _next!
+    token = MessagePack.Token.Decoder.decode!(@_bytes, @_pos)
+    @_advance!(token.size.u32), token
 
   :fun ref read_nil! None
-    @_rd.next!.nil!
+    @_next!.nil!
 
   :fun ref read_bool! Bool
-    @_rd.next!.bool!
+    @_next!.bool!
 
   :fun ref read_uint! U64
-    @_rd.next!.u64_convertible!
+    @_next!.u64_convertible!
 
   :fun ref read_int! I64
-    @_rd.next!.i64_convertible!
+    @_next!.i64_convertible!
 
   :fun ref read_f64! F64
-    @_rd.next!.f64_convertible!
+    @_next!.f64_convertible!
 
   :fun ref read_string! String
-    len = @_rd.next!.string_ahead!
-    --@_rd.read_string!(len)
+    len = @_next!.string_ahead!
+    @_read_string!(len)
 
   :fun ref read_binary! Bytes
-    len = @_rd.next!.binary_ahead!
-    @_rd.read_bytes!(len)
+    len = @_next!.binary_ahead!
+    @_read_bytes!(len)
 
   :fun ref read_array_head! USize
-    @_rd.next!.array_ahead!.usize
+    @_next!.array_ahead!.usize
 
   :fun ref read_map_head! USize
-    @_rd.next!.map_ahead!.usize
+    @_next!.map_ahead!.usize
 
   :fun ref read_ext! Pair(I8, Bytes)
-    ext = @_rd.next!.ext_ahead!
+    ext = @_next!.ext_ahead!
     type = ext.hi, len = ext.lo
-
-    Pair(I8, Bytes).new(type, @_rd.read_bytes!(len))
+    Pair(I8, Bytes).new(type, @_read_bytes!(len))
 
   :fun ref read_timestamp! Pair(I64, U64)
-    ext = @_rd.next!.ext_ahead!
+    ext = @_next!.ext_ahead!
     type = ext.hi
     len = ext.lo
     error! if (type != -1)
@@ -54,7 +55,7 @@
     // |  0xd6  |   -1   |   seconds in 32-bit unsigned int  |
     // +--------+--------+--------+--------+--------+--------+
     | 4 |
-      secs = @_rd.read_native_u32!.be_to_native.i64
+      secs = @_bytes.read_native_u32!(@_pos).be_to_native.i64, @_advance!(4)
       Pair(I64, U64).new(secs, 0)
 
     // timestamp 64 stores the number of seconds and nanoseconds that have elapsed since
@@ -63,7 +64,7 @@
     // |  0xd7  |   -1   | nanosec. in 30-bit unsigned int |   seconds in 34-bit unsigned int    |
     // +--------+--------+--------+--------+--------+------^-+--------+--------+--------+--------+
     | 8 |
-      data = @_rd.read_native_u64!.be_to_native.u64
+      data = @_bytes.read_native_u64!(@_pos).be_to_native.u64, @_advance!(8)
       nanos = data.bit_shr(34), secs = data.bit_and(0x00000003ffffffff).i64
       Pair(I64, U64).new(secs, nanos)
 
@@ -76,10 +77,30 @@
     //                     seconds in 64-bit signed int                        |
     // +--------+--------+--------+--------+--------+--------+--------+--------+
     | 12 |
-      nanos = @_rd.read_native_u32!.be_to_native.u64
-      secs  = @_rd.read_native_u64!.be_to_native.i64
+      nanos = @_bytes.read_native_u32!(@_pos).be_to_native.u64, @_advance!(4)
+      secs  = @_bytes.read_native_u64!(@_pos).be_to_native.i64, @_advance!(8)
       Pair(I64, U64).new(secs, nanos)
 
     | error!
     )
 
+  :fun box is_eos: @_is_exhausted
+
+  :fun box _is_exhausted: @_pos >= @_bytes.size
+
+  :fun ref _advance!(n U32)
+    newpos = @_pos +! n.usize
+    if (newpos <= @_bytes.size) (@_pos = newpos | error!)
+
+  :fun ref _read_string!(len U32) String
+    @_read_bytes!(len).as_string
+
+  :fun ref _read_bytes!(len U32) Bytes
+    endpos = @_pos +! len.usize
+    if (endpos <= @_bytes.size) (
+      bytes = @_bytes.slice(@_pos, endpos)
+      @_advance!(len)
+      --bytes
+    |
+      error!  // needs more data
+    )
