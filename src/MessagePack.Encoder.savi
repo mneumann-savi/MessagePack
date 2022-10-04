@@ -69,7 +69,43 @@
     @
 
   :fun ref encode_int!(value I64)
-    error!
+    case (
+    // negative fixint stores 5-bit negative integer
+    // +--------+
+    // |111YYYYY|
+    // +--------+
+    | value <= -1 && value >= -32 |
+      @bytes.push(value.i8.u8)
+
+    // int 8 stores a 8-bit signed integer
+    // +--------+--------+
+    // |  0xd0  |ZZZZZZZZ|
+    // +--------+--------+
+    | value >= I8.min_value.i64 && value <= I8.max_value.i64 | 
+      @bytes.push(0xd0).push(value.i8.u8)
+
+    // int 16 stores a 16-bit big-endian signed integer
+    // +--------+--------+--------+
+    // |  0xd1  |ZZZZZZZZ|ZZZZZZZZ|
+    // +--------+--------+--------+
+    | value >= I16.min_value.i64 && value <= I16.max_value.i64 | 
+      @bytes.push(0xd1).push_native_u16(value.i16.u16.native_to_be)
+
+    // int 32 stores a 32-bit big-endian signed integer
+    // +--------+--------+--------+--------+--------+
+    // |  0xd2  |ZZZZZZZZ|ZZZZZZZZ|ZZZZZZZZ|ZZZZZZZZ|
+    // +--------+--------+--------+--------+--------+
+    | value >= I32.min_value.i64 && value <= I32.max_value.i64 | 
+      @bytes.push(0xd2).push_native_u32(value.i32.u32.native_to_be)
+
+    // int 64 stores a 64-bit big-endian signed integer
+    // +--------+--------+--------+--------+--------+--------+--------+--------+--------+
+    // |  0xd3  |ZZZZZZZZ|ZZZZZZZZ|ZZZZZZZZ|ZZZZZZZZ|ZZZZZZZZ|ZZZZZZZZ|ZZZZZZZZ|ZZZZZZZZ|
+    // +--------+--------+--------+--------+--------+--------+--------+--------+--------+
+    | 
+      @bytes.push(0xd3).push_native_u64(value.u64.native_to_be)
+    )
+
     @
 
   :fun ref encode_float!(value F64)

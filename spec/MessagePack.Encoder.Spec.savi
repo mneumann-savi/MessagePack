@@ -83,3 +83,94 @@
     wr = MessagePack.Encoder.new
     assert no_error: wr.encode_uint!(0xFFFF_FFFF_FFFF_FFFF)
     assert: wr.bytes == @hex("cf-ffff-ffff-ffff-ffff")
+
+  :it "encodes negative fixint (-1)"
+    wr = MessagePack.Encoder.new
+    assert no_error: wr.encode_int!(-1)
+    assert: wr.bytes == @hex("ff")
+
+  :it "encodes negative fixint (-32)"
+    wr = MessagePack.Encoder.new
+    assert no_error: wr.encode_int!(-32)
+    assert: wr.bytes == @hex("e0")
+
+  :it "encodes int 8 (0)"
+    wr = MessagePack.Encoder.new
+    assert no_error: wr.encode_int!(0)
+    assert: wr.bytes == @hex("d0-00")
+
+  :it "encodes int 8 (-33)"
+    wr = MessagePack.Encoder.new
+    assert no_error: wr.encode_int!(-33)
+    assert: wr.bytes == @hex("d0-df")
+
+  :it "encodes int 8 (-128)"
+    wr = MessagePack.Encoder.new
+    assert no_error: wr.encode_int!(-128)
+    assert: wr.bytes == @hex("d0-80")
+
+  :it "encodes int 8 (127)"
+    wr = MessagePack.Encoder.new
+    assert no_error: wr.encode_int!(127)
+    assert: wr.bytes == @hex("d0-7f")
+
+  :it "encodes int 16 (-129)"
+    wr = MessagePack.Encoder.new
+    assert no_error: wr.encode_int!(-129)
+    assert: wr.bytes == @hex("d1-ff7f")
+
+  :it "encodes int 16 (128)"
+    wr = MessagePack.Encoder.new
+    assert no_error: wr.encode_int!(128)
+    assert: wr.bytes == @hex("d1-00-80")
+
+  :it "encodes int 16 (-32768)"
+    wr = MessagePack.Encoder.new
+    assert no_error: wr.encode_int!(-32768)
+    assert: wr.bytes == @hex("d1-80-00")
+
+  :it "encodes int 16 (32767)"
+    wr = MessagePack.Encoder.new
+    assert no_error: wr.encode_int!(32767)
+    assert: wr.bytes == @hex("d1-7f-ff")
+
+  :it "encodes int 32 (-32769)"
+    wr = MessagePack.Encoder.new
+    assert no_error: wr.encode_int!(-32769)
+    assert: wr.bytes == @hex("d2-ffff-7fff")
+
+  :it "encodes int 32 (32768)"
+    wr = MessagePack.Encoder.new
+    assert no_error: wr.encode_int!(32768)
+    assert: wr.bytes == @hex("d2-0000-8000")
+
+  :it "encodes int 32 (-2147483648)"
+    wr = MessagePack.Encoder.new
+    assert no_error: wr.encode_int!(-2147483648)
+    assert: wr.bytes == @hex("d2-8000-0000")
+
+  :it "encodes int 32 (2147483647)"
+    wr = MessagePack.Encoder.new
+    assert no_error: wr.encode_int!(2147483647)
+    assert: wr.bytes == @hex("d2-7fff-ffff")
+
+  :it "encodes int 64 (-2147483649)"
+    wr = MessagePack.Encoder.new
+    assert no_error: wr.encode_int!(-2147483649)
+    assert: wr.bytes == @hex("d3-ffff-ffff-7fff-ffff")
+
+  :it "encodes int 64 (2147483648)"
+    wr = MessagePack.Encoder.new
+    assert no_error: wr.encode_int!(2147483648)
+    assert: wr.bytes == @hex("d3-0000-0000-8000-0000")
+
+  :it "encodes int 64 (-9223372036854775808)"
+    wr = MessagePack.Encoder.new
+    assert no_error: wr.encode_int!(-9223372036854775808)
+    assert: wr.bytes == @hex("d3-8000-0000-0000-0000")
+
+  :it "encodes int 64 (9223372036854775807)"
+    wr = MessagePack.Encoder.new
+    assert no_error: wr.encode_int!(9223372036854775807)
+    assert: wr.bytes == @hex("d3-7fff-ffff-ffff-ffff")
+
