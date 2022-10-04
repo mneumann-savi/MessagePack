@@ -18,3 +18,68 @@
     wr = MessagePack.Encoder.new
     assert no_error: wr.encode_bool!(False)
     assert: wr.bytes == @hex("c2")
+
+  :it "encodes positive fixint (0)"
+    wr = MessagePack.Encoder.new
+    assert no_error: wr.encode_uint!(0)
+    assert: wr.bytes == @hex("00")
+
+  :it "encodes positive fixint (127)"
+    wr = MessagePack.Encoder.new
+    assert no_error: wr.encode_uint!(127)
+    assert: wr.bytes == @hex("7f")
+
+  :it "encodes uint 8 (128)"
+    wr = MessagePack.Encoder.new
+    assert no_error: wr.encode_uint!(128)
+    assert: wr.bytes == @hex("cc-80")
+
+  :it "encodes uint 8 (255)"
+    wr = MessagePack.Encoder.new
+    assert no_error: wr.encode_uint!(255)
+    assert: wr.bytes == @hex("cc-ff")
+
+  :it "encodes uint 16 (256)"
+    wr = MessagePack.Encoder.new
+    assert no_error: wr.encode_uint!(256)
+    assert: wr.bytes == @hex("cd-01-00")
+
+  :it "encodes uint 16 (0xDEAD)"
+    wr = MessagePack.Encoder.new
+    assert no_error: wr.encode_uint!(0xDEAD)
+    assert: wr.bytes == @hex("cd-de-ad")
+
+  :it "encodes uint 16 (0xFFFF)"
+    wr = MessagePack.Encoder.new
+    assert no_error: wr.encode_uint!(0xFFFF)
+    assert: wr.bytes == @hex("cd-ff-ff")
+
+  :it "encodes uint 32 (0xFFFF + 1)"
+    wr = MessagePack.Encoder.new
+    assert no_error: wr.encode_uint!(U64[0xFFFF] + 1)
+    assert: wr.bytes == @hex("ce-00-01-00-00")
+
+  :it "encodes uint 32 (0xDEAD_BEEF)"
+    wr = MessagePack.Encoder.new
+    assert no_error: wr.encode_uint!(0xDEAD_BEEF)
+    assert: wr.bytes == @hex("ce-dead-beef")
+
+  :it "encodes uint 32 (0xFFFF_FFFF)"
+    wr = MessagePack.Encoder.new
+    assert no_error: wr.encode_uint!(0xFFFF_FFFF)
+    assert: wr.bytes == @hex("ce-ffff-ffff")
+
+  :it "encodes uint 64 (0xFFFF_FFFF + 1)"
+    wr = MessagePack.Encoder.new
+    assert no_error: wr.encode_uint!(U64[0xFFFF_FFFF] + 1)
+    assert: wr.bytes == @hex("cf-0000-0001-0000-0000")
+
+  :it "encodes uint 64 (0xABCD_DEAD_BEAF_DCBA)"
+    wr = MessagePack.Encoder.new
+    assert no_error: wr.encode_uint!(0xABCD_DEAD_BEEF_DCBA)
+    assert: wr.bytes == @hex("cf-abcd-dead-beef-dcba")
+
+  :it "encodes uint 64 (0xFFFF_FFFF_FFFF_FFFF)"
+    wr = MessagePack.Encoder.new
+    assert no_error: wr.encode_uint!(0xFFFF_FFFF_FFFF_FFFF)
+    assert: wr.bytes == @hex("cf-ffff-ffff-ffff-ffff")

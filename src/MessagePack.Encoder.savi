@@ -29,7 +29,43 @@
     @
 
   :fun ref encode_uint!(value U64)
-    error!
+    case (
+    // positive fixint stores 7-bit positive integer
+    // +--------+
+    // |0XXXXXXX|
+    // +--------+
+    | value <= 127 |
+      @bytes.push(value.u8)
+
+    // uint 8 stores a 8-bit unsigned integer
+    // +--------+--------+
+    // |  0xcc  |ZZZZZZZZ|
+    // +--------+--------+
+    | value <= 0xFF |
+      @bytes.push(0xcc).push(value.u8)
+
+    // uint 16 stores a 16-bit big-endian unsigned integer
+    // +--------+--------+--------+
+    // |  0xcd  |ZZZZZZZZ|ZZZZZZZZ|
+    // +--------+--------+--------+
+    | value <= 0xFFFF |
+      @bytes.push(0xcd).push_native_u16(value.u16.native_to_be)
+
+    // uint 32 stores a 32-bit big-endian unsigned integer
+    // +--------+--------+--------+--------+--------+
+    // |  0xce  |ZZZZZZZZ|ZZZZZZZZ|ZZZZZZZZ|ZZZZZZZZ|
+    // +--------+--------+--------+--------+--------+
+    | value <= 0xFFFF_FFFF |
+      @bytes.push(0xce).push_native_u32(value.u32.native_to_be)
+
+    // uint 64 stores a 64-bit big-endian unsigned integer
+    // +--------+--------+--------+--------+--------+--------+--------+--------+--------+
+    // |  0xcf  |ZZZZZZZZ|ZZZZZZZZ|ZZZZZZZZ|ZZZZZZZZ|ZZZZZZZZ|ZZZZZZZZ|ZZZZZZZZ|ZZZZZZZZ|
+    // +--------+--------+--------+--------+--------+--------+--------+--------+--------+
+    |
+      @bytes.push(0xcf).push_native_u64(value.native_to_be)
+    )
+
     @
 
   :fun ref encode_int!(value I64)
