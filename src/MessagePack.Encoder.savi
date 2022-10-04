@@ -183,7 +183,28 @@
     @
 
   :fun ref encode_array_ahead!(len U32)
-    error!
+    case (
+    // fixarray stores an array whose length is upto 15 elements:
+    // +--------+~~~~~~~~~~~~~~~~~+
+    // |1001XXXX|    N objects    |
+    // +--------+~~~~~~~~~~~~~~~~~+
+    | len <= 15 |
+      @bytes.push(U8[0b1001_0000].bit_or(len.u8))
+
+    // array 16 stores an array whose length is upto (2^16)-1 elements:
+    // +--------+--------+--------+~~~~~~~~~~~~~~~~~+
+    // |  0xdc  |YYYYYYYY|YYYYYYYY|    N objects    |
+    // +--------+--------+--------+~~~~~~~~~~~~~~~~~+
+    | len <= 65535 |
+      @bytes.push(0xdc).push_native_u16(len.u16.native_to_be)
+
+    // array 32 stores an array whose length is upto (2^32)-1 elements:
+    // +--------+--------+--------+--------+--------+~~~~~~~~~~~~~~~~~+
+    // |  0xdd  |ZZZZZZZZ|ZZZZZZZZ|ZZZZZZZZ|ZZZZZZZZ|    N objects    |
+    // +--------+--------+--------+--------+--------+~~~~~~~~~~~~~~~~~+
+    |
+      @bytes.push(0xdd).push_native_u32(len.native_to_be)
+    )
     @
 
   :fun ref encode_map_ahead!(len U32)
