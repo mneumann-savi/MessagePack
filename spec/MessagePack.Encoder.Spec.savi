@@ -274,7 +274,6 @@
     assert no_error: wr.encode_binary_ahead!(4294967295)
     assert: wr.bytes == @hex("c6-ff-ff-ff-ff")
 
-
   :it "encodes fixarray ahead (0)"
     wr = MessagePack.Encoder.new
     assert no_error: wr.encode_array_ahead!(0)
@@ -324,4 +323,56 @@
     wr = MessagePack.Encoder.new
     assert no_error: wr.encode_array_ahead!(0xFFFF_FFFF)
     assert: wr.bytes == @hex("dd-ffff-ffff")
+
+  // ------------------------ map
+
+  :it "encodes fixmap ahead (0)"
+    wr = MessagePack.Encoder.new
+    assert no_error: wr.encode_map_ahead!(0)
+    assert: wr.bytes == @hex("80")
+
+  :it "encodes fixmap ahead (15)"
+    wr = MessagePack.Encoder.new
+    assert no_error: wr.encode_map_ahead!(15)
+    assert: wr.bytes == @hex("8f")
+
+  :it "encodes map 16 ahead (16)"
+    wr = MessagePack.Encoder.new
+    assert no_error: wr.encode_map_ahead!(16)
+    assert: wr.bytes == @hex("de-00-10")
+
+  :it "encodes map 16 ahead (255)"
+    wr = MessagePack.Encoder.new
+    assert no_error: wr.encode_map_ahead!(255)
+    assert: wr.bytes == @hex("de-00-ff")
+
+  :it "encodes map 16 ahead (256)"
+    wr = MessagePack.Encoder.new
+    assert no_error: wr.encode_map_ahead!(256)
+    assert: wr.bytes == @hex("de-01-00")
+
+  :it "encodes map 16 ahead (0xDEAD)"
+    wr = MessagePack.Encoder.new
+    assert no_error: wr.encode_map_ahead!(0xDEAD)
+    assert: wr.bytes == @hex("de-dead")
+
+  :it "encodes map 16 ahead (0xFFFF)"
+    wr = MessagePack.Encoder.new
+    assert no_error: wr.encode_map_ahead!(0xFFFF)
+    assert: wr.bytes == @hex("de-ffff")
+
+  :it "encodes map 32 ahead (0xFFFF + 1)"
+    wr = MessagePack.Encoder.new
+    assert no_error: wr.encode_map_ahead!(U32[0xFFFF] + 1)
+    assert: wr.bytes == @hex("df-0001-0000")
+
+  :it "encodes map 32 ahead (0xDEAD_BEEF)"
+    wr = MessagePack.Encoder.new
+    assert no_error: wr.encode_map_ahead!(0xDEAD_BEEF)
+    assert: wr.bytes == @hex("df-dead-beef")
+
+  :it "encodes map 32 ahead (0xFFFF_FFFF)"
+    wr = MessagePack.Encoder.new
+    assert no_error: wr.encode_map_ahead!(0xFFFF_FFFF)
+    assert: wr.bytes == @hex("df-ffff-ffff")
 

@@ -208,7 +208,28 @@
     @
 
   :fun ref encode_map_ahead!(len U32)
-    error!
+    case (
+    // fixmap stores a map whose length is upto 15 elements
+    // +--------+~~~~~~~~~~~~~~~~~+
+    // |1000XXXX|   N*2 objects   |
+    // +--------+~~~~~~~~~~~~~~~~~+
+    | len <= 15 |
+      @bytes.push(U8[0b1000_0000].bit_or(len.u8))
+
+    // map 16 stores a map whose length is upto (2^16)-1 elements
+    // +--------+--------+--------+~~~~~~~~~~~~~~~~~+
+    // |  0xde  |YYYYYYYY|YYYYYYYY|   N*2 objects   |
+    // +--------+--------+--------+~~~~~~~~~~~~~~~~~+
+    | len <= 65535 |
+      @bytes.push(0xde).push_native_u16(len.u16.native_to_be)
+
+    // map 32 stores a map whose length is upto (2^32)-1 elements
+    // +--------+--------+--------+--------+--------+~~~~~~~~~~~~~~~~~+
+    // |  0xdf  |ZZZZZZZZ|ZZZZZZZZ|ZZZZZZZZ|ZZZZZZZZ|   N*2 objects   |
+    // +--------+--------+--------+--------+--------+~~~~~~~~~~~~~~~~~+
+    |
+      @bytes.push(0xdf).push_native_u32(len.native_to_be)
+    )
     @
 
   :fun ref encode_ext_ahead!(type I8, len U32)
