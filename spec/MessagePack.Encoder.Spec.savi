@@ -234,3 +234,43 @@
     assert no_error: wr.encode_string_ahead!(4294967295)
     assert: wr.bytes == @hex("db-ff-ff-ff-ff")
 
+  :it "encodes bin 8 ahead (0)"
+    wr = MessagePack.Encoder.new
+    assert no_error: wr.encode_binary_ahead!(0)
+    assert: wr.bytes == @hex("c4-00")
+
+  :it "encodes bin 8 ahead (255)"
+    wr = MessagePack.Encoder.new
+    assert no_error: wr.encode_binary_ahead!(255)
+    assert: wr.bytes == @hex("c4-ff")
+
+  :it "encodes bin 16 ahead (256)"
+    wr = MessagePack.Encoder.new
+    assert no_error: wr.encode_binary_ahead!(256)
+    assert: wr.bytes == @hex("c5-01-00")
+
+  :it "encodes bin 16 ahead (0xDEAD)"
+    wr = MessagePack.Encoder.new
+    assert no_error: wr.encode_binary_ahead!(0xDEAD)
+    assert: wr.bytes == @hex("c5-de-ad")
+
+  :it "encodes bin 16 ahead (65535)"
+    wr = MessagePack.Encoder.new
+    assert no_error: wr.encode_binary_ahead!(65535)
+    assert: wr.bytes == @hex("c5-ff-ff")
+
+  :it "encodes bin 32 ahead (65536)"
+    wr = MessagePack.Encoder.new
+    assert no_error: wr.encode_binary_ahead!(65536)
+    assert: wr.bytes == @hex("c6-00-01-00-00")
+
+  :it "encodes bin 32 ahead (0xDEADBEEF)"
+    wr = MessagePack.Encoder.new
+    assert no_error: wr.encode_binary_ahead!(0xDEADBEEF)
+    assert: wr.bytes == @hex("c6-dead-beef")
+
+  :it "encodes bin 32 ahead (4294967295)"
+    wr = MessagePack.Encoder.new
+    assert no_error: wr.encode_binary_ahead!(4294967295)
+    assert: wr.bytes == @hex("c6-ff-ff-ff-ff")
+

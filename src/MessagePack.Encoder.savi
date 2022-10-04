@@ -158,7 +158,28 @@
     @
 
   :fun ref encode_binary_ahead!(len U32)
-    error!
+    case (
+    // bin 8 stores a byte array whose length is upto (2^8)-1 bytes:
+    // +--------+--------+========+
+    // |  0xc4  |XXXXXXXX|  data  |
+    // +--------+--------+========+
+    | len <= 255 |
+      @bytes.push(0xc4).push(len.u8)
+
+    // bin 16 stores a byte array whose length is upto (2^16)-1 bytes:
+    // +--------+--------+--------+========+
+    // |  0xc5  |YYYYYYYY|YYYYYYYY|  data  |
+    // +--------+--------+--------+========+
+    | len <= 65535 |
+      @bytes.push(0xc5).push_native_u16(len.u16.native_to_be)
+
+    // bin 32 stores a byte array whose length is upto (2^32)-1 bytes:
+    // +--------+--------+--------+--------+--------+========+
+    // |  0xc6  |ZZZZZZZZ|ZZZZZZZZ|ZZZZZZZZ|ZZZZZZZZ|  data  |
+    // +--------+--------+--------+--------+--------+========+
+    |
+      @bytes.push(0xc6).push_native_u32(len.native_to_be)
+    )
     @
 
   :fun ref encode_array_ahead!(len U32)
