@@ -233,5 +233,64 @@
     @
 
   :fun ref encode_ext_ahead!(type I8, len U32)
-    error!
+    case (
+    // fixext 1 stores an integer and a byte array whose length is 1 byte
+    // +--------+--------+--------+
+    // |  0xd4  |  type  |  data  |
+    // +--------+--------+--------+
+    | len == 1 |
+      @bytes.push(0xd4).push(type.u8)
+
+    // fixext 2 stores an integer and a byte array whose length is 2 bytes
+    // +--------+--------+--------+--------+
+    // |  0xd5  |  type  |       data      |
+    // +--------+--------+--------+--------+
+    | len == 2 |
+      @bytes.push(0xd5).push(type.u8)
+
+    // fixext 4 stores an integer and a byte array whose length is 4 bytes
+    // +--------+--------+--------+--------+--------+--------+
+    // |  0xd6  |  type  |                data               |
+    // +--------+--------+--------+--------+--------+--------+
+    | len == 4 |
+      @bytes.push(0xd6).push(type.u8)
+
+    // fixext 8 stores an integer and a byte array whose length is 8 bytes
+    // +--------+--------+--------+--------+--------+--------+--------+--------+--------+--------+
+    // |  0xd7  |  type  |                                  data                                 |
+    // +--------+--------+--------+--------+--------+--------+--------+--------+--------+--------+
+    | len == 8 |
+      @bytes.push(0xd7).push(type.u8)
+
+    // fixext 16 stores an integer and a byte array whose length is 16 bytes
+    // +--------+--------+--------+--------+--------+--------+--------+--------+--------+--------+
+    // |  0xd8  |  type  |                                  data                                ..
+    // +--------+--------+--------+--------+--------+--------+--------+--------+--------+--------+
+    // +--------+--------+--------+--------+--------+--------+--------+--------+
+    // ..                            data (cont.)                              |
+    // +--------+--------+--------+--------+--------+--------+--------+--------+
+    | len == 16 |
+      @bytes.push(0xd8).push(type.u8)
+
+    // ext 8 stores an integer and a byte array whose length is upto (2^8)-1 bytes:
+    // +--------+--------+--------+========+
+    // |  0xc7  |XXXXXXXX|  type  |  data  |
+    // +--------+--------+--------+========+
+    | len <= 255 |
+      @bytes.push(0xc7).push(len.u8).push(type.u8)
+
+    // ext 16 stores an integer and a byte array whose length is upto (2^16)-1 bytes:
+    // +--------+--------+--------+--------+========+
+    // |  0xc8  |YYYYYYYY|YYYYYYYY|  type  |  data  |
+    // +--------+--------+--------+--------+========+
+    | len <= 65535 |
+      @bytes.push(0xc8).push_native_u16(len.u16.native_to_be).push(type.u8)
+
+    // ext 32 stores an integer and a byte array whose length is upto (2^32)-1 bytes:
+    // +--------+--------+--------+--------+--------+--------+========+
+    // |  0xc9  |ZZZZZZZZ|ZZZZZZZZ|ZZZZZZZZ|ZZZZZZZZ|  type  |  data  |
+    // +--------+--------+--------+--------+--------+--------+========+
+    |
+      @bytes.push(0xc9).push_native_u32(len.native_to_be).push(type.u8)
+    )
     @
