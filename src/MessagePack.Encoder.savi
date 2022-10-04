@@ -126,7 +126,35 @@
     @
 
   :fun ref encode_string_ahead!(len U32)
-    error!
+    case (
+    // fixstr stores a byte array whose length is upto 31 bytes:
+    // +--------+========+
+    // |101XXXXX|  data  |
+    // +--------+========+
+    | len <= 31 |
+      @bytes.push(U8[0b101_00000].bit_or(len.u8))
+
+    // str 8 stores a byte array whose length is upto (2^8)-1 bytes:
+    // +--------+--------+========+
+    // |  0xd9  |YYYYYYYY|  data  |
+    // +--------+--------+========+
+    | len <= 255 |
+      @bytes.push(0xd9).push(len.u8)
+
+    // str 16 stores a byte array whose length is upto (2^16)-1 bytes:
+    // +--------+--------+--------+========+
+    // |  0xda  |ZZZZZZZZ|ZZZZZZZZ|  data  |
+    // +--------+--------+--------+========+
+    | len <= 65535 |
+      @bytes.push(0xda).push_native_u16(len.u16.native_to_be)
+
+    // str 32 stores a byte array whose length is upto (2^32)-1 bytes:
+    // +--------+--------+--------+--------+--------+========+
+    // |  0xdb  |AAAAAAAA|AAAAAAAA|AAAAAAAA|AAAAAAAA|  data  |
+    // +--------+--------+--------+--------+--------+========+
+    |
+      @bytes.push(0xdb).push_native_u32(len.native_to_be)
+    )
     @
 
   :fun ref encode_binary_ahead!(len U32)

@@ -183,3 +183,54 @@
     wr = MessagePack.Encoder.new
     assert no_error: wr.encode_f64!(F64[3.1415])
     assert: wr.bytes == @hex("cb-40-09-21-ca-c0-83-12-6f")
+
+  :it "encodes fixstr ahead (0)"
+    wr = MessagePack.Encoder.new
+    assert no_error: wr.encode_string_ahead!(0)
+    assert: wr.bytes == @hex("a0")
+
+  :it "encodes fixstr ahead (31)"
+    wr = MessagePack.Encoder.new
+    assert no_error: wr.encode_string_ahead!(31)
+    assert: wr.bytes == @hex("bf")
+
+  :it "encodes str 8 ahead (32)"
+    wr = MessagePack.Encoder.new
+    assert no_error: wr.encode_string_ahead!(32)
+    assert: wr.bytes == @hex("d9-20")
+
+  :it "encodes str 8 ahead (255)"
+    wr = MessagePack.Encoder.new
+    assert no_error: wr.encode_string_ahead!(255)
+    assert: wr.bytes == @hex("d9-ff")
+
+  :it "encodes str 16 ahead (256)"
+    wr = MessagePack.Encoder.new
+    assert no_error: wr.encode_string_ahead!(256)
+    assert: wr.bytes == @hex("da-01-00")
+
+  :it "encodes str 16 ahead (0xDEAD)"
+    wr = MessagePack.Encoder.new
+    assert no_error: wr.encode_string_ahead!(0xDEAD)
+    assert: wr.bytes == @hex("da-de-ad")
+
+  :it "encodes str 16 ahead (65535)"
+    wr = MessagePack.Encoder.new
+    assert no_error: wr.encode_string_ahead!(65535)
+    assert: wr.bytes == @hex("da-ff-ff")
+
+  :it "encodes str 32 ahead (65536)"
+    wr = MessagePack.Encoder.new
+    assert no_error: wr.encode_string_ahead!(65536)
+    assert: wr.bytes == @hex("db-00-01-00-00")
+
+  :it "encodes str 32 ahead (0xDEADBEEF)"
+    wr = MessagePack.Encoder.new
+    assert no_error: wr.encode_string_ahead!(0xDEADBEEF)
+    assert: wr.bytes == @hex("db-dead-beef")
+
+  :it "encodes str 32 ahead (4294967295)"
+    wr = MessagePack.Encoder.new
+    assert no_error: wr.encode_string_ahead!(4294967295)
+    assert: wr.bytes == @hex("db-ff-ff-ff-ff")
+
