@@ -174,3 +174,12 @@
     assert no_error: wr.encode_int!(9223372036854775807)
     assert: wr.bytes == @hex("d3-7fff-ffff-ffff-ffff")
 
+  :it "encodes float 32"
+    wr = MessagePack.Encoder.new
+    assert no_error: wr.encode_f32!(F32[3.1415])
+    assert: wr.bytes == @hex("ca-40-49-0e-56")
+
+  :it "encodes float 64"
+    wr = MessagePack.Encoder.new
+    assert no_error: wr.encode_f64!(F64[3.1415])
+    assert: wr.bytes == @hex("cb-40-09-21-ca-c0-83-12-6f")

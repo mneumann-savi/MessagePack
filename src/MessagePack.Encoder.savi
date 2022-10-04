@@ -10,7 +10,7 @@
     | MessagePack.Token.Type.Bool        | @encode_bool!(token.bool!)
     | MessagePack.Token.Type.UInt        | @encode_uint!(token._value)
     | MessagePack.Token.Type.Int         | @encode_int!(token._value.i64)
-    | MessagePack.Token.Type.Float       | @encode_float!(F64.from_bits(token._value))
+    | MessagePack.Token.Type.Float       | @encode_f64!(F64.from_bits(token._value))
     | MessagePack.Token.Type.StringAhead | @encode_string_ahead!(token._value.u32)
     | MessagePack.Token.Type.BinaryAhead | @encode_binary_ahead!(token._value.u32)
     | MessagePack.Token.Type.ArrayAhead  | @encode_array_ahead!(token._value.u32)
@@ -105,11 +105,24 @@
     | 
       @bytes.push(0xd3).push_native_u64(value.u64.native_to_be)
     )
-
     @
 
-  :fun ref encode_float!(value F64)
-    error!
+  :fun ref encode_f32!(value F32)
+    // float 32 stores a floating point number in IEEE 754 single precision
+    // floating point number format:
+    // +--------+--------+--------+--------+--------+
+    // |  0xca  |XXXXXXXX|XXXXXXXX|XXXXXXXX|XXXXXXXX|
+    // +--------+--------+--------+--------+--------+
+    @bytes.push(0xca).push_native_u32(value.bits.native_to_be)
+    @
+
+  :fun ref encode_f64!(value F64)
+    // float 64 stores a floating point number in IEEE 754 double precision floating
+    // point number format:
+    // +--------+--------+--------+--------+--------+--------+--------+--------+--------+
+    // |  0xcb  |YYYYYYYY|YYYYYYYY|YYYYYYYY|YYYYYYYY|YYYYYYYY|YYYYYYYY|YYYYYYYY|YYYYYYYY|
+    // +--------+--------+--------+--------+--------+--------+--------+--------+--------+
+    @bytes.push(0xcb).push_native_u64(value.bits.native_to_be)
     @
 
   :fun ref encode_string_ahead!(len U32)

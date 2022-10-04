@@ -8,3 +8,4 @@
 - [ ] Benchmark
 - [ ] Roundtrip tests
 - [ ] `MessagePack.Encoder`
+- [ ] Encode float 0 using integer
