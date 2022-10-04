@@ -3,6 +3,8 @@
 :: Field `_value` is interpreted differently depending on `type`.
 :struct val MessagePack.Token
   :let type MessagePack.Token.Type
+  // `size` is only used when decoding MessagePack data. It is the number of bytes
+  // that represents the token, excluding following payload data.
   :let size U8
   :let _value U64
 

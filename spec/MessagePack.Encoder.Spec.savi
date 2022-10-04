@@ -1,0 +1,20 @@
+:class MessagePack.Encoder.Spec
+  :is Spec
+  :const describes: "MessagePack.Encoder"
+
+  :fun non hex(s String) Bytes: _Helper.hexstr_to_bytes(s)
+
+  :it "encodes nil"
+    wr = MessagePack.Encoder.new
+    assert no_error: wr.encode_nil!
+    assert: wr.bytes == @hex("c0")
+
+  :it "encodes true"
+    wr = MessagePack.Encoder.new
+    assert no_error: wr.encode_bool!(True)
+    assert: wr.bytes == @hex("c3")
+
+  :it "encodes false"
+    wr = MessagePack.Encoder.new
+    assert no_error: wr.encode_bool!(False)
+    assert: wr.bytes == @hex("c2")

@@ -1,0 +1,61 @@
+:struct MessagePack.Encoder
+  :let bytes Bytes'ref
+
+  :new
+    @bytes = Bytes.new
+
+  :fun ref encode!(token MessagePack.Token): @
+    case token.type == (
+    | MessagePack.Token.Type.Nil         | @encode_nil!
+    | MessagePack.Token.Type.Bool        | @encode_bool!(token.bool!)
+    | MessagePack.Token.Type.UInt        | @encode_uint!(token._value)
+    | MessagePack.Token.Type.Int         | @encode_int!(token._value.i64)
+    | MessagePack.Token.Type.Float       | @encode_float!(F64.from_bits(token._value))
+    | MessagePack.Token.Type.StringAhead | @encode_string_ahead!(token._value.u32)
+    | MessagePack.Token.Type.BinaryAhead | @encode_binary_ahead!(token._value.u32)
+    | MessagePack.Token.Type.ArrayAhead  | @encode_array_ahead!(token._value.u32)
+    | MessagePack.Token.Type.MapAhead    | @encode_map_ahead!(token._value.u32)
+    | MessagePack.Token.Type.ExtAhead    | pair = token.ext_ahead!
+      @encode_ext_ahead!(pair.first, pair.second)
+    |                                      error!
+    )
+
+  :fun ref encode_nil!
+    @bytes.push(0xc0)
+    @
+
+  :fun ref encode_bool!(truth Bool)
+    @bytes.push(if truth (0xc3 | 0xc2))
+    @
+
+  :fun ref encode_uint!(value U64)
+    error!
+    @
+
+  :fun ref encode_int!(value I64)
+    error!
+    @
+
+  :fun ref encode_float!(value F64)
+    error!
+    @
+
+  :fun ref encode_string_ahead!(len U32)
+    error!
+    @
+
+  :fun ref encode_binary_ahead!(len U32)
+    error!
+    @
+
+  :fun ref encode_array_ahead!(len U32)
+    error!
+    @
+
+  :fun ref encode_map_ahead!(len U32)
+    error!
+    @
+
+  :fun ref encode_ext_ahead!(type I8, len U32)
+    error!
+    @
