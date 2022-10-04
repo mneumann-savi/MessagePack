@@ -7,5 +7,5 @@
 - [ ] MessagePack.Timestamp
 - [ ] Benchmark
 - [ ] Roundtrip tests
-- [ ] `MessagePack.Encoder`
+- [x] `MessagePack.Encoder`
 - [ ] Encode float 0 using integer
